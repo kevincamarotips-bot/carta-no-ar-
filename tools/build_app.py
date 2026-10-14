@@ -107,8 +107,10 @@ app_css = """<style>
 .skin-mini{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .sm{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 0 8px;border-radius:12px;overflow:hidden;background:var(--plum);color:var(--cream);border:1px solid var(--line);min-width:0}
 .sm.on{border-color:var(--gold)}.sm.locked .sm-pv{filter:grayscale(.6) brightness(.6)}
-.sm-pv{position:relative;width:100%;height:60px;background:radial-gradient(90% 80% at 50% 120%,var(--hand-1),transparent 60%),radial-gradient(80% 70% at 0% 90%,color-mix(in srgb,var(--glow-a) 85%,transparent),transparent 65%),linear-gradient(180deg,var(--stage-1),var(--stage-3))}
-.sm .mb,.promo-skin .mb{position:absolute;left:50%;top:10px;width:26px;height:36px;margin-left:-13px;border-radius:4px;background:var(--back);border:2px solid var(--cream);transform:rotate(-8deg)}
+.sm-pv{position:relative;width:100%;height:60px;overflow:hidden;background:radial-gradient(90% 80% at 50% 120%,var(--sleeve-trim),transparent 60%),radial-gradient(80% 70% at 0% 90%,color-mix(in srgb,var(--glow-a) 85%,transparent),transparent 65%),linear-gradient(180deg,var(--stage-1),var(--stage-3))}
+.sm-pv .mh{position:absolute;left:50%;bottom:-12px;width:50px;height:48px;margin-left:-25px;overflow:visible}
+.promo-skin .sm-pv .mh{width:120px;height:116px;margin-left:-60px;bottom:-30px}
+.sm .mb,.promo-skin .mb{z-index:2;position:absolute;left:50%;top:10px;width:26px;height:36px;margin-left:-13px;border-radius:4px;background:var(--back);border:2px solid var(--cream);transform:rotate(-8deg)}
 .sm b{font-size:10px;line-height:1.15;padding:0 3px;text-align:center}
 .sm em{font-style:normal;font-family:var(--f-mono);font-size:10px;color:var(--amber)}
 .promo-modal{position:fixed;inset:0;z-index:75;background:rgba(3,2,8,.74);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px}

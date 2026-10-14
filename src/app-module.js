@@ -327,7 +327,7 @@ function skinCardsHtml(){
     const ph = skinPhase(s), open = skinOpen(s), own = skinOwned(s.k);
     const label = own ? (s.k === SKIN ? 'Em uso' : open ? 'Usar' : 'Seu') : open ? priceOf(skinProduct(s.k)) : `Fase ${CASINOS.indexOf(ph) + 1}`;
     return `<button class="sm ${open ? '' : 'locked'} ${s.k === SKIN ? 'on' : ''}" data-skin="${s.k}" data-sm="${s.k}">
-      <span class="sm-pv"><span class="mb"></span></span>
+      <span class="sm-pv"><span class="mb"></span><svg class="mh" viewBox="40 28 280 272" aria-hidden="true"><use href="#gloveArt"/></svg></span>
       <b>${s.n}</b><em>${label}</em>
     </button>`;
   }).join('')}</div>`;
@@ -379,7 +379,7 @@ function renderPromo(){
     el.innerHTML = `
       <h3 class="promo-title">${feature ? `O visual ${c.em}` : 'Visuais da jornada'}</h3>
       <p class="promo-text">${feature ? `${feature.n}: ${feature.d} Troca o palco, as fichas, o verso da carta e a mão do mágico.` : 'Cada palco tem um visual exclusivo. Leve todos de uma vez e use já, sem esperar a jornada.'}</p>
-      ${feature ? `<div class="promo-skin" data-skin="${feature.k}"><span class="sm-pv"><span class="mb"></span></span></div>
+      ${feature ? `<div class="promo-skin" data-skin="${feature.k}"><span class="sm-pv"><span class="mb"></span><svg class="mh" viewBox="40 28 280 272" aria-hidden="true"><use href="#gloveArt"/></svg></span></div>
       <button class="buy wide big" data-buy="${skinProduct(feature.k)}">${feature.n} por ${priceOf(skinProduct(feature.k))}</button>
       <div class="promo-or"><span>ou</span></div>` : skinCardsHtml()}
       ${allSkinsOwned() ? '' : `<button class="club-cta" data-buy="${SKINS_ALL_ID}"><b>Todos os 5 visuais</b><span>Use todos agora · ${priceOf(SKINS_ALL_ID)}</span></button>`}`;
