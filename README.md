@@ -18,8 +18,9 @@ Cada envio para a branch `main` gera sozinho, pelo GitHub Actions:
 | Banner | Rodapé da tela (bloco `banner_mesa`) |
 | Intersticial | A cada 8 rodadas, depois da carta cair e fora de jogadas (bloco `entre rodadas`) |
 | Sem anúncios | Compra única; remove banner e intersticial |
-| Clube do Mágico | Assinatura R$ 29,90/mês: 2.000 fichas por dia na fase 1 (não acumulam) e sem anúncios |
-| Pacotes de fichas | Só liberam quando o saldo não paga a aposta mínima do palco, com limite de R$ 20 por dia |
+| Clube do Mágico | Assinatura R$ 29,90/mês: 2.000 fichas por dia na fase 1 (não acumulam), 1 Varinha Mágica grátis por dia (cobre até 10 apostas mínimas do palco) e sem anúncios |
+| Pacotes de fichas | Só liberam quando o saldo não paga a aposta mínima do palco, com limite de R$ 20 por dia. Aparecem na própria Mesa quando as fichas acabam |
+| Fichas acabando | Com menos de 10 apostas mínimas, uma faixa na Mesa oferece as fichas do dia, o vídeo premiado e o Clube; o + do saldo pulsa |
 | Visuais | Um visual por palco da jornada, vendido quando o jogador chega nele; o pacote com todos libera os cinco na hora |
 | Ofertas | Nunca na primeira sessão e no máximo uma por sessão. "Sem anúncios" a cada 3 anúncios de tela cheia; visuais a cada 3 aberturas do app, logo depois de uma vitória. O X aparece depois de 5 segundos |
 

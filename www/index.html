@@ -461,6 +461,150 @@ button.mode:active{transform:scale(.98)}
   .spark,.flywrap,.orb,.rune svg,.hat-deco{animation:none}
   .view{animation:none}
 }
+
+/* ---------- dock: ficha, carta, super poderes, jogar ---------- */
+.view-mesa{overflow-y:auto}
+.stage{min-height:150px;container-type:size}
+.result{padding-inline:76px}
+.dock{gap:18px;padding-top:6px}
+.dsec{display:flex;flex-direction:column;gap:10px}
+.dsec[hidden]{display:none}
+.dsec-h{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.dsec-t{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;white-space:nowrap}
+.dsec-t i{font-style:normal;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:var(--ink);font-family:var(--f-mono);font-size:11px;font-weight:500}
+.dsec-r{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock-row{gap:10px}
+.chipsel{gap:10px}
+.chipbtn{width:46px;height:46px}
+.chipbtn[aria-pressed="true"]{transform:translateY(-4px) scale(1.06);box-shadow:0 0 0 3px var(--ink),0 0 0 5px var(--gold),0 8px 18px color-mix(in srgb,var(--gold) 35%,transparent)}
+.chipbtn.off{opacity:.4}
+.acts{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-left:0}
+.act{width:auto;height:40px}
+.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;overflow:visible}
+.tab{position:relative;flex-direction:column;justify-content:center;gap:2px;min-height:52px;padding:5px 2px;border-radius:13px;min-width:0}
+.tab .tm{font-family:var(--f-mono);font-size:14px;line-height:1.1;font-weight:500}
+.tab .tn{font-size:10.5px;font-weight:600;line-height:1.1;white-space:nowrap}
+.tab[data-lvl="0"] .tm{color:#e9ddff}.tab[data-lvl="1"] .tm{color:#ffd2a1}.tab[data-lvl="2"] .tm{color:var(--amber)}.tab[data-lvl="3"] .tm{color:#ffb35a}
+.tab[data-lvl="4"] .tm{font-size:16px;color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 65%,transparent)}
+.tab[aria-selected="true"] .tm{color:color-mix(in srgb,var(--violet) 75%,#000);text-shadow:none}
+.tab[aria-selected="true"][data-lvl="3"] .tm,.tab[aria-selected="true"][data-lvl="4"] .tm{color:#a0521a}
+.tab .dot{position:absolute;top:-6px;right:-3px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;font-size:9.5px;background:var(--glow-b)}
+.board-wrap{margin-top:2px}
+.cell .lbl,.cell .odds{line-height:1.25}
+.board.g2 .cell{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:8px;row-gap:3px;min-height:0;padding:9px 10px}
+.board.g2 .cell .big{font-size:21px}
+.board.g2 .cell .lbl{font-size:13px}
+.board.g2 .cell .odds{grid-column:1 / -1;margin-top:0}
+.board.g2 .cell .stake{top:auto;bottom:8px}
+.board.g4 .cell{min-height:0;padding:8px 4px;gap:1px}
+.cardgrid-wrap{overflow:visible;padding-bottom:4px}
+.cardgrid{grid-template-columns:repeat(13,minmax(0,1fr));gap:3px;width:auto}
+.cc{height:34px;border-radius:6px;font-size:11px;letter-spacing:-.03em}.cc span{font-size:11px}
+.grid-note{display:none}
+.cc{height:30px}
+.board.g2,.board.g4{gap:8px}
+.cell .stake{white-space:nowrap}
+.tricks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trick{position:relative;flex-direction:row;align-items:center;gap:10px;padding:9px 10px;border-radius:16px}
+.trick .tk-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.tk-ic.wand{background:radial-gradient(circle at 30% 25%,#c58cff,#6a2bd9 55%,#2b1060)}
+.tk-ic.chance{background:radial-gradient(circle at 30% 25%,#7fe3ff,#2f6bff 55%,#10245e)}
+.tk-ic svg{width:30px;height:30px}
+.tk-tx{display:flex;flex-direction:column;min-width:0;line-height:1.2}
+.tk-tx b{font-size:13px;white-space:nowrap}
+#bSecondCost{color:#7fd3ff}
+.trick.on{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,transparent),var(--plum-2) 70%);border-color:var(--gold);box-shadow:0 0 16px color-mix(in srgb,var(--gold) 30%,transparent)}
+#bSecond.on{background:linear-gradient(135deg,rgba(127,211,255,.2),var(--plum-2) 70%);border-color:#7fd3ff;box-shadow:0 0 16px rgba(127,211,255,.28)}
+#bWand.on .tk-ic{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 2px var(--gold),0 0 14px color-mix(in srgb,var(--gold) 60%,transparent)}
+#bSecond.on .tk-ic{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 2px #7fd3ff,0 0 14px rgba(127,211,255,.6)}
+.wsp{transform-box:fill-box;transform-origin:center}
+#bWand.on .wsp{animation:wandSpark 1.1s ease-in-out infinite}
+.loop{transform-origin:20px 20px}
+#bSecond.on .loop{animation:loopSpin 3.2s linear infinite}
+.tk-perk{position:absolute;top:-8px;right:8px;font-size:9.5px;font-weight:800;letter-spacing:.03em;padding:1px 7px;border-radius:999px;background:var(--gold);color:var(--ink);white-space:nowrap}
+.throw{position:relative;overflow:hidden;min-height:66px;border-radius:20px;padding:10px 10px 10px 18px;background:linear-gradient(100deg,#3a2a5e,#2a1f48);box-shadow:0 6px 0 #170f2b;margin-bottom:4px}
+.throw.ready{background:linear-gradient(100deg,var(--violet) 0%,var(--glow-b) 28%,var(--amber) 50%,var(--glow-b) 72%,var(--violet) 100%);background-size:200% 100%;animation:flow 3.2s linear infinite,glowPulse 1.8s ease-in-out infinite}
+.throw .shine{display:none;position:absolute;top:0;bottom:0;left:0;width:26%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:shine 2.8s ease-in-out infinite;pointer-events:none}
+.throw.ready .shine{display:block}
+.throw .tl{position:relative;display:flex;flex-direction:column;gap:3px;text-align:left;min-width:0}
+.throw .t{font-size:25px;text-shadow:0 2px 8px rgba(60,0,80,.45)}
+.throw .tp{font-size:12px;font-weight:600;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stake-pill{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:7px 12px 7px 9px;border-radius:15px;background:rgba(11,7,22,.62);border:1px solid rgba(246,239,255,.2)}
+.throw.ready .stake-pill{border:1.5px solid color-mix(in srgb,var(--gold) 85%,transparent);box-shadow:inset 0 0 12px color-mix(in srgb,var(--gold) 18%,transparent)}
+.sp-chips{position:relative;width:30px;height:26px;flex:none}
+.sp-chips i{position:absolute;width:22px;height:22px;border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.35)}
+.sp-chips i:first-child{left:0;top:4px;background:repeating-conic-gradient(var(--violet) 0 22deg,var(--cream) 22deg 30deg)}
+.sp-chips i:last-child{left:8px;top:0;background:repeating-conic-gradient(var(--amber) 0 22deg,var(--cream) 22deg 30deg)}
+.sp-n{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}
+.sp-n b{font-family:var(--f-mono);font-weight:500;font-size:22px;color:var(--gold);font-variant-numeric:tabular-nums}
+.sp-n small{font-size:10.5px;color:#e9ddff;white-space:nowrap;font-family:var(--f-body)}
+.coins.low .plus{animation:plusPulse 1.2s ease-in-out infinite}
+.offer-strip{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--amber) 22%,transparent),var(--plum-2) 60%);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);animation:stripIn .35s ease-out}
+.offer-strip.broke{flex-wrap:wrap;background:linear-gradient(135deg,color-mix(in srgb,var(--glow-b) 22%,transparent),var(--plum-2) 60%);border-color:color-mix(in srgb,var(--glow-b) 50%,transparent)}
+.os-ic{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff3c4,var(--amber) 50%,#b8860b)}
+.os-ic svg{width:24px;height:24px}
+.os-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.os-tx b{font-size:14px}.os-tx small{font-size:12px;color:#d9cdf5}
+.os-btn{flex:none;display:flex;align-items:center;gap:5px;padding:9px 11px;border-radius:12px;background:var(--gold);color:var(--ink);font-weight:800;font-size:13px}
+.os-btn.ghost{background:transparent;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);color:var(--gold);font-size:12px}
+.os-packs{flex-basis:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.os-pack{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;border-radius:13px;background:var(--plum);border:1px solid var(--line)}
+.os-pack.best{border-color:var(--gold)}
+.os-pack b{font-family:var(--f-mono);font-weight:500;font-size:14px}
+.os-pack span{font-size:12px;font-weight:800;color:var(--ink);background:var(--gold);border-radius:999px;padding:2px 9px}
+.os-pack em{position:absolute;top:-8px;left:50%;transform:translateX(-50%);white-space:nowrap;font-style:normal;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:var(--gold);color:var(--ink);border-radius:999px;padding:1px 7px}
+.os-link{flex-basis:100%;text-align:center;font-size:12px;color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+/* hot hand: vertical meter like a strength tester */
+.heat{position:absolute;right:10px;top:44px;z-index:6;width:58px;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none}
+.heat-medal{position:relative;width:50px;height:50px}
+.heat-medal .ring{position:absolute;inset:0;width:100%;height:100%}
+.heat .ring .base{fill:rgba(5,3,12,.75);stroke:rgba(246,239,255,.25)}
+.heat .ring .dots circle{fill:rgba(246,239,255,.22)}
+.heat-medal b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-weight:500;font-size:17px;color:var(--cream)}
+.heat-cap{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;padding:1px 6px;border-radius:999px;background:rgba(5,3,12,.62);color:#d9cdf5}
+.heat-track{display:flex;flex-direction:column;gap:6px;padding:7px 4px;border-radius:12px;background:rgba(5,3,12,.62);border:1px solid rgba(246,239,255,.14)}
+.heat-bulb{position:relative;width:13px;height:13px;border-radius:50%;background:#2a2146;box-shadow:inset 0 1px 2px rgba(0,0,0,.6);transition:background .3s,box-shadow .3s}
+.heat-bulb.on{background:radial-gradient(circle at 35% 30%,#ffe0c2,#ff8a3d 60%,#a33c0c);box-shadow:0 0 8px rgba(255,138,61,.7)}
+.heat-bulb[data-mark]::after{content:attr(data-mark);position:absolute;right:20px;top:-1px;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.heat-bulb.reached::after{color:var(--gold)}
+.heat-spark{position:absolute;width:12px;height:12px;display:none;animation:heatTwinkle 1.7s ease-in-out infinite}
+.heat.hot .heat-spark{display:block}
+.heat.hot .heat-medal{animation:medalPulse 1.8s ease-in-out infinite}
+.heat.hot .ring .base{fill:var(--gold);stroke:#fff3c4}
+.heat.hot .ring .dots circle{fill:#fffbe6}
+.heat.hot .heat-medal b{color:#3a2306;font-size:19px}
+.heat.hot .heat-cap{background:var(--gold);color:var(--ink)}
+.heat.hot .heat-track{border-color:color-mix(in srgb,var(--gold) 70%,transparent)}
+.heat.hot .heat-bulb.on{background:radial-gradient(circle at 35% 30%,#fffbe6,var(--gold) 55%,#c98a1a);box-shadow:0 0 10px color-mix(in srgb,var(--gold) 90%,transparent)}
+.stage.hot{animation:vignette 2.4s ease-in-out infinite}
+.stage.blaze{animation:vignette 1.3s ease-in-out infinite}
+@keyframes flow{to{background-position:200% 50%}}
+@keyframes shine{0%{transform:translateX(-160%) skewX(-22deg)}55%,100%{transform:translateX(460%) skewX(-22deg)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 6px 0 color-mix(in srgb,var(--flame) 40%,#000),0 10px 26px color-mix(in srgb,var(--flame) 35%,transparent),0 0 0 0 transparent}50%{box-shadow:0 6px 0 color-mix(in srgb,var(--flame) 40%,#000),0 12px 40px color-mix(in srgb,var(--glow-b) 60%,transparent),0 0 0 5px color-mix(in srgb,var(--gold) 18%,transparent)}}
+@keyframes heatTwinkle{0%,100%{transform:scale(.2) rotate(0deg);opacity:0}50%{transform:scale(1) rotate(45deg);opacity:1}}
+@keyframes vignette{0%,100%{box-shadow:inset 0 0 46px color-mix(in srgb,var(--gold) 32%,transparent),0 0 0 1px color-mix(in srgb,var(--gold) 55%,transparent)}50%{box-shadow:inset 0 0 74px color-mix(in srgb,var(--gold) 50%,transparent),0 0 0 1px color-mix(in srgb,var(--gold) 90%,transparent),0 0 22px color-mix(in srgb,var(--gold) 22%,transparent)}}
+@keyframes medalPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes plusPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 70%,transparent)}50%{transform:scale(1.14);box-shadow:0 0 0 7px transparent}}
+@keyframes wandSpark{0%,100%{opacity:.35;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes loopSpin{to{transform:rotate(360deg)}}
+@keyframes stripIn{from{opacity:0;transform:translateY(-6px)}}
+/* shorter screens keep the four blocks, a little tighter */
+@media (max-height:780px){
+  .dock{gap:13px}.dsec{gap:8px}.dsec-t{font-size:13px}.dsec-t i{width:19px;height:19px}
+  .tab{min-height:46px}.cell{min-height:58px}.board.g4 .cell{min-height:56px}.chipbtn{width:42px;height:42px}.act{height:38px}
+  .throw{min-height:58px}.throw .t{font-size:22px}.sp-n b{font-size:19px}
+  .trick .tk-ic{width:34px;height:34px}.tk-ic svg{width:26px;height:26px}.trick{padding:7px 9px}
+  .board.g2 .cell,.board.g4 .cell{padding-top:6px;padding-bottom:6px}.cell .big{font-size:18px}.board.g2 .cell .big{font-size:19px}
+  .throw{padding:7px 8px 7px 16px}.stake-pill{padding:5px 10px 5px 8px}
+  .cc{height:27px}.board.g13 .cell{min-height:40px}
+  .stage{min-height:112px}
+}
+/* the meter follows the stage's own height */
+@container (max-height:250px){.golden-badge{display:none}.heat{top:10px}}
+@container (max-height:200px){.heat-cap{display:none}.heat-medal{width:40px;height:40px}.heat-medal b{font-size:14px}.heat.hot .heat-medal b{font-size:15px}.heat-bulb{width:10px;height:10px}.heat-track{gap:4px;padding:5px 3px}.heat-bulb[data-mark]::after{right:15px;top:-3px}}
+@container (max-height:150px){.heat-track{display:none}.result .note{display:none}}
+@media (max-height:690px){.dsec-r{display:none}.dock{gap:11px}.board.g13 .cell{min-height:40px}}
+@media (prefers-reduced-motion:reduce){.throw.ready,.throw .shine,.heat-spark,.heat.hot .heat-medal,.stage.hot,.stage.blaze,.coins.low .plus{animation:none}}
 </style>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -567,7 +711,11 @@ button.mode:active{transform:scale(.98)}
 
         <div class="stage-top">
           <div class="casino-badge" id="casinoBadge"><b>Fase 1</b> Tenda do Ilusionista</div>
-          <span class="streak" id="streak" title="Mão quente: vitórias seguidas aumentam o lucro"></span>
+        </div>
+        <div class="heat" id="heat" title="Mão quente: com 3 vitórias seguidas a Carta Dourada fica 2× mais provável">
+          <div class="heat-medal"><svg class="ring" viewBox="0 0 52 52" aria-hidden="true"><circle class="base" cx="26" cy="26" r="25" stroke-width="1.5"/><g class="dots"><circle cx="26.0" cy="5.0" r="2.2"/><circle cx="36.5" cy="7.8" r="2.2"/><circle cx="44.2" cy="15.5" r="2.2"/><circle cx="47.0" cy="26.0" r="2.2"/><circle cx="44.2" cy="36.5" r="2.2"/><circle cx="36.5" cy="44.2" r="2.2"/><circle cx="26.0" cy="47.0" r="2.2"/><circle cx="15.5" cy="44.2" r="2.2"/><circle cx="7.8" cy="36.5" r="2.2"/><circle cx="5.0" cy="26.0" r="2.2"/><circle cx="7.8" cy="15.5" r="2.2"/><circle cx="15.5" cy="7.8" r="2.2"/></g></svg><b id="heatMult">×1</b><svg class="heat-spark" viewBox="-1 -1 2 2" aria-hidden="true" style="left:-8px;top:-4px;animation-delay:0s"><polygon points="0,-1 .2,-.2 1,0 .2,.2 0,1 -.2,.2 -1,0 -.2,-.2" fill="#ffe7a3"/></svg><svg class="heat-spark" viewBox="-1 -1 2 2" aria-hidden="true" style="right:-9px;top:6px;width:9px;height:9px;animation-delay:.45s"><polygon points="0,-1 .2,-.2 1,0 .2,.2 0,1 -.2,.2 -1,0 -.2,-.2" fill="#fff"/></svg><svg class="heat-spark" viewBox="-1 -1 2 2" aria-hidden="true" style="left:-10px;bottom:2px;width:10px;height:10px;animation-delay:.9s"><polygon points="0,-1 .2,-.2 1,0 .2,.2 0,1 -.2,.2 -1,0 -.2,-.2" fill="#ffd97a"/></svg><svg class="heat-spark" viewBox="-1 -1 2 2" aria-hidden="true" style="right:-6px;bottom:-6px;animation-delay:1.25s"><polygon points="0,-1 .2,-.2 1,0 .2,.2 0,1 -.2,.2 -1,0 -.2,-.2" fill="#ffe7a3"/></svg></div>
+          <span class="heat-cap" id="heatCap">Mão quente</span>
+          <div class="heat-track"><span class="heat-bulb" data-n="5" data-mark="×3"></span><span class="heat-bulb" data-n="4"></span><span class="heat-bulb" data-n="3" data-mark="×2"></span><span class="heat-bulb" data-n="2"></span><span class="heat-bulb" data-n="1"></span></div>
         </div>
         <button class="mode-pill" id="modePill" hidden></button>
         <div class="marked-badge wand-badge" id="wandBadge" hidden><i>✦</i><span>Varinha pronta: até ×10</span></div>
@@ -608,24 +756,35 @@ button.mode:active{transform:scale(.98)}
       <div class="stage-slot" aria-hidden="true"></div>
 
       <div class="dock">
-        <div class="tabs" role="tablist" id="tabs" aria-label="Tipo de aposta"></div>
-        <div id="boardWrap" class="board-wrap"></div>
-        <div class="dock-row">
-          <div class="chipsel" id="chipsel" aria-label="Valor da ficha"></div>
+        <div class="offer-strip" id="offerStrip" hidden></div>
+        <div class="dsec">
+          <div class="dsec-h"><span class="dsec-t"><i>1</i>Escolha a ficha</span><span class="dsec-r" id="freeBal">livre: 1.000</span></div>
+          <div class="dock-row">
+            <div class="chipsel" id="chipsel" aria-label="Valor da ficha"></div>
           <div class="acts">
             <button class="act" id="aHalf" aria-label="Dividir aposta pela metade">½</button>
             <button class="act" id="aDouble" aria-label="Dobrar aposta">×2</button>
             <button class="act" id="aRepeat" aria-label="Repetir última aposta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.6-5.7L20 8"/><path d="M20 3v5h-5"/><path d="M20 12a8 8 0 0 1-13.6 5.7L4 16"/><path d="M4 21v-5h5"/></svg></button>
             <button class="act" id="aClear" aria-label="Limpar apostas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></svg></button>
           </div>
+          </div>
         </div>
-        <div class="tricks">
-          <button class="trick" id="bWand" title="Custa 50% a mais. Se você ganhar, a varinha multiplica o prêmio de ×1 a ×10"><span>Varinha Mágica</span><em id="bWandCost">+50% · até ×10</em></button>
-          <button class="trick" id="bSecond" title="Se errar tudo, o mágico joga de novo. O preço é a chance de você errar"><span>Segunda Chance</span><em id="bSecondCost">repete se errar</em></button>
+        <div class="dsec">
+          <div class="dsec-h"><span class="dsec-t"><i>2</i>Qual será a carta?</span><span class="dsec-r">quanto mais difícil, mais paga</span></div>
+          <div class="tabs" role="tablist" id="tabs" aria-label="Tipo de aposta"></div>
+          <div id="boardWrap" class="board-wrap"></div>
+        </div>
+        <div class="dsec" id="powersSec">
+          <div class="dsec-h"><span class="dsec-t"><i>3</i>Super poderes</span><span class="dsec-r">opcional</span></div>
+          <div class="tricks">
+            <button class="trick" id="bWand" title="Custa 50% a mais. Se você ganhar, a varinha multiplica o prêmio de ×1 a ×10"><span class="tk-ic wand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="starFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset="1" stop-color="#ffb43a"/></linearGradient></defs><line x1="8" y1="33" x2="24.5" y2="16.5" stroke="#140a26" stroke-width="6" stroke-linecap="round"/><line x1="8" y1="33" x2="24.5" y2="16.5" stroke="#4a3580" stroke-width="3" stroke-linecap="round"/><line x1="21.5" y1="19.5" x2="24.5" y2="16.5" stroke="#f6efff" stroke-width="5" stroke-linecap="round"/><polygon points="28.0,4.5 29.9,9.4 35.1,9.7 31.0,13.0 32.4,18.1 28.0,15.2 23.6,18.1 25.0,13.0 20.9,9.7 26.1,9.4" fill="url(#starFill)" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/><path class="wsp" d="M13 6l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#fff"/><path class="wsp" style="animation-delay:.45s" d="M35 23l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" fill="#ffe7a3"/></svg></span><span class="tk-tx"><b>Varinha Mágica</b><em id="bWandCost">+50% · até ×10</em></span><span class="tk-perk" id="wandPerk" hidden>Clube: 1 grátis/dia</span></button>
+            <button class="trick" id="bSecond" title="Se errar tudo, o mágico joga de novo. O preço é a chance de você errar"><span class="tk-ic chance"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="8.5" width="14" height="20" rx="3" transform="rotate(-14 15 18.5)" fill="#2a4fd1" stroke="#cfe3ff" stroke-width="1.5"/><rect x="16" y="9.5" width="14" height="20" rx="3" transform="rotate(10 23 19.5)" fill="#f8f4ff" stroke="#fff" stroke-width="1"/><path d="M23 16.5c-1.4-1.8-4-.6-3 1.4.6 1.3 3 3 3 3s2.4-1.7 3-3c1-2-1.6-3.2-3-1.4z" fill="#e2334f" transform="rotate(10 23 19.5)"/><g class="loop"><path d="M6.1 28A16 16 0 0 0 33.9 28" fill="none" stroke="#ffd97a" stroke-width="2.6" stroke-linecap="round"/><polygon points="35.6,25 36.3,29.9 31.1,26.9" fill="#ffd97a"/></g></svg></span><span class="tk-tx"><b>Segunda Chance</b><em id="bSecondCost">repete se errar</em></span></button>
+          </div>
         </div>
         <button class="throw" id="throwBtn">
-          <span class="t" id="throwLabel">Jogar a carta</span>
-          <span class="s"><span id="totalBet">0</span> fichas<small id="throwSub">em 0 apostas</small></span>
+          <span class="shine" aria-hidden="true"></span>
+          <span class="tl"><span class="t" id="throwLabel">Jogar a carta</span><span class="tp" id="throwPrize">escolha uma aposta primeiro</span></span>
+          <span class="stake-pill"><span class="sp-chips" aria-hidden="true"><i></i><i></i></span><span class="sp-n"><b id="totalBet">0</b><small id="throwSub">fichas</small></span></span>
         </button>
       </div>
     </section>
@@ -850,7 +1009,8 @@ const deck = () => FULL.filter(c => c.suit !== S.marked);
 const hitChance = () => { const ks = Object.keys(S.bets); if (!ks.length) return 0; const d = deck(); return d.filter(c => ks.some(k => def(k).test(c))).length / d.length; };
 const secondCost = () => Math.ceil(total() * (1 - hitChance()));   // pays for the chance of missing, so it never beats the house
 const WAND_COST = 0.5, WAND_TABLE = [[1, .72], [2, .19], [3, .05], [5, .03], [10, .01]];   // average ×1,5 for +50%
-const wandCost = () => Math.ceil(total() * WAND_COST);
+const wandDiscount = () => typeof appWandDiscount === 'function' ? appWandDiscount() : 0;   // Clube: one free wand a day, up to a cap
+const wandCost = () => Math.max(0, Math.ceil(total() * WAND_COST) - wandDiscount());
 function rollWand(){ let r = Math.random(), acc = 0; for (const [m, w] of WAND_TABLE){ acc += w; if (r < acc) return m; } return 1; }
 const fullCost = () => total() + (S.second ? secondCost() : 0) + (S.wand ? wandCost() : 0);
 
@@ -982,7 +1142,7 @@ const music = {
 };
 
 /* ---------- render ---------- */
-const TABS = [{k:'color',n:'Cor'},{k:'suit',n:'Naipe'},{k:'range',n:'Faixa'},{k:'rank',n:'Valor'},{k:'card',n:'Carta exata'}];
+const TABS = [{k:'color',n:'Cor',m:'×1,9'},{k:'suit',n:'Naipe',m:'×3,8'},{k:'range',n:'Faixa',m:'até ×12'},{k:'rank',n:'Valor',m:'×12,4'},{k:'card',n:'Carta exata',m:'×50'}];
 
 function chipEl(c, size){ return `<span class="chip mini-chip" style="--c:${c};width:${size}px;height:${size}px"></span>`; }
 function oddsText(key){
@@ -991,7 +1151,7 @@ function oddsText(key){
   const p = n / d.length * 100;
   return {n, html:`${p<10?p.toFixed(1).replace('.',','):Math.round(p)}% · <b>${fmtX(d0.mult)}×</b>`};
 }
-function stakeHtml(key){ const v=S.bets[key]; return v ? `<span class="stake">${chipEl('var(--amber)',16)}${fmt(v)}</span>` : ''; }
+function stakeHtml(key){ const v=S.bets[key]; if (!v) return ''; const wide = S.tab==='color' || S.tab==='suit' || S.tab==='range'; return `<span class="stake">${chipEl('var(--amber)',16)}${fmt(v)}${wide ? ` → ${fmt(v * def(key).mult)}` : ''}</span>`; }
 
 function cell(key, big, lbl, bigRed){
   const o = oddsText(key);
@@ -1002,7 +1162,7 @@ function cell(key, big, lbl, bigRed){
 function renderTabs(){
   $('tabs').innerHTML = TABS.map(t => {
     const sum = Object.entries(S.bets).filter(([k])=>tabOf(k)===t.k).reduce((a,[,v])=>a+v,0);
-    return `<button class="tab" role="tab" aria-selected="${S.tab===t.k}" data-tab="${t.k}">${t.n}${sum?`<span class="dot">${fmt(sum)}</span>`:''}</button>`;
+    return `<button class="tab" role="tab" aria-selected="${S.tab===t.k}" data-tab="${t.k}" data-lvl="${TABS.indexOf(t)}" aria-label="${t.n}, paga ${t.m.replace('×', '')} vezes"><span class="tm">${t.m}</span><span class="tn">${t.n}</span>${sum?`<span class="dot">${chipLabel(sum)}</span>`:''}</button>`;
   }).join('');
 }
 
@@ -1024,15 +1184,35 @@ function renderBoard(){
 
 function renderChips(){
   const set = chipSet(); if (!set.some(c => c.v === S.chip)) S.chip = set[1].v;
-  $('chipsel').innerHTML = set.map(c=>`<button class="chip chipbtn" style="--c:${c.c}" data-chip="${c.v}" aria-pressed="${S.chip===c.v}" aria-label="Ficha de ${c.v}"><span>${chipLabel(c.v)}</span></button>`).join('');
+  const free = Math.max(0, S.balance - fullCost());
+  $('chipsel').innerHTML = set.map(c=>`<button class="chip chipbtn ${c.v > free && S.chip !== c.v ? 'off' : ''}" style="--c:${c.c}" data-chip="${c.v}" aria-pressed="${S.chip===c.v}" aria-label="Ficha de ${c.v}"><span>${chipLabel(c.v)}</span></button>`).join('');
 }
 
+let heatShown = 1;
 function renderStreak(){
-  const n = Math.min(S.streak,5), m = streakMult(S.streak);
-  const h = hotGold(S.streak);
-  $('streak').innerHTML = [1,2,3,4,5].map(i=>`<span class="pip-s ${i<=n?'on':''}"></span>`).join('') + `<b>✦×${h}</b>`;
-  $('streak').classList.toggle('hot', h > 1);
-  $('streak').title = h > 1 ? `Mão quente: Carta Dourada ${h}× mais provável` : 'Mão quente: com 3 vitórias seguidas a Carta Dourada fica 2× mais provável';
+  const n = S.streak, h = hotGold(n), el = $('heat');
+  el.classList.toggle('hot', h > 1);
+  el.querySelectorAll('.heat-bulb').forEach(b => { const i = +b.dataset.n; b.classList.toggle('on', i <= n); b.classList.toggle('reached', (i === 3 && h >= 2) || (i === 5 && h >= 3)); });
+  $('heatMult').textContent = '×' + h;
+  $('heatCap').textContent = h > 1 ? 'Dourada ×' + h : 'Mão quente';
+  el.title = h > 1 ? `Mão quente: Carta Dourada ${h}× mais provável` : 'Mão quente: com 3 vitórias seguidas a Carta Dourada fica 2× mais provável';
+  const st = $('stage'); st.classList.toggle('hot', h === 2); st.classList.toggle('blaze', h >= 3);
+  if (h > heatShown) heatBurst();
+  heatShown = h;
+}
+// a short shower of golden sparkles from the medallion when the hot hand levels up
+function heatBurst(){
+  if (RM) return;
+  const st = $('stage'), sr = st.getBoundingClientRect(), mr = $('heat').querySelector('.heat-medal').getBoundingClientRect();
+  const cx = mr.left - sr.left + mr.width / 2, cy = mr.top - sr.top + mr.height / 2;
+  for (let i = 0; i < 14; i++){
+    const b = document.createElement('div'); b.className = 'burst';
+    const ang = Math.random() * Math.PI * 2, dist = 30 + Math.random() * 60, size = 6 + Math.random() * 9;
+    b.style.cssText = `left:${cx - size / 2}px;top:${cy - size / 2}px;width:${size}px;height:${size}px;background:${Math.random() < .6 ? 'var(--gold)' : '#fff6d6'};z-index:7`;
+    st.appendChild(b);
+    b.animate([{transform: 'translate(0,0) scale(.2)', opacity: 1}, {transform: `translate(${Math.cos(ang) * dist}px,${Math.sin(ang) * dist}px) scale(1) rotate(90deg)`, opacity: 0}], {duration: 800 + Math.random() * 500, easing: 'cubic-bezier(.1,.8,.3,1)'}).finished.then(() => b.remove());
+  }
+  shimmer(6, 1568); vib([20, 30, 20]);
 }
 
 let shownBal = S.balance;
@@ -1046,14 +1226,22 @@ function renderControls(){
   const t = total(), cost = fullCost(), busy = S.busy || !!S.gamble;
   $('totalBet').textContent = fmt(cost);
   const n = Object.keys(S.bets).length;
-  $('throwSub').textContent = (S.second || S.wand) && t ? `inclui ${fmt(cost - t)} de truques` : `em ${n} ${n===1?'aposta':'apostas'}`;
+  $('throwSub').textContent = t ? `em ${n} ${n===1?'aposta':'apostas'}${cost > t ? ' + poderes' : ''}` : 'fichas';
+  $('throwPrize').textContent = t ? `prêmio até ${fmt(maxPrize())} fichas` : 'escolha uma aposta primeiro';
   $('throwBtn').disabled = busy;
+  $('throwBtn').classList.toggle('ready', !!t && !busy);
+  $('freeBal').textContent = `livre: ${fmt(Math.max(0, S.balance - cost))}`;
+  const low = S.balance < casino().min * 10, broke = S.balance - cost < casino().min && !t;
+  $('coinsBtn').classList.toggle('low', low);
+  $('powersSec').hidden = broke && MODE !== 'live';
+  renderOffer(low, broke);
   ['aHalf','aDouble','aClear'].forEach(id=>$(id).disabled = busy || !t);
   $('aRepeat').disabled = busy || !Object.keys(S.lastBets).length;
   // boosters
   $('bWand').disabled = busy;
   $('bWand').classList.toggle('on', S.wand);
-  $('bWandCost').textContent = S.wand ? (t ? `Ativa · +${fmt(wandCost())}` : 'Ativa · +50%') : '+50% · até ×10';
+  const wFree = wandDiscount() > 0;
+  $('bWandCost').textContent = S.wand ? (t ? (wandCost() ? `Ativa · +${fmt(wandCost())}` : 'Ativa · grátis') : (wFree ? 'Ativa · grátis' : 'Ativa · +50%')) : (wFree ? 'grátis hoje · até ×10' : '+50% · até ×10');
   $('bSecond').disabled = busy;
   $('bSecond').classList.toggle('on', S.second);
   $('bSecondCost').textContent = S.second ? (t ? `Ativa · +${fmt(secondCost())}` : 'Ativa') : (t ? `+${fmt(secondCost())} fichas` : 'repete se errar');
@@ -1066,6 +1254,20 @@ function renderControls(){
   if (typeof renderShop === 'function' && typeof VIEW !== 'undefined' && VIEW === 'loja') renderShop();
 }
 
+function maxPrize(){
+  const best = Math.max(0, ...deck().map(c => payoutFor(c)));
+  return best * (S.wand ? 10 : 1);
+}
+// a nudge when the chips run low: the app sells, the Claude version points to the free hat
+function renderOffer(low, broke){
+  if (typeof appRenderOffer === 'function') return appRenderOffer(low, broke);
+  const el = $('offerStrip');
+  if (!low || MODE === 'live'){ el.hidden = true; return; }
+  el.hidden = false; el.className = 'offer-strip' + (broke ? ' broke' : '');
+  el.innerHTML = `<span class="os-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3a2306" stroke-width="2" stroke-linejoin="round"><path d="M3 10h18v10H3z"/><path d="M3 10a9 5 0 0 1 18 0"/><path d="M10 13h4v3h-4z"/></svg></span>
+    <span class="os-tx"><b>${broke ? 'Suas fichas acabaram' : 'Fichas acabando'}</b><small>O Chapéu do Mágico e as missões dão fichas grátis.</small></span>
+    <button class="os-btn" data-go="missoes">Pegar fichas</button>`;
+}
 function renderGift(){
   if (typeof appRenderGift === 'function') return appRenderGift();
   const broke = S.balance < casino().min;
@@ -1356,6 +1558,7 @@ async function doThrow(){
   if (pay > 0) setResult(cardName(card), profit > 0 ? `+${fmt(win)} fichas` : `${fmt(win)} de volta`, 'win', note.trim() || (profit>0 ? `Lucro de ${fmt(win-cost)}.` : 'Recuperou parte da aposta.'));
   else setResult(cardName(card), `−${fmt(cost)} fichas`, 'lose', 'Faça a próxima aposta.');
   animateBalance();
+  if (S.wand && wandDiscount() > 0 && typeof appUseFreeWand === 'function') appUseFreeWand();
   progRound({card, gold, bets: S.bets, pay, profit, trick: S.wand || S.second});
   S.bets = {}; S.marked = null; S.second = false; S.wand = false; S.current = card;
   S.busy = false; save(); renderAll();
@@ -1691,7 +1894,7 @@ function renderMode(){
     const hs = currentHS(), open = !hs || hs.phase === 'bet';
     $('throwBtn').disabled = S.busy || !open;
     $('throwLabel').textContent = !open || S.busy ? 'Carta no ar' : (live.ready ? 'Pronto! Aguardando' : 'Estou pronto');
-    $('throwSub').textContent = live.ready ? 'toque para desfazer' : (total() ? 'suas apostas desta rodada' : 'pode passar a rodada sem apostar');
+    $('throwPrize').textContent = live.ready ? 'toque para desfazer' : (total() ? 'suas apostas desta rodada' : 'pode passar a rodada sem apostar');
     $('totalBet').textContent = fmt(total());
   } else {
     $('throwLabel').textContent = 'Jogar a carta';
@@ -2068,7 +2271,7 @@ const scaled = base => base * phaseMult();
 
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 let A = {day: '', dailyClaimed: false, clubClaimed: false, rewardsToday: 0, spentToday: 0, owned: [], roundsSinceAd: 0,
-         adult: false, memberUntil: 0, opens: 0, adsShown: 0};
+         adult: false, memberUntil: 0, opens: 0, adsShown: 0, wandDay: ''};
 try { Object.assign(A, JSON.parse(localStorage.getItem('cartaNoAr.app') || '{}')); } catch(e){}
 function saveA(){ try { localStorage.setItem('cartaNoAr.app', JSON.stringify(A)); } catch(e){} }
 function rollDay(){ if (A.day !== today()){ A.day = today(); A.dailyClaimed = false; A.clubClaimed = false; A.rewardsToday = 0; A.spentToday = 0; saveA(); } }
@@ -2284,6 +2487,32 @@ function appOpenGift(){
   watchReward();
 }
 
+/* ---------- Clube perk: one free Varinha a day, covering up to 10 minimum bets ---------- */
+function appWandDiscount(){ return isMember() && A.wandDay !== today() ? casino().min * 10 : 0; }
+function appUseFreeWand(){ A.wandDay = today(); saveA(); }
+
+/* ---------- strip on the Mesa when chips run low ---------- */
+const CHEST_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#3a2306" stroke-width="2" stroke-linejoin="round"><path d="M3 10h18v10H3z"/><path d="M3 10a9 5 0 0 1 18 0"/><path d="M10 13h4v3h-4z"/></svg>';
+const PLAY_SVG = '<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>';
+function appRenderOffer(low, broke){
+  const el = $('offerStrip');
+  $('wandPerk').hidden = isMember();
+  if (!low || MODE === 'live'){ el.hidden = true; return; }
+  rollDay();
+  el.hidden = false; el.className = 'offer-strip' + (broke ? ' broke' : '');
+  const vidLeft = REWARDS_PER_DAY - A.rewardsToday, vid = fmt(scaled(REWARD_CHIPS));
+  if (broke){
+    const canBuy = DAILY_SPEND_CAP - A.spentToday >= PACKS[0].brl;
+    el.innerHTML = `<span class="os-tx"><b>Suas fichas acabaram</b><small>${canBuy ? `Pacotes liberados · até R$ ${DAILY_SPEND_CAP} por dia` : 'Você chegou ao limite de compras de hoje'}</small></span>
+      ${canBuy ? `<div class="os-packs">${PACKS.map((p, j) => `<button class="os-pack ${j === 2 ? 'best' : ''}" data-buy="${p.id}" ${A.spentToday + p.brl > DAILY_SPEND_CAP + 0.001 ? 'aria-disabled="true"' : ''}>${j === 2 ? '<em>Mais fichas</em>' : ''}<b>${fmt(scaled(p.chips))}</b><span>${priceOf(p.id)}</span></button>`).join('')}</div>` : ''}
+      ${!A.dailyClaimed ? `<button class="os-link" data-act="daily">ou pegue suas ${fmt(scaled(DAILY_CHIPS))} fichas do dia</button>` : vidLeft > 0 ? `<button class="os-link" data-act="video">ou assista um vídeo e ganhe ${vid} grátis</button>` : ''}`;
+  } else {
+    el.innerHTML = `<span class="os-ic" aria-hidden="true">${CHEST_SVG}</span><span class="os-tx"><b>Fichas acabando</b><small>Ganhe mais sem gastar nada.</small></span>
+      ${!A.dailyClaimed ? `<button class="os-btn" data-act="daily">+${fmt(scaled(DAILY_CHIPS))}</button>` : vidLeft > 0 ? `<button class="os-btn" data-act="video">${PLAY_SVG}+${vid}</button>` : ''}
+      ${isMember() ? '' : '<button class="os-btn ghost" data-go="loja">Clube</button>'}`;
+  }
+}
+
 /* ---------- shop (Loja tab) ---------- */
 function phaseHtml(){
   const i = phaseIndex(), c = CASINOS[i], next = CASINOS[i + 1];
@@ -2314,12 +2543,12 @@ function packsHtml(){
 function clubHtml(){
   if (isMember()) return `<div class="club on">
       <div class="club-top"><b>Clube do Mágico</b><span class="tag ok">ativo</span></div>
-      <span>${fmt(scaled(CLUB_CHIPS))} fichas todo dia nesta fase e nenhum anúncio.</span>
+      <span>${fmt(scaled(CLUB_CHIPS))} fichas todo dia nesta fase, 1 Varinha grátis por dia e nenhum anúncio.</span>
       ${A.clubClaimed ? '<em class="club-done">Fichas de hoje já recebidas. Volte amanhã!</em>' : `<button class="buy wide" data-act="club">Pegar ${fmt(scaled(CLUB_CHIPS))} fichas de hoje</button>`}
     </div>`;
   return `<div class="club">
       <div class="club-top"><b>Clube do Mágico</b><span class="tag">assinatura</span></div>
-      <ul><li><b>${fmt(scaled(CLUB_CHIPS))} fichas</b> todo dia, crescendo com a sua fase</li><li>Sem banner e sem anúncios entre rodadas</li><li>Cancele quando quiser no Google Play</li></ul>
+      <ul><li><b>${fmt(scaled(CLUB_CHIPS))} fichas</b> todo dia, crescendo com a sua fase</li><li>1 Varinha Mágica grátis por dia</li><li>Sem banner e sem anúncios entre rodadas</li><li>Cancele quando quiser no Google Play</li></ul>
       <button class="buy wide" data-buy="${SUB_ID}">Assinar por ${priceOf(SUB_ID)}/mês</button>
     </div>`;
 }
@@ -2373,7 +2602,7 @@ function renderPromo(){
       <p class="promo-text">Tire o banner e os anúncios entre rodadas para sempre. Os vídeos premiados continuam opcionais, para quando você quiser fichas extras.</p>
       <button class="buy wide big" data-buy="${NOADS_ID}">Remover anúncios por ${priceOf(NOADS_ID)}</button>
       <div class="promo-or"><span>ou</span></div>
-      <button class="club-cta" data-buy="${SUB_ID}"><b>Clube do Mágico</b><span>${fmt(scaled(CLUB_CHIPS))} fichas por dia e sem anúncios · ${priceOf(SUB_ID)}/mês</span></button>`;
+      <button class="club-cta" data-buy="${SUB_ID}"><b>Clube do Mágico</b><span>${fmt(scaled(CLUB_CHIPS))} fichas por dia, 1 Varinha grátis e sem anúncios · ${priceOf(SUB_ID)}/mês</span></button>`;
   } else {
     const c = casino(), s = SKINS.find(x => x.phase === c.k);
     const feature = s && !skinOwned(s.k) ? s : null;
@@ -2612,8 +2841,8 @@ function showOutcome(o){
 /* ---------- first-session tips ---------- */
 var coachActive = false, coachStep = 0;
 const COACH = [
-  {sel: '#boardWrap', title: 'Escolha onde a carta vai cair', text: 'Toque numa aposta. Dá para espalhar fichas em várias ao mesmo tempo.'},
   {sel: '#chipsel', title: 'Escolha o valor da ficha', text: 'Cada toque numa aposta coloca uma ficha deste valor.'},
+  {sel: '#boardWrap', title: 'Qual será a carta?', text: 'Toque onde acha que ela vai cair. Quanto mais difícil, mais paga: a cor paga ×1,9 e a carta exata ×50.'},
   {sel: '#throwBtn', title: 'Jogue a carta', text: 'Quando estiver pronto, o mágico joga a carta para o alto. Boa sorte!'},
 ];
 function startCoach(){

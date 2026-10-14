@@ -41,7 +41,7 @@ const scaled = base => base * phaseMult();
 
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 let A = {day: '', dailyClaimed: false, clubClaimed: false, rewardsToday: 0, spentToday: 0, owned: [], roundsSinceAd: 0,
-         adult: false, memberUntil: 0, opens: 0, adsShown: 0};
+         adult: false, memberUntil: 0, opens: 0, adsShown: 0, wandDay: ''};
 try { Object.assign(A, JSON.parse(localStorage.getItem('cartaNoAr.app') || '{}')); } catch(e){}
 function saveA(){ try { localStorage.setItem('cartaNoAr.app', JSON.stringify(A)); } catch(e){} }
 function rollDay(){ if (A.day !== today()){ A.day = today(); A.dailyClaimed = false; A.clubClaimed = false; A.rewardsToday = 0; A.spentToday = 0; saveA(); } }
@@ -257,6 +257,32 @@ function appOpenGift(){
   watchReward();
 }
 
+/* ---------- Clube perk: one free Varinha a day, covering up to 10 minimum bets ---------- */
+function appWandDiscount(){ return isMember() && A.wandDay !== today() ? casino().min * 10 : 0; }
+function appUseFreeWand(){ A.wandDay = today(); saveA(); }
+
+/* ---------- strip on the Mesa when chips run low ---------- */
+const CHEST_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#3a2306" stroke-width="2" stroke-linejoin="round"><path d="M3 10h18v10H3z"/><path d="M3 10a9 5 0 0 1 18 0"/><path d="M10 13h4v3h-4z"/></svg>';
+const PLAY_SVG = '<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>';
+function appRenderOffer(low, broke){
+  const el = $('offerStrip');
+  $('wandPerk').hidden = isMember();
+  if (!low || MODE === 'live'){ el.hidden = true; return; }
+  rollDay();
+  el.hidden = false; el.className = 'offer-strip' + (broke ? ' broke' : '');
+  const vidLeft = REWARDS_PER_DAY - A.rewardsToday, vid = fmt(scaled(REWARD_CHIPS));
+  if (broke){
+    const canBuy = DAILY_SPEND_CAP - A.spentToday >= PACKS[0].brl;
+    el.innerHTML = `<span class="os-tx"><b>Suas fichas acabaram</b><small>${canBuy ? `Pacotes liberados · até R$ ${DAILY_SPEND_CAP} por dia` : 'Você chegou ao limite de compras de hoje'}</small></span>
+      ${canBuy ? `<div class="os-packs">${PACKS.map((p, j) => `<button class="os-pack ${j === 2 ? 'best' : ''}" data-buy="${p.id}" ${A.spentToday + p.brl > DAILY_SPEND_CAP + 0.001 ? 'aria-disabled="true"' : ''}>${j === 2 ? '<em>Mais fichas</em>' : ''}<b>${fmt(scaled(p.chips))}</b><span>${priceOf(p.id)}</span></button>`).join('')}</div>` : ''}
+      ${!A.dailyClaimed ? `<button class="os-link" data-act="daily">ou pegue suas ${fmt(scaled(DAILY_CHIPS))} fichas do dia</button>` : vidLeft > 0 ? `<button class="os-link" data-act="video">ou assista um vídeo e ganhe ${vid} grátis</button>` : ''}`;
+  } else {
+    el.innerHTML = `<span class="os-ic" aria-hidden="true">${CHEST_SVG}</span><span class="os-tx"><b>Fichas acabando</b><small>Ganhe mais sem gastar nada.</small></span>
+      ${!A.dailyClaimed ? `<button class="os-btn" data-act="daily">+${fmt(scaled(DAILY_CHIPS))}</button>` : vidLeft > 0 ? `<button class="os-btn" data-act="video">${PLAY_SVG}+${vid}</button>` : ''}
+      ${isMember() ? '' : '<button class="os-btn ghost" data-go="loja">Clube</button>'}`;
+  }
+}
+
 /* ---------- shop (Loja tab) ---------- */
 function phaseHtml(){
   const i = phaseIndex(), c = CASINOS[i], next = CASINOS[i + 1];
@@ -287,12 +313,12 @@ function packsHtml(){
 function clubHtml(){
   if (isMember()) return `<div class="club on">
       <div class="club-top"><b>Clube do Mágico</b><span class="tag ok">ativo</span></div>
-      <span>${fmt(scaled(CLUB_CHIPS))} fichas todo dia nesta fase e nenhum anúncio.</span>
+      <span>${fmt(scaled(CLUB_CHIPS))} fichas todo dia nesta fase, 1 Varinha grátis por dia e nenhum anúncio.</span>
       ${A.clubClaimed ? '<em class="club-done">Fichas de hoje já recebidas. Volte amanhã!</em>' : `<button class="buy wide" data-act="club">Pegar ${fmt(scaled(CLUB_CHIPS))} fichas de hoje</button>`}
     </div>`;
   return `<div class="club">
       <div class="club-top"><b>Clube do Mágico</b><span class="tag">assinatura</span></div>
-      <ul><li><b>${fmt(scaled(CLUB_CHIPS))} fichas</b> todo dia, crescendo com a sua fase</li><li>Sem banner e sem anúncios entre rodadas</li><li>Cancele quando quiser no Google Play</li></ul>
+      <ul><li><b>${fmt(scaled(CLUB_CHIPS))} fichas</b> todo dia, crescendo com a sua fase</li><li>1 Varinha Mágica grátis por dia</li><li>Sem banner e sem anúncios entre rodadas</li><li>Cancele quando quiser no Google Play</li></ul>
       <button class="buy wide" data-buy="${SUB_ID}">Assinar por ${priceOf(SUB_ID)}/mês</button>
     </div>`;
 }
@@ -346,7 +372,7 @@ function renderPromo(){
       <p class="promo-text">Tire o banner e os anúncios entre rodadas para sempre. Os vídeos premiados continuam opcionais, para quando você quiser fichas extras.</p>
       <button class="buy wide big" data-buy="${NOADS_ID}">Remover anúncios por ${priceOf(NOADS_ID)}</button>
       <div class="promo-or"><span>ou</span></div>
-      <button class="club-cta" data-buy="${SUB_ID}"><b>Clube do Mágico</b><span>${fmt(scaled(CLUB_CHIPS))} fichas por dia e sem anúncios · ${priceOf(SUB_ID)}/mês</span></button>`;
+      <button class="club-cta" data-buy="${SUB_ID}"><b>Clube do Mágico</b><span>${fmt(scaled(CLUB_CHIPS))} fichas por dia, 1 Varinha grátis e sem anúncios · ${priceOf(SUB_ID)}/mês</span></button>`;
   } else {
     const c = casino(), s = SKINS.find(x => x.phase === c.k);
     const feature = s && !skinOwned(s.k) ? s : null;
