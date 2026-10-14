@@ -1,0 +1,13 @@
+{
+  "appId": "com.kevincamaroti.cartanoar",
+  "appName": "Carta no Ar",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#130713"
+  },
+  "plugins": {
+    "AdMob": {
+      "appId": "ca-app-pub-4843616770222084~3820152392"
+    }
+  }
+}

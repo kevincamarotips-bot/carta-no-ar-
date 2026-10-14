@@ -1,50 +1,69 @@
 # Carta no Ar
 
-Jogo de cassino com fichas fictícias: o mágico joga uma carta para o alto e você aposta em qual vai cair. Nenhum dinheiro real envolvido.
+Jogo de cassino simulado com fichas virtuais: o mágico joga uma carta para o alto e você aposta em qual vai cair. As fichas não têm valor em dinheiro e não podem ser sacadas, trocadas nem transferidas.
 
-**Jogar:** https://kevincamarotips-bot.github.io/carta-no-ar-/
+## App Android
 
-Três modos:
+Cada envio para a branch `main` gera sozinho, pelo GitHub Actions:
 
-- **Sozinho**: você contra o mágico, com todos os truques. Funciona sem nenhuma configuração.
-- **Ranking da galera**: cada um joga na sua hora e o placar compartilhado mostra quem tem mais fichas.
-- **Mesa ao vivo**: todos apostam na mesma carta, com um código de mesa.
+- **APK de teste** em [Releases](../../releases): abra no celular, baixe o `app-debug.apk` e instale. Usa anúncios de teste do Google, então pode tocar neles à vontade.
+- **Pacote para a Play Store** (`.aab`, com anúncios reais), quando a chave de upload estiver configurada nos Secrets (ver abaixo). Fica em **Actions → última execução → Artifacts**.
 
-Os dois modos com amigos usam o Firebase (gratuito) para guardar o placar e sincronizar a mesa.
+### Como o app ganha dinheiro
 
-## 1. Ligar o site (GitHub Pages)
+| O quê | Como funciona |
+|---|---|
+| Fichas do dia | 1.000 fichas grátis por dia |
+| Vídeo premiado | +200 fichas por vídeo, até 5 por dia (bloco `fichas_extras`) |
+| Banner | Rodapé da mesa (bloco `banner_mesa`) |
+| Intersticial | A cada 8 rodadas, depois da carta cair (bloco `entre rodadas`) |
+| Sem anúncios | Compra única; remove banner e intersticial |
+| Visuais | Monte Carlo, Neon de Vegas, Luva Branca, Safira, Rubi Imperial |
+| Pacotes de fichas | Só aparecem quando o saldo zera, com limite de R$ 20 por dia |
 
-1. No repositório, abra **Settings → Pages**.
-2. Em **Build and deployment**, escolha **Deploy from a branch**.
-3. Selecione a branch **main** e a pasta **/ (root)**, e toque em **Save**.
-4. Em um ou dois minutos o jogo fica no endereço acima.
+### Produtos para cadastrar no Play Console
 
-## 2. Ligar os modos com amigos (Firebase)
+Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o preço você escolhe):
 
-1. Entre em https://console.firebase.google.com e toque em **Criar projeto**. Pode desligar o Google Analytics.
-2. No menu do projeto, abra **Criação → Realtime Database** e toque em **Criar banco de dados**. Escolha qualquer local e comece em **modo bloqueado**.
-3. Na aba **Regras** do banco, apague o que estiver lá, cole o conteúdo do arquivo `database.rules.json` deste repositório e toque em **Publicar**.
-4. Toque na engrenagem → **Configurações do projeto**. Em **Seus apps**, toque no ícone **</>** (Web), dê um nome e registre. Não precisa de Hosting.
-5. Copie o bloco `firebaseConfig` que aparece. Confira se ele tem a linha `databaseURL`; se não tiver, recarregue a página de configurações depois de criar o banco.
-6. No GitHub, abra o arquivo `firebase-config.js`, toque no lápis para editar e troque `null` pelo bloco copiado, assim:
+| ID do produto | Tipo | Preço sugerido |
+|---|---|---|
+| `sem_anuncios` | Não consumível | R$ 9,90 |
+| `visuais_todos` | Não consumível | R$ 14,90 |
+| `visual_montecarlo` | Não consumível | R$ 4,90 |
+| `visual_vegas` | Não consumível | R$ 4,90 |
+| `visual_luva` | Não consumível | R$ 4,90 |
+| `visual_safira` | Não consumível | R$ 4,90 |
+| `visual_rubi` | Não consumível | R$ 4,90 |
+| `fichas_1000` | Consumível | R$ 1,99 |
+| `fichas_5000` | Consumível | R$ 4,99 |
+| `fichas_12000` | Consumível | R$ 9,99 |
 
-   ```js
-   window.FIREBASE_CONFIG = {
-     apiKey: "...",
-     authDomain: "...",
-     databaseURL: "https://...firebaseio.com",
-     projectId: "...",
-     appId: "..."
-   };
-   ```
+O limite diário de R$ 20 está em `src/app-module.js` (`DAILY_SPEND_CAP`). Se mudar os preços dos pacotes, ajuste também o campo `brl` de cada pacote ali.
 
-7. Toque em **Commit changes**. Em um minuto o ranking e a mesa ao vivo já funcionam no site.
+### Chave de upload (para gerar o pacote da Play Store)
 
-A chave do Firebase pode ficar pública: ela só identifica o projeto. Quem protege os dados são as regras do passo 3. Como as fichas são fictícias, as regras deixam qualquer pessoa com o link jogar sem login.
+Em **Settings → Secrets and variables → Actions → New repository secret**, crie:
 
-## Arquivos
+- `ANDROID_KEYSTORE_BASE64`: o arquivo `.jks` da chave de upload, em base64
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
 
-- `index.html`: o jogo inteiro.
-- `firebase-config.js`: onde vai a configuração do seu Firebase.
-- `firebase-shim.js`: liga o jogo ao Firebase.
-- `database.rules.json`: regras para colar no Realtime Database.
+Guarde o arquivo `.jks` e as senhas em lugar seguro. **Nunca** coloque a chave dentro do repositório.
+
+### Política de privacidade
+
+A Play Store e o AdMob exigem uma. Ela está em `privacidade.html` e fica publicada pelo GitHub Pages em
+`https://kevincamarotips-bot.github.io/carta-no-ar-/privacidade.html` (ligue o Pages em **Settings → Pages**, branch `main`, pasta raiz).
+
+### Estrutura
+
+- `src/carta-no-ar.html`: o jogo (mesma versão do Claude).
+- `src/app-module.js`: fichas do dia, anúncios, loja e visuais pagos.
+- `tools/build_app.py`: junta os dois em `www/index.html`. Use `--release` para anúncios reais.
+- `android/`: projeto Android (Capacitor). Pacote `com.kevincamaroti.cartanoar`.
+- `assets/`: ícone e tela de abertura.
+
+## Versão web
+
+`index.html` na raiz é a versão web com modos online pelo Firebase (opcional). Veja `firebase-config.js`.

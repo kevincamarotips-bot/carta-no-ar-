@@ -1,0 +1,70 @@
+name: App Android
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP_VERSION_CODE: ${{ github.run_number }}
+      HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - run: npm ci
+
+      # APK de teste: instala direto no celular, com anúncios de teste do Google
+      - name: Gerar APK de teste
+        run: |
+          python3 tools/build_app.py
+          npx cap sync android
+          cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+
+      - name: Publicar APK de teste
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: teste-${{ github.run_number }}
+          name: Teste ${{ github.run_number }}
+          prerelease: true
+          files: android/app/build/outputs/apk/debug/app-debug.apk
+          body: |
+            APK de teste do Carta no Ar (anúncios de teste, compras simuladas pela loja de testes).
+            No celular Android: baixe o arquivo app-debug.apk abaixo e toque para instalar.
+
+      # Pacote assinado para a Play Store: só roda quando a chave de upload estiver nos Secrets
+      - name: Gerar pacote para a Play Store
+        if: env.HAS_KEY == 'true'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/upload.jks"
+          python3 tools/build_app.py --release
+          npx cap sync android
+          cd android && ./gradlew bundleRelease --no-daemon
+
+      - name: Guardar pacote para a Play Store
+        if: env.HAS_KEY == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: carta-no-ar-play-store-${{ github.run_number }}
+          path: android/app/build/outputs/bundle/release/app-release.aab
