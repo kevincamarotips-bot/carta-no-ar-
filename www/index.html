@@ -464,10 +464,10 @@ button.mode:active{transform:scale(.98)}
 
 /* ---------- dock: ficha, carta, super poderes, jogar ---------- */
 .view-mesa{overflow-y:auto}
-.stage{min-height:150px;container-type:size}
+.stage{min-height:180px;container-type:size}
 .result{padding-inline:76px}
-.dock{gap:18px;padding-top:6px}
-.dsec{display:flex;flex-direction:column;gap:10px}
+.dock{gap:12px;padding-top:2px}
+.dsec{display:flex;flex-direction:column;gap:8px}
 .dsec[hidden]{display:none}
 .dsec-h{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
 .dsec-t{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;white-space:nowrap}
@@ -475,21 +475,21 @@ button.mode:active{transform:scale(.98)}
 .dsec-r{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock-row{gap:10px}
 .chipsel{gap:10px}
-.chipbtn{width:46px;height:46px}
+.chipbtn{width:42px;height:42px}
 .chipbtn[aria-pressed="true"]{transform:translateY(-4px) scale(1.06);box-shadow:0 0 0 3px var(--ink),0 0 0 5px var(--gold),0 8px 18px color-mix(in srgb,var(--gold) 35%,transparent)}
 .chipbtn.off{opacity:.4}
 .acts{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-left:0}
-.act{width:auto;height:40px}
+.act{width:auto;height:38px}
 .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;overflow:visible}
-.tab{position:relative;flex-direction:column;justify-content:center;gap:2px;min-height:52px;padding:5px 2px;border-radius:13px;min-width:0}
-.tab .tm{font-family:var(--f-mono);font-size:14px;line-height:1.1;font-weight:500}
-.tab .tn{font-size:10.5px;font-weight:600;line-height:1.1;white-space:nowrap}
+.tab{position:relative;flex-direction:column;justify-content:center;gap:1px;min-height:42px;padding:4px 2px;border-radius:12px;min-width:0}
+.tab .tm{font-family:var(--f-mono);font-size:13px;line-height:1.1;font-weight:500}
+.tab .tn{font-size:10px;font-weight:600;line-height:1.1;white-space:nowrap}
 .tab[data-lvl="0"] .tm{color:#e9ddff}.tab[data-lvl="1"] .tm{color:#ffd2a1}.tab[data-lvl="2"] .tm{color:var(--amber)}.tab[data-lvl="3"] .tm{color:#ffb35a}
-.tab[data-lvl="4"] .tm{font-size:16px;color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 65%,transparent)}
+.tab[data-lvl="4"] .tm{font-size:14px;color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 65%,transparent)}
 .tab[aria-selected="true"] .tm{color:color-mix(in srgb,var(--violet) 75%,#000);text-shadow:none}
 .tab[aria-selected="true"][data-lvl="3"] .tm,.tab[aria-selected="true"][data-lvl="4"] .tm{color:#a0521a}
 .tab .dot{position:absolute;top:-6px;right:-3px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;font-size:9.5px;background:var(--glow-b)}
-.board-wrap{margin-top:2px}
+.board-wrap{margin-top:0}
 .cell .lbl,.cell .odds{line-height:1.25}
 .board.g2 .cell{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:8px;row-gap:3px;min-height:0;padding:9px 10px}
 .board.g2 .cell .big{font-size:21px}
@@ -504,14 +504,14 @@ button.mode:active{transform:scale(.98)}
 .cc{height:30px}
 .board.g2,.board.g4{gap:8px}
 .cell .stake{white-space:nowrap}
-.tricks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.trick{position:relative;flex-direction:row;align-items:center;gap:10px;padding:9px 10px;border-radius:16px}
-.trick .tk-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.tricks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.trick{position:relative;flex-direction:row;align-items:center;gap:8px;padding:6px 8px;border-radius:14px}
+.trick .tk-ic{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
 .tk-ic.wand{background:radial-gradient(circle at 30% 25%,#c58cff,#6a2bd9 55%,#2b1060)}
 .tk-ic.chance{background:radial-gradient(circle at 30% 25%,#7fe3ff,#2f6bff 55%,#10245e)}
-.tk-ic svg{width:30px;height:30px}
+.tk-ic svg{width:25px;height:25px}
 .tk-tx{display:flex;flex-direction:column;min-width:0;line-height:1.2}
-.tk-tx b{font-size:13px;white-space:nowrap}
+.tk-tx b{font-size:12.5px;white-space:nowrap}
 #bSecondCost{color:#7fd3ff}
 .trick.on{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,transparent),var(--plum-2) 70%);border-color:var(--gold);box-shadow:0 0 16px color-mix(in srgb,var(--gold) 30%,transparent)}
 #bSecond.on{background:linear-gradient(135deg,rgba(127,211,255,.2),var(--plum-2) 70%);border-color:#7fd3ff;box-shadow:0 0 16px rgba(127,211,255,.28)}
@@ -522,21 +522,21 @@ button.mode:active{transform:scale(.98)}
 .loop{transform-origin:20px 20px}
 #bSecond.on .loop{animation:loopSpin 3.2s linear infinite}
 .tk-perk{position:absolute;top:-8px;right:8px;font-size:9.5px;font-weight:800;letter-spacing:.03em;padding:1px 7px;border-radius:999px;background:var(--gold);color:var(--ink);white-space:nowrap}
-.throw{position:relative;overflow:hidden;min-height:66px;border-radius:20px;padding:10px 10px 10px 18px;background:linear-gradient(100deg,#3a2a5e,#2a1f48);box-shadow:0 6px 0 #170f2b;margin-bottom:4px}
+.throw{position:relative;overflow:hidden;min-height:56px;border-radius:18px;padding:6px 8px 6px 16px;background:linear-gradient(100deg,#3a2a5e,#2a1f48);box-shadow:0 6px 0 #170f2b;margin-bottom:4px}
 .throw.ready{background:linear-gradient(100deg,var(--violet) 0%,var(--glow-b) 28%,var(--amber) 50%,var(--glow-b) 72%,var(--violet) 100%);background-size:200% 100%;animation:flow 3.2s linear infinite,glowPulse 1.8s ease-in-out infinite}
 .throw .shine{display:none;position:absolute;top:0;bottom:0;left:0;width:26%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:shine 2.8s ease-in-out infinite;pointer-events:none}
 .throw.ready .shine{display:block}
 .throw .tl{position:relative;display:flex;flex-direction:column;gap:3px;text-align:left;min-width:0}
-.throw .t{font-size:25px;text-shadow:0 2px 8px rgba(60,0,80,.45)}
+.throw .t{font-size:22px;text-shadow:0 2px 8px rgba(60,0,80,.45)}
 .throw .tp{font-size:12px;font-weight:600;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.stake-pill{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:7px 12px 7px 9px;border-radius:15px;background:rgba(11,7,22,.62);border:1px solid rgba(246,239,255,.2)}
+.stake-pill{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:5px 10px 5px 8px;border-radius:13px;background:rgba(11,7,22,.62);border:1px solid rgba(246,239,255,.2)}
 .throw.ready .stake-pill{border:1.5px solid color-mix(in srgb,var(--gold) 85%,transparent);box-shadow:inset 0 0 12px color-mix(in srgb,var(--gold) 18%,transparent)}
 .sp-chips{position:relative;width:30px;height:26px;flex:none}
 .sp-chips i{position:absolute;width:22px;height:22px;border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.35)}
 .sp-chips i:first-child{left:0;top:4px;background:repeating-conic-gradient(var(--violet) 0 22deg,var(--cream) 22deg 30deg)}
 .sp-chips i:last-child{left:8px;top:0;background:repeating-conic-gradient(var(--amber) 0 22deg,var(--cream) 22deg 30deg)}
 .sp-n{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}
-.sp-n b{font-family:var(--f-mono);font-weight:500;font-size:22px;color:var(--gold);font-variant-numeric:tabular-nums}
+.sp-n b{font-family:var(--f-mono);font-weight:500;font-size:19px;color:var(--gold);font-variant-numeric:tabular-nums}
 .sp-n small{font-size:10.5px;color:#e9ddff;white-space:nowrap;font-family:var(--f-body)}
 .coins.low .plus{animation:plusPulse 1.2s ease-in-out infinite}
 .offer-strip{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--amber) 22%,transparent),var(--plum-2) 60%);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);animation:stripIn .35s ease-out}
@@ -589,21 +589,16 @@ button.mode:active{transform:scale(.98)}
 @keyframes loopSpin{to{transform:rotate(360deg)}}
 @keyframes stripIn{from{opacity:0;transform:translateY(-6px)}}
 /* shorter screens keep the four blocks, a little tighter */
-@media (max-height:780px){
-  .dock{gap:13px}.dsec{gap:8px}.dsec-t{font-size:13px}.dsec-t i{width:19px;height:19px}
-  .tab{min-height:46px}.cell{min-height:58px}.board.g4 .cell{min-height:56px}.chipbtn{width:42px;height:42px}.act{height:38px}
-  .throw{min-height:58px}.throw .t{font-size:22px}.sp-n b{font-size:19px}
-  .trick .tk-ic{width:34px;height:34px}.tk-ic svg{width:26px;height:26px}.trick{padding:7px 9px}
-  .board.g2 .cell,.board.g4 .cell{padding-top:6px;padding-bottom:6px}.cell .big{font-size:18px}.board.g2 .cell .big{font-size:19px}
-  .throw{padding:7px 8px 7px 16px}.stake-pill{padding:5px 10px 5px 8px}
-  .cc{height:27px}.board.g13 .cell{min-height:40px}
-  .stage{min-height:112px}
+@media (max-height:740px){
+  .dock{gap:10px}.dsec{gap:7px}.board.g2 .cell,.board.g4 .cell{padding-top:6px;padding-bottom:6px}.cell .big{font-size:18px}.board.g2 .cell .big{font-size:19px}
+  .chipbtn{width:40px;height:40px}.act{height:36px}.tab{min-height:40px}.throw{min-height:52px}.throw .t{font-size:21px}.sp-n b{font-size:18px}
+  .cc{height:27px}.board.g13 .cell{min-height:40px}.stage{min-height:150px}
 }
 /* the meter follows the stage's own height */
 @container (max-height:250px){.golden-badge{display:none}.heat{top:10px}}
 @container (max-height:200px){.heat-cap{display:none}.heat-medal{width:40px;height:40px}.heat-medal b{font-size:14px}.heat.hot .heat-medal b{font-size:15px}.heat-bulb{width:10px;height:10px}.heat-track{gap:4px;padding:5px 3px}.heat-bulb[data-mark]::after{right:15px;top:-3px}}
 @container (max-height:150px){.heat-track{display:none}.result .note{display:none}}
-@media (max-height:690px){.dsec-r{display:none}.dock{gap:11px}.board.g13 .cell{min-height:40px}}
+
 @media (prefers-reduced-motion:reduce){.throw.ready,.throw .shine,.heat-spark,.heat.hot .heat-medal,.stage.hot,.stage.blaze,.coins.low .plus{animation:none}}
 </style>
 <style>
@@ -611,6 +606,7 @@ button.mode:active{transform:scale(.98)}
 [hidden]{display:none!important}
 .app-build #modeBtn,.app-build .field,.app-build .mode[data-mode="rank"],.app-build .mode:not([data-mode]){display:none!important}
 .app-build .modes{grid-template-columns:1fr!important;max-width:420px;width:100%;margin:0 auto}
+.app-build .tabbar{padding-bottom:6px} /* the page already leaves room for the system bar */
 .app-legal{max-width:420px;margin:0 auto;text-align:center;font-size:12px;color:var(--muted)}
 #lojaBody{display:flex;flex-direction:column;gap:10px}
 #lojaBody .sheet-sub{margin:12px 0 0}
@@ -758,7 +754,6 @@ button.mode:active{transform:scale(.98)}
       <div class="dock">
         <div class="offer-strip" id="offerStrip" hidden></div>
         <div class="dsec">
-          <div class="dsec-h"><span class="dsec-t"><i>1</i>Escolha a ficha</span><span class="dsec-r" id="freeBal">livre: 1.000</span></div>
           <div class="dock-row">
             <div class="chipsel" id="chipsel" aria-label="Valor da ficha"></div>
           <div class="acts">
@@ -770,12 +765,10 @@ button.mode:active{transform:scale(.98)}
           </div>
         </div>
         <div class="dsec">
-          <div class="dsec-h"><span class="dsec-t"><i>2</i>Qual será a carta?</span><span class="dsec-r">quanto mais difícil, mais paga</span></div>
           <div class="tabs" role="tablist" id="tabs" aria-label="Tipo de aposta"></div>
           <div id="boardWrap" class="board-wrap"></div>
         </div>
         <div class="dsec" id="powersSec">
-          <div class="dsec-h"><span class="dsec-t"><i>3</i>Super poderes</span><span class="dsec-r">opcional</span></div>
           <div class="tricks">
             <button class="trick" id="bWand" title="Custa 50% a mais. Se você ganhar, a varinha multiplica o prêmio de ×1 a ×10"><span class="tk-ic wand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="starFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset="1" stop-color="#ffb43a"/></linearGradient></defs><line x1="8" y1="33" x2="24.5" y2="16.5" stroke="#140a26" stroke-width="6" stroke-linecap="round"/><line x1="8" y1="33" x2="24.5" y2="16.5" stroke="#4a3580" stroke-width="3" stroke-linecap="round"/><line x1="21.5" y1="19.5" x2="24.5" y2="16.5" stroke="#f6efff" stroke-width="5" stroke-linecap="round"/><polygon points="28.0,4.5 29.9,9.4 35.1,9.7 31.0,13.0 32.4,18.1 28.0,15.2 23.6,18.1 25.0,13.0 20.9,9.7 26.1,9.4" fill="url(#starFill)" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/><path class="wsp" d="M13 6l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#fff"/><path class="wsp" style="animation-delay:.45s" d="M35 23l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" fill="#ffe7a3"/></svg></span><span class="tk-tx"><b>Varinha Mágica</b><em id="bWandCost">+50% · até ×10</em></span><span class="tk-perk" id="wandPerk" hidden>Clube: 1 grátis/dia</span></button>
             <button class="trick" id="bSecond" title="Se errar tudo, o mágico joga de novo. O preço é a chance de você errar"><span class="tk-ic chance"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="8.5" width="14" height="20" rx="3" transform="rotate(-14 15 18.5)" fill="#2a4fd1" stroke="#cfe3ff" stroke-width="1.5"/><rect x="16" y="9.5" width="14" height="20" rx="3" transform="rotate(10 23 19.5)" fill="#f8f4ff" stroke="#fff" stroke-width="1"/><path d="M23 16.5c-1.4-1.8-4-.6-3 1.4.6 1.3 3 3 3 3s2.4-1.7 3-3c1-2-1.6-3.2-3-1.4z" fill="#e2334f" transform="rotate(10 23 19.5)"/><g class="loop"><path d="M6.1 28A16 16 0 0 0 33.9 28" fill="none" stroke="#ffd97a" stroke-width="2.6" stroke-linecap="round"/><polygon points="35.6,25 36.3,29.9 31.1,26.9" fill="#ffd97a"/></g></svg></span><span class="tk-tx"><b>Segunda Chance</b><em id="bSecondCost">repete se errar</em></span></button>
@@ -1230,7 +1223,6 @@ function renderControls(){
   $('throwPrize').textContent = t ? `prêmio até ${fmt(maxPrize())} fichas` : 'escolha uma aposta primeiro';
   $('throwBtn').disabled = busy;
   $('throwBtn').classList.toggle('ready', !!t && !busy);
-  $('freeBal').textContent = `livre: ${fmt(Math.max(0, S.balance - cost))}`;
   const low = S.balance < casino().min * 10, broke = S.balance - cost < casino().min && !t;
   $('coinsBtn').classList.toggle('low', low);
   $('powersSec').hidden = broke && MODE !== 'live';
@@ -1244,7 +1236,7 @@ function renderControls(){
   $('bWandCost').textContent = S.wand ? (t ? (wandCost() ? `Ativa · +${fmt(wandCost())}` : 'Ativa · grátis') : (wFree ? 'Ativa · grátis' : 'Ativa · +50%')) : (wFree ? 'grátis hoje · até ×10' : '+50% · até ×10');
   $('bSecond').disabled = busy;
   $('bSecond').classList.toggle('on', S.second);
-  $('bSecondCost').textContent = S.second ? (t ? `Ativa · +${fmt(secondCost())}` : 'Ativa') : (t ? `+${fmt(secondCost())} fichas` : 'repete se errar');
+  $('bSecondCost').textContent = t && !secondCost() ? 'você não erra' : S.second ? (t ? `Ativa · +${fmt(secondCost())}` : 'Ativa') : (t ? `+${fmt(secondCost())} fichas` : 'repete se errar');
   renderGift();
   // stage
   $('wandBadge').hidden = !S.wand;

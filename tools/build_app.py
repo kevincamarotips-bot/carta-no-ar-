@@ -60,6 +60,7 @@ app_css = """<style>
 [hidden]{display:none!important}
 .app-build #modeBtn,.app-build .field,.app-build .mode[data-mode="rank"],.app-build .mode:not([data-mode]){display:none!important}
 .app-build .modes{grid-template-columns:1fr!important;max-width:420px;width:100%;margin:0 auto}
+.app-build .tabbar{padding-bottom:6px} /* the page already leaves room for the system bar */
 .app-legal{max-width:420px;margin:0 auto;text-align:center;font-size:12px;color:var(--muted)}
 #lojaBody{display:flex;flex-direction:column;gap:10px}
 #lojaBody .sheet-sub{margin:12px 0 0}
