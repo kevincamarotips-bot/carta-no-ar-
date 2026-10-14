@@ -2,3 +2,4 @@ node_modules/
 *.jks
 *.keystore
 .DS_Store
+!android/app/debug.keystore

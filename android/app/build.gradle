@@ -18,6 +18,14 @@ android {
         }
     }
     signingConfigs {
+        // Fixed debug key kept in the repo so each test APK installs over the previous one.
+        // It only signs test builds; the Play Store upload key never goes in the repo.
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
         release {
             // Filled from GitHub secrets by the build workflow; absent locally
             def ks = System.getenv("ANDROID_KEYSTORE_PATH")
@@ -30,6 +38,9 @@ android {
         }
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             if (System.getenv("ANDROID_KEYSTORE_PATH")) signingConfig signingConfigs.release
             minifyEnabled false
