@@ -13,33 +13,47 @@ Cada envio para a branch `main` gera sozinho, pelo GitHub Actions:
 
 | O quê | Como funciona |
 |---|---|
-| Fichas do dia | 1.000 fichas grátis por dia |
-| Vídeo premiado | +200 fichas por vídeo, até 5 por dia (bloco `fichas_extras`) |
-| Banner | Rodapé da mesa (bloco `banner_mesa`) |
-| Intersticial | A cada 8 rodadas, depois da carta cair (bloco `entre rodadas`) |
+| Fichas do dia | 1.000 fichas grátis por dia na fase 1 (cresce com a fase) |
+| Vídeo premiado | +200 fichas por vídeo na fase 1, até 5 por dia (bloco `fichas_extras`) |
+| Banner | Rodapé da tela (bloco `banner_mesa`) |
+| Intersticial | A cada 8 rodadas, depois da carta cair e fora de jogadas (bloco `entre rodadas`) |
 | Sem anúncios | Compra única; remove banner e intersticial |
-| Clube do Mágico | Assinatura R$ 29,90/mês: 2.000 fichas por dia (não acumulam) e sem anúncios |
-| Ofertas | Tela de "Sem anúncios" a cada 3 anúncios de tela cheia; tela de visuais a cada 3 aberturas do app; o X aparece depois de 5 segundos |
-| Visuais | Monte Carlo, Neon de Vegas, Luva Branca, Safira, Rubi Imperial |
-| Pacotes de fichas | Só aparecem quando o saldo zera, com limite de R$ 20 por dia |
+| Clube do Mágico | Assinatura R$ 29,90/mês: 2.000 fichas por dia na fase 1 (não acumulam) e sem anúncios |
+| Pacotes de fichas | Só liberam quando o saldo não paga a aposta mínima do palco, com limite de R$ 20 por dia |
+| Visuais | Um visual por palco da jornada, vendido quando o jogador chega nele; o pacote com todos libera os cinco na hora |
+| Ofertas | Nunca na primeira sessão e no máximo uma por sessão. "Sem anúncios" a cada 3 anúncios de tela cheia; visuais a cada 3 aberturas do app, logo depois de uma vitória. O X aparece depois de 5 segundos |
+
+### A loja cresce com a jornada
+
+Quem está nos palcos finais aposta muito mais, então tudo o que dá fichas é multiplicado pelo palco mais alto que o jogador já abriu (`PHASE_MULT` em `src/carta-no-ar.html`). A aba Loja mostra essa progressão.
+
+| Palco | Entrada | Aposta mínima | Multiplicador | Fichas do dia | Clube por dia | Pacotes (R$ 1,99 / 4,99 / 9,99) | Visual do palco |
+|---|---|---|---|---|---|---|---|
+| 1. Tenda do Ilusionista | grátis | 10 | ×1 | 1.000 | 2.000 | 1.000 / 5.000 / 12.000 | Luva Branca |
+| 2. Teatro das Sombras | 8.000 | 50 | ×3 | 3.000 | 6.000 | 3.000 / 15.000 / 36.000 | Rubi Imperial |
+| 3. Observatório Estelar | 40.000 | 200 | ×10 | 10.000 | 20.000 | 10.000 / 50.000 / 120.000 | Safira |
+| 4. Circo Elétrico | 200.000 | 1.000 | ×40 | 40.000 | 80.000 | 40.000 / 200.000 / 480.000 | Neon Arcano |
+| 5. Palácio do Mágico | 1.000.000 | 5.000 | ×150 | 150.000 | 300.000 | 150.000 / 750.000 / 1.800.000 | Esmeralda Real |
+
+Missões, prêmios de nível e o álbum seguem o mesmo multiplicador. O preço em reais não muda; muda só quantas fichas cada compra entrega.
 
 ### Produtos para cadastrar no Play Console
 
-Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o preço você escolhe):
+Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o preço você escolhe). Como a quantidade de fichas dos pacotes muda com a fase, use nomes sem número no Play Console (por exemplo "Punhado de fichas", "Saquinho de fichas", "Baú de fichas") e diga na descrição que a quantidade aparece na loja do jogo.
 
-| ID do produto | Tipo | Preço sugerido |
-|---|---|---|
-| `sem_anuncios` | Não consumível | R$ 9,90 |
-| `clube_magico` | **Assinatura** (em Monetizar → Assinaturas), plano base mensal | R$ 29,90/mês |
-| `visuais_todos` | Não consumível | R$ 14,90 |
-| `visual_montecarlo` | Não consumível | R$ 4,90 |
-| `visual_vegas` | Não consumível | R$ 4,90 |
-| `visual_luva` | Não consumível | R$ 4,90 |
-| `visual_safira` | Não consumível | R$ 4,90 |
-| `visual_rubi` | Não consumível | R$ 4,90 |
-| `fichas_1000` | Consumível | R$ 1,99 |
-| `fichas_5000` | Consumível | R$ 4,99 |
-| `fichas_12000` | Consumível | R$ 9,99 |
+| ID do produto | Nome sugerido | Tipo | Preço sugerido |
+|---|---|---|---|
+| `sem_anuncios` | Sem anúncios | Não consumível | R$ 9,90 |
+| `clube_magico` | Clube do Mágico | **Assinatura** (em Monetizar → Assinaturas), plano base mensal | R$ 29,90/mês |
+| `visuais_todos` | Todos os visuais | Não consumível | R$ 14,90 |
+| `visual_luva` | Visual Luva Branca | Não consumível | R$ 4,90 |
+| `visual_rubi` | Visual Rubi Imperial | Não consumível | R$ 4,90 |
+| `visual_safira` | Visual Safira | Não consumível | R$ 4,90 |
+| `visual_vegas` | Visual Neon Arcano | Não consumível | R$ 4,90 |
+| `visual_montecarlo` | Visual Esmeralda Real | Não consumível | R$ 4,90 |
+| `fichas_1000` | Punhado de fichas | Consumível | R$ 1,99 |
+| `fichas_5000` | Saquinho de fichas | Consumível | R$ 4,99 |
+| `fichas_12000` | Baú de fichas | Consumível | R$ 9,99 |
 
 O limite diário de R$ 20 está em `src/app-module.js` (`DAILY_SPEND_CAP`). Se mudar os preços dos pacotes, ajuste também o campo `brl` de cada pacote ali.
 
@@ -62,7 +76,7 @@ A Play Store e o AdMob exigem uma. Ela está em `privacidade.html` e fica public
 ### Estrutura
 
 - `src/carta-no-ar.html`: o jogo (mesma versão do Claude).
-- `src/app-module.js`: fichas do dia, anúncios, loja e visuais pagos.
+- `src/app-module.js`: fichas do dia, anúncios, aba Loja (com a progressão por fase), ofertas e visuais pagos.
 - `tools/build_app.py`: junta os dois em `www/index.html`. Use `--release` para anúncios reais.
 - `android/`: projeto Android (Capacitor). Pacote `com.kevincamaroti.cartanoar`.
 - `assets/`: ícone e tela de abertura.
