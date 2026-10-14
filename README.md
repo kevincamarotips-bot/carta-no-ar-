@@ -18,6 +18,8 @@ Cada envio para a branch `main` gera sozinho, pelo GitHub Actions:
 | Banner | Rodapé da mesa (bloco `banner_mesa`) |
 | Intersticial | A cada 8 rodadas, depois da carta cair (bloco `entre rodadas`) |
 | Sem anúncios | Compra única; remove banner e intersticial |
+| Clube do Mágico | Assinatura R$ 29,90/mês: 2.000 fichas por dia (não acumulam) e sem anúncios |
+| Ofertas | Tela de "Sem anúncios" a cada 3 anúncios de tela cheia; tela de visuais a cada 3 aberturas do app; o X aparece depois de 5 segundos |
 | Visuais | Monte Carlo, Neon de Vegas, Luva Branca, Safira, Rubi Imperial |
 | Pacotes de fichas | Só aparecem quando o saldo zera, com limite de R$ 20 por dia |
 
@@ -28,6 +30,7 @@ Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o 
 | ID do produto | Tipo | Preço sugerido |
 |---|---|---|
 | `sem_anuncios` | Não consumível | R$ 9,90 |
+| `clube_magico` | **Assinatura** (em Monetizar → Assinaturas), plano base mensal | R$ 29,90/mês |
 | `visuais_todos` | Não consumível | R$ 14,90 |
 | `visual_montecarlo` | Não consumível | R$ 4,90 |
 | `visual_vegas` | Não consumível | R$ 4,90 |
