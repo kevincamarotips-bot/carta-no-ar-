@@ -23,6 +23,28 @@ Cada envio para a branch `main` gera sozinho, pelo GitHub Actions:
 | Visuais | Um visual por palco da jornada, vendido quando o jogador chega nele; o pacote com todos libera os cinco na hora |
 | Ofertas | Nunca na primeira sessão e no máximo uma por sessão. "Sem anúncios" a cada 3 anúncios de tela cheia; visuais a cada 3 aberturas do app, logo depois de uma vitória. O X aparece depois de 5 segundos |
 
+### Apostas e vantagem da casa
+
+Toda aposta devolve, em média, entre 95% e 98,7% do que foi apostado (simulado com a Carta Dourada e a Mão quente incluídas). Nenhuma aposta é melhor que as outras: a cor rende partidas longas, a carta exata rende os prêmios gigantes. As mais arriscadas devolvem um pouco mais, porque a Carta Dourada multiplica o lucro.
+
+| Aposta | Chance | Paga | Devolve em média (fase 1 a 5) |
+|---|---|---|---|
+| Cor | 50% | 1,9× | 96,3% a 97,3% |
+| Baixa (A–6) ou Alta (8–K) | 46% | 2,05× | 95,7% a 96,8% |
+| Naipe | 25% | 3,8× | 96,5% a 97,9% |
+| Figura (J, Q, K) | 23% | 4,1× | 96,1% a 97,2% |
+| Sete ou Valor exato | 7,7% | 12,4× | 96,8% a 98,7% |
+| Carta exata | 1,9% | 50× | 97,0% a 98,1% |
+
+- **Carta Dourada**: multiplica o lucro das apostas certas. Fica mais rara e maior a cada palco: 1 em 100 com lucro ×3 na Tenda, até 1 em 667 com lucro ×20 no Palácio.
+- **Mão quente**: não paga fichas; com 3 vitórias seguidas a Carta Dourada fica 2× mais provável, com 5 ou mais, 3×.
+- **Varinha Mágica** (substitui a Carta Marcada): custa +50% da aposta; se ganhar, multiplica o prêmio por ×1 (72%), ×2 (19%), ×3 (5%), ×5 (3%) ou ×10 (1%). Na média devolve o mesmo que a aposta sozinha, só aumenta o risco.
+- **Segunda Chance**: o preço é a chance de errar (50% da aposta na cor, 75% no naipe), então não muda a vantagem da casa.
+- **Maior ou menor** (antigo dobrar ou nada): paga 95% das chances justas. Depois de um Ás, "maior" tem 94% de chance e paga ×1,01; depois de uma Dama, "maior" tem 8% e paga ×12,1.
+- **Álbum**: a carta só entra quando você acerta naipe, figura, sete, valor ou carta exata. Cor e faixa não contam.
+
+Antes desta versão, todas as apostas devolviam mais do que recebiam (105% a 230%), e por isso dava para subir de palco em minutos. Numa simulação começando com 1.000 fichas e sem fichas grátis, a chance de chegar a 8.000 apostando 10% na cor caiu de 38% para 7%, a mesma de qualquer outro estilo de jogo.
+
 ### A loja cresce com a jornada
 
 Quem está nos palcos finais aposta muito mais, então tudo o que dá fichas é multiplicado pelo palco mais alto que o jogador já abriu (`PHASE_MULT` em `src/carta-no-ar.html`). A aba Loja mostra essa progressão.

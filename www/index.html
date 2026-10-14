@@ -128,6 +128,14 @@ button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{outline:2px 
 .last-cards span{width:20px;height:28px;border-radius:4px;background:var(--cream);color:var(--card-black);font-size:10px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;opacity:.9}
 .last-cards span.red{color:var(--card-red)}.last-cards span.win{box-shadow:0 0 0 2px var(--gold)}
 .marked-badge:not([hidden])~.last-cards{display:none}
+.streak.hot{border-color:color-mix(in srgb,var(--gold) 70%,transparent);box-shadow:0 0 16px color-mix(in srgb,var(--gold) 40%,transparent)}.streak.hot b{color:var(--gold)}
+.golden-badge.hot{color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 60%,transparent)}
+.wand-badge i{background:var(--gold);color:var(--ink)}.wand-badge i::after{display:none}
+.wand-roll{position:absolute;left:50%;top:66%;transform:translate(-50%,-50%);z-index:10;text-align:center;pointer-events:none;background:rgba(5,3,12,.78);border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);border-radius:20px;padding:10px 26px 12px;box-shadow:0 0 40px color-mix(in srgb,var(--gold) 30%,transparent)}
+.wand-roll small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.wand-roll b{display:block;font-family:var(--f-display);font-weight:400;font-size:56px;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.wand-roll.land{animation:pop .45s cubic-bezier(.2,1.5,.4,1)}.wand-roll.one b{color:var(--cream)}
+.wand-roll.big b{text-shadow:0 0 30px var(--gold)}
 .hat-deco{position:absolute;left:7%;top:34%;width:58px;z-index:3;animation:float 5s ease-in-out infinite;filter:drop-shadow(0 8px 6px rgba(0,0,0,.4))}
 .live-badge{position:absolute;left:12px;right:12px;bottom:12px;z-index:7;display:flex;justify-content:space-between;gap:8px;align-items:center;background:rgba(5,3,12,.75);border:1px solid var(--line);border-radius:999px;padding:6px 8px 6px 14px;font-size:12px}
 .live-badge b{font-family:var(--f-mono);color:var(--amber);font-weight:500}
@@ -562,7 +570,8 @@ button.mode:active{transform:scale(.98)}
           <span class="streak" id="streak" title="Mão quente: vitórias seguidas aumentam o lucro"></span>
         </div>
         <button class="mode-pill" id="modePill" hidden></button>
-        <div class="marked-badge" id="markedBadge" hidden><i id="markedSuit">♣</i><span id="markedText">Paus fora do baralho</span></div>
+        <div class="marked-badge wand-badge" id="wandBadge" hidden><i>✦</i><span>Varinha pronta: até ×10</span></div>
+        <div class="wand-roll" id="wandRoll" hidden><small>Varinha Mágica</small><b id="wandNum">×1</b></div>
         <div class="last-cards" id="lastCards" aria-hidden="true"></div>
         <div class="golden-badge" id="goldBadge">3% de chance: Carta Dourada ×5</div>
         <svg class="hat-deco" id="hatDeco" hidden viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="60" cy="86" rx="56" ry="11" fill="#140a14"/><rect x="26" y="14" width="68" height="72" rx="6" fill="#1e0d1d"/><rect x="26" y="58" width="68" height="13" fill="var(--flame)"/><ellipse cx="60" cy="14" rx="34" ry="7" fill="#2b1530"/></svg>
@@ -588,7 +597,7 @@ button.mode:active{transform:scale(.98)}
         </div>
 
         <div class="gamble" id="gamble" hidden>
-          <p>Dobrar ou nada: a próxima carta será maior ou menor que <b id="gCur">7</b>? Você arrisca <b id="gAmt">0</b>.</p>
+          <p>Maior ou menor que <b id="gCur">7</b>? Você arrisca <b id="gAmt">0</b>. Quanto menor a chance, maior o prêmio. Empate perde.</p>
           <div class="row">
             <button id="gHigh">Maior<small id="gHighP">–</small></button>
             <button id="gLow">Menor<small id="gLowP">–</small></button>
@@ -611,8 +620,8 @@ button.mode:active{transform:scale(.98)}
           </div>
         </div>
         <div class="tricks">
-          <button class="trick" id="bMarked" title="Tira um naipe do baralho antes de você apostar"><span>Carta Marcada</span><em id="bMarkedCost">50</em></button>
-          <button class="trick" id="bSecond" title="Se errar tudo, o mágico joga de novo"><span>Segunda Chance</span><em id="bSecondCost">25%</em></button>
+          <button class="trick" id="bWand" title="Custa 50% a mais. Se você ganhar, a varinha multiplica o prêmio de ×1 a ×10"><span>Varinha Mágica</span><em id="bWandCost">+50% · até ×10</em></button>
+          <button class="trick" id="bSecond" title="Se errar tudo, o mágico joga de novo. O preço é a chance de você errar"><span>Segunda Chance</span><em id="bSecondCost">repete se errar</em></button>
         </div>
         <button class="throw" id="throwBtn">
           <span class="t" id="throwLabel">Jogar a carta</span>
@@ -629,7 +638,7 @@ button.mode:active{transform:scale(.98)}
     <section class="view" id="view-missoes" hidden aria-label="Missões">
       <header class="view-head"><h2>Missões</h2><p>Pegue suas fichas grátis e cumpra objetivos para subir de nível.</p></header>
       <div class="stack">
-        <button class="boost" id="bGift"><b>Chapéu do Mágico</b><span>Fichas grátis de tempos em tempos.</span><em id="bGiftCost">Pronto</em></button>
+        <button class="boost" id="bGift"><b>Chapéu do Mágico</b><span>Fichas grátis a cada 30 minutos.</span><em id="bGiftCost">Pronto</em></button>
         <div class="card lvl-card"><div class="prog-head"><span id="progLevel">Nível 1</span></div><div class="prog-bar"><i id="progBar"></i></div><p class="panel-note" id="lvlNext"></p></div>
         <div id="missionsBody" class="stack"></div>
       </div>
@@ -689,19 +698,21 @@ button.mode:active{transform:scale(.98)}
       <summary>Como funciona e quanto paga</summary>
       <table>
         <tr><th>Aposta</th><th>Chance</th><th>Paga</th></tr>
-        <tr><td>Cor (vermelho ou preto)</td><td>50%</td><td>2×</td></tr>
-        <tr><td>Baixa (A a 6) ou Alta (8 a K)</td><td>46%</td><td>2×</td></tr>
-        <tr><td>Naipe</td><td>25%</td><td>4×</td></tr>
-        <tr><td>Figura (J, Q, K)</td><td>23%</td><td>4×</td></tr>
-        <tr><td>Valor exato ou Sete</td><td>7,7%</td><td>12×</td></tr>
+        <tr><td>Cor (vermelho ou preto)</td><td>50%</td><td>1,9×</td></tr>
+        <tr><td>Baixa (A a 6) ou Alta (8 a K)</td><td>46%</td><td>2,05×</td></tr>
+        <tr><td>Naipe</td><td>25%</td><td>3,8×</td></tr>
+        <tr><td>Figura (J, Q, K)</td><td>23%</td><td>4,1×</td></tr>
+        <tr><td>Valor exato ou Sete</td><td>7,7%</td><td>12,4×</td></tr>
         <tr><td>Carta exata</td><td>1,9%</td><td>50×</td></tr>
       </table>
       <ul>
         <li><b>Várias apostas por rodada.</b> Espalhe fichas em cor, naipe e carta ao mesmo tempo.</li>
-        <li><b>Mão quente.</b> Rodadas seguidas com lucro multiplicam o lucro: 2 seguidas ×1,25, 3 ×1,5, 4 ×2, 5 ou mais ×3.</li>
-        <li><b>Carta Dourada.</b> Em algumas jogadas a carta sai dourada e o prêmio é multiplicado. A chance e o multiplicador melhoram nos palcos da jornada.</li>
-        <li><b>Carta Marcada.</b> Remove um naipe antes de apostar: as chances sobem e o pagamento continua igual.</li>
-        <li><b>Dobrar ou nada.</b> Depois de ganhar, arrisque o prêmio adivinhando se a próxima carta é maior ou menor. Empate perde.</li>
+        <li><b>Como em todo cassino, a casa tem vantagem.</b> Em média o mágico fica com 2% a 5% do que é apostado. Nenhuma aposta é melhor que as outras: a cor rende partidas longas, a carta exata rende os prêmios gigantes.</li>
+        <li><b>Mão quente.</b> Com 3 vitórias seguidas a Carta Dourada fica 2× mais provável; com 5 ou mais, 3×.</li>
+        <li><b>Carta Dourada.</b> Rara: o lucro das apostas certas é multiplicado. Quanto mais longe na jornada, mais rara e maior: de ×3 na Tenda a ×20 no Palácio.</li>
+        <li><b>Varinha Mágica.</b> Custa 50% a mais. Se você ganhar, a varinha multiplica o prêmio: ×1, ×2, ×3, ×5 ou ×10. Se perder, perde tudo.</li>
+        <li><b>Segunda Chance.</b> Se errar tudo, o mágico joga de novo. O preço é a chance de você errar: 50% da aposta na cor, 75% no naipe.</li>
+        <li><b>Maior ou menor.</b> Depois de ganhar, arrisque o prêmio na próxima carta. Quanto menor a chance, maior o pagamento. Empate perde.</li>
       </ul>
     </details>
     <p class="fineprint">Fichas virtuais sem valor em dinheiro: não podem ser sacadas, trocadas nem transferidas. Jogo apenas para entretenimento, para maiores de 18 anos.</p>
@@ -787,8 +798,10 @@ const SUITS = [
 const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 const RNAMES = ['Ás','Dois','Três','Quatro','Cinco','Seis','Sete','Oito','Nove','Dez','Valete','Dama','Rei'];
 const CHIPS = [{v:10,c:'var(--violet)'},{v:25,c:'var(--flame)'},{v:100,c:'var(--card-black)'},{v:500,c:'var(--amber)'}];
-const STREAK_MULT = [1,1,1.25,1.5,2,3];
-const GIFT_COOLDOWN = 90000;
+const STREAK_MULT = [1,1,1,1,1,1];   // hot hand boosts the golden card instead of paying chips
+const hotGold = n => n >= 5 ? 3 : n >= 3 ? 2 : 1;
+const fmtX = m => String(m).replace('.', ',');
+const GIFT_COOLDOWN = 30 * 60000, GIFT_BROKE_COOLDOWN = 5 * 60000;
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const suitOf = k => SUITS.find(s => s.k === k);
 const FULL = SUITS.flatMap(s => RANKS.map((r,i) => ({suit:s.k, v:i+1})));
@@ -796,21 +809,21 @@ const FULL = SUITS.flatMap(s => RANKS.map((r,i) => ({suit:s.k, v:i+1})));
 /* ---------- bet definitions ---------- */
 function def(key){
   const [t,a] = key.split(':');
-  if (t==='color') return {mult:2, test:c=>suitOf(c.suit).red === (a==='red'), suits:a==='red'?['H','D']:['S','C']};
-  if (t==='suit')  return {mult:4, test:c=>c.suit===a, suits:[a]};
+  if (t==='color') return {mult:1.9, test:c=>suitOf(c.suit).red === (a==='red'), suits:a==='red'?['H','D']:['S','C']};
+  if (t==='suit')  return {mult:3.8, test:c=>c.suit===a, suits:[a]};
   if (t==='range'){
-    if (a==='low')   return {mult:2,  test:c=>c.v<=6};
-    if (a==='high')  return {mult:2,  test:c=>c.v>=8};
-    if (a==='seven') return {mult:12, test:c=>c.v===7};
-    if (a==='face')  return {mult:4,  test:c=>c.v>=11};
+    if (a==='low')   return {mult:2.05, test:c=>c.v<=6};
+    if (a==='high')  return {mult:2.05, test:c=>c.v>=8};
+    if (a==='seven') return {mult:12.4, test:c=>c.v===7};
+    if (a==='face')  return {mult:4.1, test:c=>c.v>=11};
   }
-  if (t==='rank') return {mult:12, test:c=>c.v===+a};
+  if (t==='rank') return {mult:12.4, test:c=>c.v===+a};
   if (t==='card') return {mult:50, test:c=>c.suit===a[0] && c.v===+a.slice(1), suits:[a[0]]};
 }
 const tabOf = key => key.split(':')[0];
 
 /* ---------- state ---------- */
-const S = {balance:1000, bets:{}, lastBets:{}, chip:25, tab:'color', marked:null, second:false,
+const S = {balance:1000, bets:{}, lastBets:{}, chip:25, tab:'color', marked:null, second:false, wand:false,
   streak:0, bestStreak:0, best:0, rounds:0, history:[], giftAt:0, busy:false, sound:true, gamble:null, current:null};
 try { const saved = JSON.parse(localStorage.getItem('cartaNoAr.v1')||'null');
   if (saved) Object.assign(S, {balance:saved.balance??1000, bestStreak:saved.bestStreak||0, best:saved.best||0, rounds:saved.rounds||0, history:saved.history||[], giftAt:saved.giftAt||0, sound:saved.sound!==false, chip:saved.chip||25});
@@ -834,9 +847,12 @@ const fmtCoins = n => n >= 1e6 ? (Math.floor(n / 1e4) / 100).toLocaleString('pt-
 const sleep = ms => new Promise(r => setTimeout(r, RM ? Math.min(ms,120) : ms));
 const total = () => Object.values(S.bets).reduce((a,b)=>a+b,0);
 const deck = () => FULL.filter(c => c.suit !== S.marked);
-const markedCost = () => Math.max(50, Math.round(S.balance*0.12/5)*5);
-const secondCost = () => Math.ceil(total()*0.25);
-const fullCost = () => total() + (S.second ? secondCost() : 0);
+const hitChance = () => { const ks = Object.keys(S.bets); if (!ks.length) return 0; const d = deck(); return d.filter(c => ks.some(k => def(k).test(c))).length / d.length; };
+const secondCost = () => Math.ceil(total() * (1 - hitChance()));   // pays for the chance of missing, so it never beats the house
+const WAND_COST = 0.5, WAND_TABLE = [[1, .72], [2, .19], [3, .05], [5, .03], [10, .01]];   // average ×1,5 for +50%
+const wandCost = () => Math.ceil(total() * WAND_COST);
+function rollWand(){ let r = Math.random(), acc = 0; for (const [m, w] of WAND_TABLE){ acc += w; if (r < acc) return m; } return 1; }
+const fullCost = () => total() + (S.second ? secondCost() : 0) + (S.wand ? wandCost() : 0);
 
 /* ---------- sound: effects bus + music bus, shared reverb, haptics ---------- */
 let PREFS = {sound: true, music: true, haptics: true};
@@ -973,7 +989,7 @@ function oddsText(key){
   const d = deck(), d0 = def(key);
   const n = d.filter(d0.test).length;
   const p = n / d.length * 100;
-  return {n, html:`${p<10?p.toFixed(1).replace('.',','):Math.round(p)}% · <b>${d0.mult}×</b>`};
+  return {n, html:`${p<10?p.toFixed(1).replace('.',','):Math.round(p)}% · <b>${fmtX(d0.mult)}×</b>`};
 }
 function stakeHtml(key){ const v=S.bets[key]; return v ? `<span class="stake">${chipEl('var(--amber)',16)}${fmt(v)}</span>` : ''; }
 
@@ -997,7 +1013,7 @@ function renderBoard(){
   if (S.tab==='range') h = `<div class="board g4">${cell('range:low','A–6','Baixa')}${cell('range:seven','7','Sete')}${cell('range:high','8–K','Alta')}${cell('range:face','JQK','Figura')}</div>`;
   if (S.tab==='rank') h = `<div class="board g13">${RANKS.map((r,i)=>{
       const key='rank:'+(i+1), o=oddsText(key);
-      return `<button class="cell ${S.bets[key]?'has':''}" data-key="${key}" aria-label="${RNAMES[i]}"><span class="big">${r}</span><span class="odds"><b>12×</b></span>${stakeHtml(key)}</button>`;
+      return `<button class="cell ${S.bets[key]?'has':''}" data-key="${key}" aria-label="${RNAMES[i]}"><span class="big">${r}</span><span class="odds"><b>12,4×</b></span>${stakeHtml(key)}</button>`;
     }).join('')}</div><p class="grid-note">Qualquer naipe. Chance de ${oddsText('rank:1').html.split(' ·')[0]} por valor.</p>`;
   if (S.tab==='card') h = `<div class="cardgrid-wrap"><div class="cardgrid">${SUITS.map(s=>RANKS.map((r,i)=>{
       const key=`card:${s.k}${i+1}`, v=S.bets[key];
@@ -1013,7 +1029,10 @@ function renderChips(){
 
 function renderStreak(){
   const n = Math.min(S.streak,5), m = streakMult(S.streak);
-  $('streak').innerHTML = [1,2,3,4,5].map(i=>`<span class="pip-s ${i<=n?'on':''}"></span>`).join('') + `<b>×${String(m).replace('.',',')}</b>`;
+  const h = hotGold(S.streak);
+  $('streak').innerHTML = [1,2,3,4,5].map(i=>`<span class="pip-s ${i<=n?'on':''}"></span>`).join('') + `<b>✦×${h}</b>`;
+  $('streak').classList.toggle('hot', h > 1);
+  $('streak').title = h > 1 ? `Mão quente: Carta Dourada ${h}× mais provável` : 'Mão quente: com 3 vitórias seguidas a Carta Dourada fica 2× mais provável';
 }
 
 let shownBal = S.balance;
@@ -1027,21 +1046,20 @@ function renderControls(){
   const t = total(), cost = fullCost(), busy = S.busy || !!S.gamble;
   $('totalBet').textContent = fmt(cost);
   const n = Object.keys(S.bets).length;
-  $('throwSub').textContent = S.second && t ? `inclui ${fmt(secondCost())} da Segunda Chance` : `em ${n} ${n===1?'aposta':'apostas'}`;
+  $('throwSub').textContent = (S.second || S.wand) && t ? `inclui ${fmt(cost - t)} de truques` : `em ${n} ${n===1?'aposta':'apostas'}`;
   $('throwBtn').disabled = busy;
   ['aHalf','aDouble','aClear'].forEach(id=>$(id).disabled = busy || !t);
   $('aRepeat').disabled = busy || !Object.keys(S.lastBets).length;
   // boosters
-  $('bMarked').disabled = busy || (!S.marked && S.balance - t < markedCost());
-  $('bMarked').classList.toggle('on', !!S.marked);
-  $('bMarkedCost').textContent = S.marked ? `Ativa: sem ${suitOf(S.marked).n}` : `${fmt(markedCost())} fichas`;
+  $('bWand').disabled = busy;
+  $('bWand').classList.toggle('on', S.wand);
+  $('bWandCost').textContent = S.wand ? (t ? `Ativa · +${fmt(wandCost())}` : 'Ativa · +50%') : '+50% · até ×10';
   $('bSecond').disabled = busy;
   $('bSecond').classList.toggle('on', S.second);
-  $('bSecondCost').textContent = S.second ? (t ? `Ativa · ${fmt(secondCost())}` : 'Ativa · 25% da aposta') : '25% da aposta';
+  $('bSecondCost').textContent = S.second ? (t ? `Ativa · +${fmt(secondCost())}` : 'Ativa') : (t ? `+${fmt(secondCost())} fichas` : 'repete se errar');
   renderGift();
   // stage
-  $('markedBadge').hidden = !S.marked;
-  if (S.marked){ const s=suitOf(S.marked); $('markedSuit').textContent=s.s; $('markedSuit').className=s.red?'red':''; $('markedText').textContent=`${s.n} fora do baralho`; }
+  $('wandBadge').hidden = !S.wand;
   $('deckInfo').textContent = `${deck().length} cartas no baralho`;
   $('stage').classList.toggle('busy', S.busy);
   if (typeof renderMode === 'function') renderMode();
@@ -1050,12 +1068,12 @@ function renderControls(){
 
 function renderGift(){
   if (typeof appRenderGift === 'function') return appRenderGift();
-  const left = S.giftAt + GIFT_COOLDOWN - Date.now();
-  const broke = S.balance < 10;
-  const ready = (left <= 0 && !(typeof MODE !== 'undefined' && MODE === 'rank')) || broke;
+  const broke = S.balance < casino().min;
+  const left = S.giftAt + (broke ? GIFT_BROKE_COOLDOWN : GIFT_COOLDOWN) - Date.now();
+  const ready = left <= 0 && (broke || !(typeof MODE !== 'undefined' && MODE === 'rank'));
   $('bGift').disabled = S.busy || !ready;
   $('bGift').classList.toggle('on', ready && !S.busy);
-  $('bGiftCost').textContent = ready ? (broke ? `Pegue ${fmt(500 * phaseMult())}` : 'Pegar agora') : (MODE === 'rank' ? 'Só quando zerar' : `em ${Math.ceil(left/1000)}s`);
+  $('bGiftCost').textContent = ready ? `Pegue ${fmt((broke ? 500 : 300) * phaseMult())}` : (MODE === 'rank' && !broke ? 'Só quando zerar' : left > 60000 ? `em ${Math.ceil(left/60000)} min` : `em ${Math.ceil(left/1000)}s`);
 }
 
 function renderHistory(){
@@ -1263,34 +1281,19 @@ function eligibleLast(){
   const b = {}; for (const [k,v] of Object.entries(S.lastBets)){ const d=def(k); if(!(S.marked && d.suits && d.suits.length===1 && d.suits[0]===S.marked)) b[k]=v; } return b;
 }
 
-function buyMarked(){
-  if (S.marked || S.busy) return;
-  const cost = markedCost();
-  if (S.balance - total() < cost){ toast('Fichas insuficientes para a Carta Marcada.'); return; }
-  S.balance -= cost; animateBalance();
-  S.marked = SUITS[Math.floor(Math.random()*4)].k;
-  let refunded = 0;
-  for (const k of Object.keys(S.bets)){ const d=def(k); if (d.suits && d.suits.length===1 && d.suits[0]===S.marked){ refunded+=S.bets[k]; delete S.bets[k]; } }
-  const s = suitOf(S.marked);
-  tone(392,.15,'triangle',.1); tone(587,.25,'triangle',.1,.12);
-  setResult(`${s.s} ${s.n} saiu do baralho`, '', '', 'Restam 39 cartas. As chances no tabuleiro já foram atualizadas.');
-  if (refunded) toast(`${fmt(refunded)} fichas devolvidas de apostas em ${s.n}.`);
-  save(); renderAll();
-}
-
 function openGift(){
   if (typeof appOpenGift === 'function') return appOpenGift();
-  const broke = S.balance < 10;
-  if (!broke && (MODE === 'rank' || S.giftAt + GIFT_COOLDOWN > Date.now())) return;
-  const amt = (broke ? 500 : (150 + Math.floor(Math.random()*8)*50)) * phaseMult();
+  const broke = S.balance < casino().min;
+  if (S.giftAt + (broke ? GIFT_BROKE_COOLDOWN : GIFT_COOLDOWN) > Date.now() || (MODE === 'rank' && !broke)) return;
+  const amt = (broke ? 500 : 300) * phaseMult();
   S.balance += amt; S.giftAt = Date.now();
   winJingle(false); chipRain(14); animateBalance();
-  setResult('Abracadabra!', `+${fmt(amt)} fichas`, 'win', 'O chapéu volta a encher em 90 segundos.'); unlockSound();
+  setResult('Abracadabra!', `+${fmt(amt)} fichas`, 'win', 'O chapéu volta a encher em 30 minutos.'); unlockSound();
   save(); renderControls();
 }
 
 function pickFrom(d){ return d[Math.floor(Math.random()*d.length)]; }
-function payoutFor(card){ let p=0; for (const [k,v] of Object.entries(S.bets)) if (def(k).test(card)) p += v*def(k).mult; return p; }
+function payoutFor(card, gold){ let p=0; for (const [k,v] of Object.entries(S.bets)){ const d=def(k); if (d.test(card)) p += gold ? v + v*(d.mult-1)*goldMult() : v*d.mult; } return Math.round(p); }
 const cardName = c => `${RNAMES[c.v-1]} de ${suitOf(c.suit).n}`;
 
 async function doThrow(){
@@ -1312,7 +1315,7 @@ async function doThrow(){
   let card = pickFrom(d), gold = Math.random() < goldChance();
   await throwCard(card, gold);
   $('stage').classList.remove('dim');
-  let pay = payoutFor(card), note = '';
+  let pay = payoutFor(card, gold), note = '';
 
   if (pay === 0 && S.second){
     music.stop(true); loseSound();
@@ -1323,38 +1326,38 @@ async function doThrow(){
     await returnToHand(); await sleep(200);
     card = pickFrom(d); gold = Math.random() < goldChance();
     await throwCard(card, gold, true);
-    pay = payoutFor(card);
+    pay = payoutFor(card, gold);
     note = 'Na segunda chance. ';
   }
   music.stop();
 
-  if (gold && pay > 0){ pay *= goldMult(); note += `Carta Dourada: prêmio ×${goldMult()}. `; }
-  if (pay > 0 && casino().bonus){ pay = Math.round(pay * (1 + casino().bonus)); }
-  const profit = pay - t;
+  if (gold && pay > 0) note += `Carta Dourada: lucro ×${goldMult()}. `;
+  if (S.wand && pay > 0){ const m = rollWand(); await wandReveal(m); pay = Math.round(pay * m); note += `Varinha ×${m}. `; }
+  const profit = pay - cost;
   let win = pay;
   if (profit > 0){
     S.streak++;
     const m = streakMult(S.streak);
-    if (m > 1){ const bonus = Math.round(profit*(m-1)); win += bonus; note += `Mão quente ×${String(m).replace('.',',')}: +${fmt(bonus)}. `; }
+    if (m > 1){ const bonus = Math.round(profit*(m-1)); win += bonus; note += `Mão quente ×${fmtX(m)}: +${fmt(bonus)}. `; }
   } else S.streak = 0;
   S.bestStreak = Math.max(S.bestStreak, S.streak);
-  S.balance += win; S.rounds++; S.best = Math.max(S.best, win - t);
+  S.balance += win; S.rounds++; S.best = Math.max(S.best, win - cost);
   S.lastBets = {...S.bets};
   pushHistory(card, gold, profit > 0);
 
-  const big = win >= t * 4;
+  const big = win >= cost * 4;
   revealSting(pay > 0);
   setTimeout(() => { if (pay > 0){ winJingle(big); chipRain(big ? 40 : 18); } else loseSound(); }, 380);
   await showOutcome(pay > 0
-    ? {win: true, title: gold ? 'Carta Dourada!' : profit <= 0 ? 'Quase!' : big ? 'Que mágica!' : 'Você ganhou!', amt: `+${fmt(win)} fichas`, note: cardName(card) + (note ? ' · ' + note.trim() : '')}
+    ? {win: true, title: gold ? 'Carta Dourada!' : profit <= 0 ? 'Quase!' : big ? 'Que mágica!' : 'Você ganhou!', amt: profit > 0 ? `+${fmt(win)} fichas` : `${fmt(win)} de volta`, note: cardName(card) + (note ? ' · ' + note.trim() : '')}
     : {win: false, title: 'Não foi dessa vez', amt: `−${fmt(cost)} fichas`, note: cardName(card)});
   await exitReveal();
 
-  if (pay > 0) setResult(cardName(card), `+${fmt(win)} fichas`, 'win', note.trim() || (profit>0 ? `Lucro de ${fmt(win-t)}.` : 'Recuperou parte da aposta.'));
+  if (pay > 0) setResult(cardName(card), profit > 0 ? `+${fmt(win)} fichas` : `${fmt(win)} de volta`, 'win', note.trim() || (profit>0 ? `Lucro de ${fmt(win-cost)}.` : 'Recuperou parte da aposta.'));
   else setResult(cardName(card), `−${fmt(cost)} fichas`, 'lose', 'Faça a próxima aposta.');
   animateBalance();
-  progRound({card, gold, bets: S.bets, pay, profit, trick: !!S.marked || S.second});
-  S.bets = {}; S.marked = null; S.second = false; S.current = card;
+  progRound({card, gold, bets: S.bets, pay, profit, trick: S.wand || S.second});
+  S.bets = {}; S.marked = null; S.second = false; S.wand = false; S.current = card;
   S.busy = false; save(); renderAll();
   if (typeof appAfterRound === 'function') appAfterRound();
   if (profit > 0) offerGamble(win, card);
@@ -1362,12 +1365,14 @@ async function doThrow(){
 
 function pushHistory(card, gold, win){ S.history.unshift({suit:card.suit, v:card.v, gold, win}); S.history = S.history.slice(0,20); renderHistory(); }
 
+// pays 95% of fair odds: a sure thing pays almost nothing, a long shot pays a lot
+const gambleMult = p => { if (p <= 0) return 0; const m = 0.95 / p; return Math.max(1.01, m < 10 ? Math.floor(m * 100) / 100 : Math.floor(m * 10) / 10); };
 function offerGamble(amount, card){
-  S.gamble = {amount, card};
   const rest = FULL.filter(c => !(c.suit===card.suit && c.v===card.v));
   const hi = rest.filter(c=>c.v>card.v).length/rest.length, lo = rest.filter(c=>c.v<card.v).length/rest.length;
+  S.gamble = {amount, card, mh: gambleMult(hi), ml: gambleMult(lo)};
   $('gCur').textContent = RANKS[card.v-1]; $('gAmt').textContent = fmt(amount);
-  $('gHighP').textContent = `${Math.round(hi*100)}% de chance`; $('gLowP').textContent = `${Math.round(lo*100)}% de chance`;
+  $('gHighP').textContent = hi ? `paga ×${fmtX(S.gamble.mh)} · ${Math.round(hi*100)}%` : '–'; $('gLowP').textContent = lo ? `paga ×${fmtX(S.gamble.ml)} · ${Math.round(lo*100)}%` : '–';
   $('gHigh').disabled = hi===0; $('gLow').disabled = lo===0;
   $('gamble').hidden = false; renderControls();
 }
@@ -1375,11 +1380,11 @@ function closeGamble(){ S.gamble = null; $('gamble').hidden = true; renderContro
 
 async function gamble(dir){
   if (!S.gamble || S.busy) return;
-  const {amount, card} = S.gamble;
+  const {amount, card, mh, ml} = S.gamble, mult = dir === 'hi' ? mh : ml;
   $('gamble').hidden = true; S.busy = true;
   S.balance -= amount; animateBalance(); renderControls();
   await enterReveal();
-  setResult(dir==='hi' ? `Maior que ${RANKS[card.v-1]}?` : `Menor que ${RANKS[card.v-1]}?`, `${fmt(amount)} em jogo`, '', '');
+  setResult(dir==='hi' ? `Maior que ${RANKS[card.v-1]}?` : `Menor que ${RANKS[card.v-1]}?`, `${fmt(amount)} em jogo · paga ×${fmtX(mult)}`, '', '');
   await returnToHand(); await sleep(250);
   const rest = FULL.filter(c => !(c.suit===card.suit && c.v===card.v));
   const next = pickFrom(rest);
@@ -1389,21 +1394,21 @@ async function gamble(dir){
   pushHistory(next, false, ok);
   revealSting(ok);
   if (ok){
-    const won = amount*2;
+    const won = Math.floor(amount * mult);
     S.balance += won; S.best = Math.max(S.best, won);
     setTimeout(() => { winJingle(true); chipRain(30); }, 380);
-    await showOutcome({win: true, title: 'Dobrou!', amt: `${fmt(won)} fichas`, note: cardName(next), hold: 1900});
+    await showOutcome({win: true, title: mult >= 2 ? 'Acertou na mosca!' : 'Acertou!', amt: `${fmt(won)} fichas`, note: cardName(next), hold: 1900});
     await exitReveal();
     S.busy = false; animateBalance();
-    setResult(cardName(next), `Dobrou! ${fmt(won)} fichas`, 'win', 'Quer arriscar de novo?');
+    setResult(cardName(next), `${fmt(won)} fichas`, 'win', 'Quer arriscar de novo?');
     save(); offerGamble(won, next);
   } else {
     setTimeout(loseSound, 380); S.streak = 0;
     const tie = next.v === card.v;
-    await showOutcome({win: false, title: 'O mágico venceu', amt: `−${fmt(amount)} fichas`, note: tie ? 'Empate perde no dobrar ou nada.' : cardName(next), hold: 1900});
+    await showOutcome({win: false, title: 'O mágico venceu', amt: `−${fmt(amount)} fichas`, note: tie ? 'Empate perde no maior ou menor.' : cardName(next), hold: 1900});
     await exitReveal();
     S.busy = false;
-    setResult(cardName(next), `−${fmt(amount)} fichas`, 'lose', tie ? 'Empate perde no dobrar ou nada.' : 'Faça a próxima aposta.');
+    setResult(cardName(next), `−${fmt(amount)} fichas`, 'lose', tie ? 'Empate perde no maior ou menor.' : 'Faça a próxima aposta.');
     closeGamble(); save(); renderAll();
   }
 }
@@ -1423,7 +1428,7 @@ $('aRepeat').onclick = () => {
   if (t + (S.second?Math.ceil(t*.25):0) > S.balance){ toast('Saldo insuficiente para repetir.'); return; }
   S.bets = b; clink(); renderTabs(); renderBoard(); renderControls();
 };
-$('bMarked').onclick = buyMarked;
+$('bWand').onclick = () => { if (S.busy || S.gamble) return; S.wand = !S.wand; if (S.wand) shimmer(5, 1319); else clink(); renderControls(); };
 $('bSecond').onclick = () => { S.second = !S.second; clink(); renderControls(); };
 $('bGift').onclick = openGift;
 $('throwBtn').onclick = doThrow;
@@ -1450,7 +1455,7 @@ const AV_COLORS = ['var(--amber)','var(--flame)','var(--violet)','var(--gold)','
 const avColor = s => AV_COLORS[[...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0) % AV_COLORS.length];
 
 function resetRound(){
-  S.bets = {}; S.lastBets = {}; S.marked = null; S.second = false; S.streak = 0; S.current = null; S.busy = false;
+  S.bets = {}; S.lastBets = {}; S.marked = null; S.second = false; S.wand = false; S.streak = 0; S.current = null; S.busy = false;
   S.gamble = null; $('gamble').hidden = true;
   flyer.getAnimations().forEach(a => a.cancel());
   flyer.style.transform = IDLE; setFront(null);
@@ -1593,8 +1598,8 @@ async function liveThrow(c, gold, round){
   await returnToHand(); await sleep(200);
   await throwCard(card, gold, true);
   music.stop();
-  let pay = t ? payoutFor(card) : 0, note = '';
-  if (gold && pay > 0){ pay *= 5; note += 'Carta Dourada: prêmio ×5. '; }
+  let pay = t ? payoutFor(card, gold) : 0, note = '';
+  if (gold && pay > 0) note += `Carta Dourada: lucro ×${goldMult()}. `;
   let win = pay;
   if (t){
     const profit = pay - t;
@@ -1680,9 +1685,9 @@ function renderMode(){
   $('liveBadge').hidden = MODE !== 'live';
   if (MODE === 'live' && live){
     $('tableCode').textContent = live.code.toUpperCase();
-    $('markedBadge').hidden = true;
-    ['bMarked', 'bSecond'].forEach(id => { $(id).disabled = true; $(id).classList.remove('on'); });
-    $('bMarkedCost').textContent = 'Só sozinho'; $('bSecondCost').textContent = 'Só sozinho';
+    $('wandBadge').hidden = true;
+    ['bWand', 'bSecond'].forEach(id => { $(id).disabled = true; $(id).classList.remove('on'); });
+    $('bWandCost').textContent = 'Só sozinho'; $('bSecondCost').textContent = 'Só sozinho';
     const hs = currentHS(), open = !hs || hs.phase === 'bet';
     $('throwBtn').disabled = S.busy || !open;
     $('throwLabel').textContent = !open || S.busy ? 'Carta no ar' : (live.ready ? 'Pronto! Aguardando' : 'Estou pronto');
@@ -1760,11 +1765,11 @@ $('startClose').onclick = () => { $('start').hidden = true; };
    Tudo fica neste aparelho (localStorage) e não tem valor em dinheiro.
    ========================================================= */
 const CASINOS = [
-  {k:'boteco',     n:'Tenda do Ilusionista', em:'na Tenda do Ilusionista', cost:0,       min:10,   unit:1,   tint:'transparent', perk:'Onde todo mágico começa a carreira.'},
-  {k:'porto',      n:'Teatro das Sombras',   em:'no Teatro das Sombras',   cost:8000,    min:50,   unit:5,   tint:'#d0245a', perk:'Carta Dourada sobe para 4%.', gold:0.04},
-  {k:'montecarlo', n:'Observatório Estelar', em:'no Observatório Estelar', cost:40000,   min:200,  unit:20,  tint:'#3d7bff', perk:'Mão quente já começa em ×1,5 na primeira vitória.', gold:0.04, streak:1.5},
-  {k:'vegas',      n:'Circo Elétrico',       em:'no Circo Elétrico',       cost:200000,  min:1000, unit:100, tint:'#ff3fb4', perk:'Todos os prêmios valem 10% a mais.', gold:0.04, streak:1.5, bonus:0.10},
-  {k:'palacio',    n:'Palácio do Mágico',    em:'no Palácio do Mágico',    cost:1000000, min:5000, unit:500, tint:'#ffd36b', perk:'Carta Dourada vale ×10.', gold:0.05, streak:1.5, bonus:0.10, goldMult:10},
+  {k:'boteco',     n:'Tenda do Ilusionista', em:'na Tenda do Ilusionista', cost:0,       min:10,   unit:1,   tint:'transparent', perk:'Onde todo mágico começa. Carta Dourada paga o lucro ×3.', gold:0.01,   goldMult:3},
+  {k:'porto',      n:'Teatro das Sombras',   em:'no Teatro das Sombras',   cost:8000,    min:50,   unit:5,   tint:'#d0245a', perk:'Carta Dourada paga o lucro ×5.',  gold:0.008,  goldMult:5},
+  {k:'montecarlo', n:'Observatório Estelar', em:'no Observatório Estelar', cost:40000,   min:200,  unit:20,  tint:'#3d7bff', perk:'Carta Dourada paga o lucro ×8.',  gold:0.005,  goldMult:8},
+  {k:'vegas',      n:'Circo Elétrico',       em:'no Circo Elétrico',       cost:200000,  min:1000, unit:100, tint:'#ff3fb4', perk:'Carta Dourada paga o lucro ×12.', gold:0.0035, goldMult:12},
+  {k:'palacio',    n:'Palácio do Mágico',    em:'no Palácio do Mágico',    cost:1000000, min:5000, unit:500, tint:'#ffd36b', perk:'Carta Dourada paga o lucro ×20.', gold:0.002,  goldMult:20},
 ];
 // rewards and store packs grow with the highest stage the player has opened
 const PHASE_MULT = [1, 3, 10, 40, 150];
@@ -1785,7 +1790,7 @@ const DAILY_POOL = [
   {t:'rank',   goal:1,    txt:()=>'Acerte um valor exato',              chips:800, stars:2},
   {t:'streak', goal:3,    txt:n=>`Faça uma sequência de ${n} vitórias`, chips:800, stars:2},
   {t:'prize',  goal:2000, txt:n=>`Ganhe ${fmt(n)} fichas em prêmios`,   chips:500, stars:1},
-  {t:'trick',  goal:1,    txt:()=>'Use a Carta Marcada ou a Segunda Chance', chips:600, stars:1},
+  {t:'trick',  goal:1,    txt:()=>'Use a Varinha Mágica ou a Segunda Chance', chips:600, stars:1},
 ];
 const WEEKLY_POOL = [
   {t:'rounds', goal:80,    txt:n=>`Jogue ${n} rodadas`,                  chips:5000,  stars:5},
@@ -1804,11 +1809,10 @@ let P = {casino:'boteco', unlocked:['boteco'], stars:0, level:1, day:'', week:''
 try { Object.assign(P, JSON.parse(localStorage.getItem('cartaNoAr.prog') || '{}')); } catch(e){}
 function saveP(){ try { localStorage.setItem('cartaNoAr.prog', JSON.stringify(P)); } catch(e){} }
 const casino = () => CASINOS.find(c => c.k === P.casino) || CASINOS[0];
-const goldChance = () => casino().gold || 0.03;
-const goldMult = () => casino().goldMult || 5;
+const goldChance = () => (casino().gold || 0.01) * hotGold(S.streak);
+const goldMult = () => casino().goldMult || 3;
 function streakMult(n){
-  const base = STREAK_MULT[Math.min(n, 5)];
-  return n >= 1 && casino().streak ? Math.max(base, casino().streak) : base;
+  return STREAK_MULT[Math.min(n, 5)];
 }
 function chipSet(){
   const u = casino().unit;
@@ -1860,8 +1864,8 @@ function progRound(r){
     const goal = m.goal || d.goal;
     if (m.p >= goal){ m.p = goal; m.done = true; newly++; }
   }));
-  // album: every card thrown in a round you won; exact hits come out golden
-  if (won){
+  // album: cards you hit with a precise bet (suit, face, seven, value, exact card); exact hits come out golden
+  if (ev.suit || ev.rank || ev.exact || hit('range:seven') || hit('range:face')){
     const key = r.card.suit + r.card.v, was = P.album[key] || 0, lvl = ev.exact ? 2 : 1;
     if (lvl > was){ P.album[key] = lvl; if (!was) toastLater(`Nova carta no álbum: ${cardName(r.card)}`); }
     checkAlbum();
@@ -1922,7 +1926,8 @@ function applyCasino(){
   $('stage').style.setProperty('--casino-tint', c.tint);
   $('casinoBadge').innerHTML = `<b>Fase ${CASINOS.indexOf(c) + 1}</b> ${c.n}`;
   if ($('scene').dataset.k !== c.k){ $('scene').dataset.k = c.k; $('scene').innerHTML = sceneSVG(c.k); }
-  $('goldBadge').textContent = `${Math.round(goldChance() * 100)}% de chance: Carta Dourada ×${goldMult()}`;
+  $('goldBadge').textContent = `${hotGold(S.streak) > 1 ? 'Mão quente! ' : ''}Carta Dourada: 1 em ${Math.round(1 / goldChance())} · lucro ×${goldMult()}`;
+  $('goldBadge').classList.toggle('hot', hotGold(S.streak) > 1);
 }
 
 /* ---------- accessories ---------- */
@@ -2552,6 +2557,18 @@ function renderLoja(){
   </div>`;
 }
 
+/* ---------- wand: spins through the multipliers and lands on the drawn one ---------- */
+async function wandReveal(m){
+  const el = $('wandRoll'), num = $('wandNum'), seq = [1, 2, 3, 5, 10];
+  el.hidden = false; el.className = 'wand-roll';
+  if (!RM){ for (let i = 0; i < 16; i++){ num.textContent = '×' + seq[i % 5]; tone(700 + (i % 5) * 120, .05, 'triangle', .05); await sleep(55 + i * 9); } }
+  num.textContent = '×' + m; el.classList.add('land', m >= 3 ? 'big' : m === 2 ? 'mid' : 'one');
+  if (m > 1) shimmer(m >= 5 ? 9 : 6, 1568); else tone(330, .2, 'sine', .06);
+  vib(m >= 5 ? [30, 40, 60] : 20);
+  await sleep(m >= 3 ? 1100 : 800);
+  el.hidden = true;
+}
+
 /* ---------- full-screen reveal ---------- */
 const insetFor = r => `inset(${Math.max(0, r.top)}px ${Math.max(0, innerWidth - r.right)}px ${Math.max(0, innerHeight - r.bottom)}px ${Math.max(0, r.left)}px round 22px)`;
 async function enterReveal(){
@@ -2658,7 +2675,7 @@ function renderAlbum(){
       const v = P.album[s.k + (i + 1)] || 0;
       return `<span class="ac ${v ? 'have' : ''} ${v === 2 ? 'shiny' : ''} ${s.red ? 'red' : ''}" title="${RNAMES[i]} de ${s.n}">${v ? r + '<i>' + s.s + '</i>' : '?'}</span>`;
     }).join('')).join('')}</div></div>
-    <p class="panel-note">Toda carta que o mágico joga numa rodada que você ganha entra no álbum. Acertando a carta exata, ela fica dourada. Naipe completo: +${fmt(SUIT_REWARD * phaseMult())} fichas. Álbum completo: +${fmt(ALBUM_REWARD * phaseMult())}.</p></div>`;
+    <p class="panel-note">A carta entra no álbum quando você acerta o naipe, a figura, o sete, o valor ou a carta exata. Cor e faixa não contam. Acertando a carta exata, ela fica dourada. Naipe completo: +${fmt(SUIT_REWARD * phaseMult())} fichas. Álbum completo: +${fmt(ALBUM_REWARD * phaseMult())}.</p></div>`;
 }
 function renderAccs(){
   $('accBody').innerHTML = `<div class="accs">${ACCESSORIES.map(a => {
