@@ -466,8 +466,8 @@ button.mode:active{transform:scale(.98)}
 .view-mesa{overflow-y:auto}
 .stage{min-height:180px;container-type:size}
 .result{padding-inline:76px}
-.dock{gap:12px;padding-top:2px}
-.dsec{display:flex;flex-direction:column;gap:8px}
+.dock{gap:14px;padding-top:4px}
+.dsec{display:flex;flex-direction:column;gap:10px}
 .dsec[hidden]{display:none}
 .dsec-h{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
 .dsec-t{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;white-space:nowrap}
@@ -488,15 +488,18 @@ button.mode:active{transform:scale(.98)}
 .tab[data-lvl="4"] .tm{font-size:14px;color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 65%,transparent)}
 .tab[aria-selected="true"] .tm{color:color-mix(in srgb,var(--violet) 75%,#000);text-shadow:none}
 .tab[aria-selected="true"][data-lvl="3"] .tm,.tab[aria-selected="true"][data-lvl="4"] .tm{color:#a0521a}
-.tab .dot{position:absolute;top:-6px;right:-3px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;font-size:9.5px;background:var(--glow-b)}
+.tab .dot{position:absolute;top:-7px;right:-4px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;font-size:9.5px;background:var(--glow-b)}
 .board-wrap{margin-top:0}
 .cell .lbl,.cell .odds{line-height:1.25}
-.board.g2 .cell{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:8px;row-gap:3px;min-height:0;padding:9px 10px}
+.board.g2 .cell{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:10px;row-gap:6px;min-height:0;padding:11px 12px}
 .board.g2 .cell .big{font-size:21px}
 .board.g2 .cell .lbl{font-size:13px}
 .board.g2 .cell .odds{grid-column:1 / -1;margin-top:0}
-.board.g2 .cell .stake{top:auto;bottom:8px}
-.board.g4 .cell{min-height:0;padding:8px 4px;gap:1px}
+.board.g2 .cell .stake.row{position:static;grid-column:1 / -1;justify-self:start;font-size:12px;padding:2px 9px 2px 2px}
+.board.g2 .cell.has .odds{display:none}
+.board.g4 .cell{min-height:0;padding:10px 4px 12px;gap:2px}
+.board.g4 .cell .stake{padding:1px 7px;font-size:10.5px}
+.board.g4 .cell .stake .mini-chip{display:none}
 .cardgrid-wrap{overflow:visible;padding-bottom:4px}
 .cardgrid{grid-template-columns:repeat(13,minmax(0,1fr));gap:3px;width:auto}
 .cc{height:34px;border-radius:6px;font-size:11px;letter-spacing:-.03em}.cc span{font-size:11px}
@@ -504,8 +507,8 @@ button.mode:active{transform:scale(.98)}
 .cc{height:30px}
 .board.g2,.board.g4{gap:8px}
 .cell .stake{white-space:nowrap}
-.tricks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.trick{position:relative;flex-direction:row;align-items:center;gap:8px;padding:6px 8px;border-radius:14px}
+.tricks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trick{position:relative;flex-direction:row;align-items:center;gap:10px;padding:8px 10px;border-radius:15px}
 .trick .tk-ic{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
 .tk-ic.wand{background:radial-gradient(circle at 30% 25%,#c58cff,#6a2bd9 55%,#2b1060)}
 .tk-ic.chance{background:radial-gradient(circle at 30% 25%,#7fe3ff,#2f6bff 55%,#10245e)}
@@ -590,7 +593,7 @@ button.mode:active{transform:scale(.98)}
 @keyframes stripIn{from{opacity:0;transform:translateY(-6px)}}
 /* shorter screens keep the four blocks, a little tighter */
 @media (max-height:740px){
-  .dock{gap:10px}.dsec{gap:7px}.board.g2 .cell,.board.g4 .cell{padding-top:6px;padding-bottom:6px}.cell .big{font-size:18px}.board.g2 .cell .big{font-size:19px}
+  .dock{gap:12px}.dsec{gap:9px}.board.g2 .cell{padding-top:9px;padding-bottom:9px}.board.g4 .cell{padding-top:8px;padding-bottom:10px}.cell .big{font-size:18px}.board.g2 .cell .big{font-size:19px}
   .chipbtn{width:40px;height:40px}.act{height:36px}.tab{min-height:40px}.throw{min-height:52px}.throw .t{font-size:21px}.sp-n b{font-size:18px}
   .cc{height:27px}.board.g13 .cell{min-height:40px}.stage{min-height:150px}
 }
@@ -1144,7 +1147,10 @@ function oddsText(key){
   const p = n / d.length * 100;
   return {n, html:`${p<10?p.toFixed(1).replace('.',','):Math.round(p)}% · <b>${fmtX(d0.mult)}×</b>`};
 }
-function stakeHtml(key){ const v=S.bets[key]; if (!v) return ''; const wide = S.tab==='color' || S.tab==='suit' || S.tab==='range'; return `<span class="stake">${chipEl('var(--amber)',16)}${fmt(v)}${wide ? ` → ${fmt(v * def(key).mult)}` : ''}</span>`; }
+function stakeHtml(key){ const v=S.bets[key]; if (!v) return ''; const win = Math.round(v * def(key).mult);
+  if (S.tab==='color') return `<span class="stake row">${chipEl('var(--amber)',16)}${fmt(v)} → ${fmt(win)}</span>`;
+  if (S.tab==='suit' || S.tab==='range') return `<span class="stake">${chipLabel(v)} → ${chipLabel(win)}</span>`;
+  return `<span class="stake">${chipLabel(v)}</span>`; }
 
 function cell(key, big, lbl, bigRed){
   const o = oddsText(key);
@@ -1170,7 +1176,7 @@ function renderBoard(){
     }).join('')}</div><p class="grid-note">Qualquer naipe. Chance de ${oddsText('rank:1').html.split(' ·')[0]} por valor.</p>`;
   if (S.tab==='card') h = `<div class="cardgrid-wrap"><div class="cardgrid">${SUITS.map(s=>RANKS.map((r,i)=>{
       const key=`card:${s.k}${i+1}`, v=S.bets[key];
-      return `<button class="cc ${s.red?'red':''} ${v?'has':''}" data-key="${key}" ${s.k===S.marked?'disabled':''} aria-label="${RNAMES[i]} de ${s.n}">${r}<span>${s.s}</span>${v?`<span class="stake">${fmt(v)}</span>`:''}</button>`;
+      return `<button class="cc ${s.red?'red':''} ${v?'has':''}" data-key="${key}" ${s.k===S.marked?'disabled':''} aria-label="${RNAMES[i]} de ${s.n}">${r}<span>${s.s}</span>${v?`<span class="stake">${chipLabel(v)}</span>`:''}</button>`;
     }).join('')).join('')}</div></div><p class="grid-note">Acertar a carta exata paga 50×. Chance de ${oddsText('card:S1').html.split(' ·')[0]}.</p>`;
   $('boardWrap').innerHTML = h;
 }
@@ -1220,7 +1226,7 @@ function renderControls(){
   $('totalBet').textContent = fmt(cost);
   const n = Object.keys(S.bets).length;
   $('throwSub').textContent = t ? `em ${n} ${n===1?'aposta':'apostas'}${cost > t ? ' + poderes' : ''}` : 'fichas';
-  $('throwPrize').textContent = t ? `prêmio até ${fmt(maxPrize())} fichas` : 'escolha uma aposta primeiro';
+  $('throwPrize').textContent = t ? `prêmio até ${fmt(maxPrize())}` : 'escolha uma aposta primeiro';
   $('throwBtn').disabled = busy;
   $('throwBtn').classList.toggle('ready', !!t && !busy);
   const low = S.balance < casino().min * 10, broke = S.balance - cost < casino().min && !t;
