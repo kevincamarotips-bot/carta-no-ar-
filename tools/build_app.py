@@ -36,8 +36,8 @@ body = body.strip()
 
 # ---- game hooks (the game calls app functions only when they exist) ----
 body = rep(body, '<script>\n(() => {', '<script>\n(() => {\nvar APP = true;')
-body = rep(body, 'const skinOpen = s => !s.phase || phaseSeen(s.phase);',
-           'const skinOpen = s => !s.phase || phaseSeen(s.phase) || appSkinOpen(s);')
+body = rep(body, 'const skinOpen = s => s.pass ? passSkinOwned(s.k) : !s.phase || phaseSeen(s.phase);',
+           'const skinOpen = s => s.pass ? passSkinOwned(s.k) : !s.phase || phaseSeen(s.phase) || appSkinOpen(s);')
 body = rep(body, '\napplySkin(SKIN, false);\n', '\n' + module + '\napplySkin(SKIN, false);\n')
 body = rep(body, "'Sem fichas. Abra o Chapéu do Mágico.'", "'Sem fichas. Pegue fichas grátis na Loja.'")
 
@@ -70,11 +70,11 @@ app_css = """<style>
 .ph-head b{font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.1}
 .ph-mult{font-family:var(--f-mono);font-size:20px;color:var(--ink);background:var(--gold);border-radius:12px;padding:4px 10px;box-shadow:0 0 22px color-mix(in srgb,var(--gold) 45%,transparent)}
 .ph-sub,.ph-next{margin:0;font-size:13px;color:var(--muted)}.ph-next b{color:var(--cream);font-weight:600}
-.ph-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;position:relative;margin:4px 0}
-.ph-steps::before{content:"";position:absolute;left:10%;right:10%;top:15px;height:2px;background:var(--line-2)}
+.ph-steps{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;position:relative;margin:4px 0}
+.ph-steps::before{content:"";position:absolute;left:6%;right:6%;top:15px;height:2px;background:var(--line-2)}
 .ph-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px}
 .ph-step i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:13px;background:var(--plum-2);border:1px solid var(--line-2);color:var(--muted)}
-.ph-step small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.ph-step small{font-family:var(--f-mono);font-size:10px;color:var(--muted)}
 .ph-step.done i{background:color-mix(in srgb,var(--gold) 30%,var(--plum-2));color:var(--cream);border-color:transparent}
 .ph-step.here i{background:var(--gold);color:var(--ink);border-color:transparent;box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 25%,transparent)}
 .ph-step.here small{color:var(--gold)}
@@ -104,7 +104,7 @@ app_css = """<style>
 .free-row b{display:block;font-size:14px}.free-row small{display:block;font-size:12px;color:var(--muted)}
 .free-row em{font-style:normal;font-weight:800;font-size:13px;color:var(--ink);background:var(--gold);border-radius:12px;padding:8px 12px;flex:none}
 .free-row:disabled{opacity:.5}.free-row:disabled em{background:var(--plum-2);color:var(--muted)}
-.skin-mini{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.skin-mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .sm{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 0 8px;border-radius:12px;overflow:hidden;background:var(--plum);color:var(--cream);border:1px solid var(--line);min-width:0}
 .sm.on{border-color:var(--gold)}.sm.locked .sm-pv{filter:grayscale(.6) brightness(.6)}
 .sm-pv{position:relative;width:100%;height:60px;overflow:hidden;background:radial-gradient(90% 80% at 50% 120%,var(--sleeve-trim),transparent 60%),radial-gradient(80% 70% at 0% 90%,color-mix(in srgb,var(--glow-a) 85%,transparent),transparent 65%),linear-gradient(180deg,var(--stage-1),var(--stage-3))}

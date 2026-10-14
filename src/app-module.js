@@ -26,6 +26,7 @@ const DAILY_SPEND_CAP = 20;        // R$ por dia em pacotes de fichas
 const NOADS_ID = 'sem_anuncios';
 const SUB_ID = 'clube_magico';
 const SKINS_ALL_ID = 'visuais_todos';
+const PASS_ID = 'passe_magico';     // trilha dourada do Passe do Mágico: uma compra por temporada
 const skinProduct = k => 'visual_' + k;
 const PACKS = [
   {id: 'fichas_1000',  chips: 1000,  brl: 1.99, n: 'Punhado'},
@@ -34,7 +35,9 @@ const PACKS = [
 ];
 const FALLBACK_PRICE = {sem_anuncios: 'R$ 9,90', visuais_todos: 'R$ 14,90', clube_magico: 'R$ 29,90'};
 PACKS.forEach(p => FALLBACK_PRICE[p.id] = 'R$ ' + p.brl.toFixed(2).replace('.', ','));
-SKINS.forEach(s => { if (s.k !== 'original') FALLBACK_PRICE[skinProduct(s.k)] = 'R$ 4,90'; });
+const SALE_SKINS = SKINS.filter(s => s.k !== 'original' && !s.pass);   // the pass look is earned, never sold
+SALE_SKINS.forEach(s => { FALLBACK_PRICE[skinProduct(s.k)] = 'R$ 4,90'; });
+FALLBACK_PRICE[PASS_ID] = 'R$ 14,90';
 const fmtBRL = v => v.toFixed(2).replace('.', ',');
 const phaseIndex = () => { let i = 0; CASINOS.forEach((c, j) => { if (P.unlocked.includes(c.k)) i = j; }); return i; };
 const scaled = base => base * phaseMult();
@@ -56,8 +59,8 @@ function setMember(active){
   saveA();
 }
 const noAds = () => owns(NOADS_ID) || isMember();
-const skinOwned = k => k === 'original' || owns(SKINS_ALL_ID) || owns(skinProduct(k));
-const allSkinsOwned = () => SKINS.every(s => skinOwned(s.k));
+const skinOwned = k => { const s = SKINS.find(x => x.k === k); if (s && s.pass) return passSkinOwned(k); return k === 'original' || owns(SKINS_ALL_ID) || owns(skinProduct(k)); };
+const allSkinsOwned = () => SALE_SKINS.every(s => skinOwned(s.k));
 // the bundle opens every look right away; a single look is sold on its own stage
 function appSkinOpen(s){ return owns(SKINS_ALL_ID); }
 function grantOwned(id){ if (!owns(id)){ A.owned.push(id); saveA(); } }
@@ -84,6 +87,10 @@ function deliver(id){
     winJingle(true); chipFly(chips); chipRain(20); animateBalance();
     setResult('Fichas na mesa!', `+${fmt(chips)} fichas`, 'win', 'Boa sorte na próxima carta.');
     save(); toast(`+${fmt(chips)} fichas`);
+  } else if (id === PASS_ID){
+    passState().gold = true; saveP(); unlockSound(); winJingle(true); chipRain(30);
+    toast('Trilha dourada liberada nesta temporada!');
+    if (VIEW === 'passe') renderPasse(); renderDots();
   } else if (id === SUB_ID){
     setMember(true); hideBanner(); unlockSound(); chipRain(30);
     toast('Bem-vindo ao Clube do Mágico!');
@@ -108,7 +115,8 @@ function initStore(){
       {id: NOADS_ID, type: ProductType.NON_CONSUMABLE, platform: Platform.GOOGLE_PLAY},
       {id: SUB_ID, type: ProductType.PAID_SUBSCRIPTION, platform: Platform.GOOGLE_PLAY},
       {id: SKINS_ALL_ID, type: ProductType.NON_CONSUMABLE, platform: Platform.GOOGLE_PLAY},
-      ...SKINS.filter(s => s.k !== 'original').map(s => ({id: skinProduct(s.k), type: ProductType.NON_CONSUMABLE, platform: Platform.GOOGLE_PLAY})),
+      ...SALE_SKINS.map(s => ({id: skinProduct(s.k), type: ProductType.NON_CONSUMABLE, platform: Platform.GOOGLE_PLAY})),
+      {id: PASS_ID, type: ProductType.CONSUMABLE, platform: Platform.GOOGLE_PLAY},
       ...PACKS.map(p => ({id: p.id, type: ProductType.CONSUMABLE, platform: Platform.GOOGLE_PLAY})),
     ]);
     store.when()
@@ -121,7 +129,7 @@ function initStore(){
 }
 function syncOwned(){
   if (!window.CdvPurchase) return;
-  const ids = [NOADS_ID, SKINS_ALL_ID, ...SKINS.filter(s => s.k !== 'original').map(s => skinProduct(s.k))];
+  const ids = [NOADS_ID, SKINS_ALL_ID, ...SALE_SKINS.map(s => skinProduct(s.k))];
   ids.forEach(id => { try { if (CdvPurchase.store.owned(id)) grantOwned(id); } catch(e){} });
   if (storeReady){ try { const m = CdvPurchase.store.owned(SUB_ID); if (m) setMember(true); else if (A.memberUntil) setMember(false); } catch(e){} }
   if (noAds()) hideBanner(); else showBanner();
@@ -288,10 +296,9 @@ function phaseHtml(){
   const i = phaseIndex(), c = CASINOS[i], next = CASINOS[i + 1];
   const steps = CASINOS.map((x, j) => `<span class="ph-step ${j < i ? 'done' : j === i ? 'here' : ''}"><i>${j + 1}</i><small>×${PHASE_MULT[j]}</small></span>`).join('');
   const nextHtml = next
-    ? `<p class="ph-next">No <b>${next.n}</b> tudo na loja rende <b>×${PHASE_MULT[i + 1]}</b>. Entrada: ${fmt(next.cost)} fichas.</p>
-       <div class="cs-progress"><i style="width:${Math.min(100, S.balance / next.cost * 100).toFixed(1)}%"></i></div>
+    ? `<p class="ph-next">${next.em[0].toUpperCase() + next.em.slice(1)} tudo na loja rende <b>×${PHASE_MULT[i + 1]}</b>. Vença ${MASTERS[i].n} para abrir.</p>
        <button class="pill-btn ghost" data-go="jornada">Ver a jornada</button>`
-    : '<p class="ph-next">Você chegou ao palco final. A loja já rende o máximo.</p>';
+    : '<p class="ph-next">Você chegou à fase final. A loja já rende o máximo.</p>';
   return `<div class="card ph-card">
       <p class="eyebrow"><span>Sua loja cresce com a jornada</span><span>Fase ${i + 1}</span></p>
       <div class="ph-head"><b>${c.n}</b><span class="ph-mult">×${phaseMult()}</span></div>
@@ -323,7 +330,7 @@ function clubHtml(){
     </div>`;
 }
 function skinCardsHtml(){
-  return `<div class="skin-mini">${SKINS.filter(s => s.k !== 'original').map(s => {
+  return `<div class="skin-mini">${SALE_SKINS.map(s => {
     const ph = skinPhase(s), open = skinOpen(s), own = skinOwned(s.k);
     const label = own ? (s.k === SKIN ? 'Em uso' : open ? 'Usar' : 'Seu') : open ? priceOf(skinProduct(s.k)) : `Fase ${CASINOS.indexOf(ph) + 1}`;
     return `<button class="sm ${open ? '' : 'locked'} ${s.k === SKIN ? 'on' : ''}" data-skin="${s.k}" data-sm="${s.k}">
@@ -351,7 +358,7 @@ function renderShop(){
     <p class="panel-note">${broke ? (left >= PACKS[0].brl ? `Suas fichas não pagam mais a aposta mínima ${casino().em}: os pacotes estão liberados até R$ ${fmtBRL(left)} hoje.` : 'Você chegou ao limite de fichas compradas hoje.') : `Os pacotes liberam quando suas fichas não pagam a aposta mínima do palco (${fmt(casino().min)}), com limite de R$ ${DAILY_SPEND_CAP} por dia.`}</p>
     <p class="eyebrow sheet-sub"><span>Visuais da jornada</span><span>um por palco</span></p>
     ${skinCardsHtml()}
-    ${allSkinsOwned() ? '' : `<button class="bundle" data-buy="${SKINS_ALL_ID}"><b>Todos os 5 visuais agora</b><span>Use todos sem esperar a jornada · ${priceOf(SKINS_ALL_ID)}</span></button>`}
+    ${allSkinsOwned() ? '' : `<button class="bundle" data-buy="${SKINS_ALL_ID}"><b>Todos os ${SALE_SKINS.length} visuais agora</b><span>Use todos sem esperar a jornada · ${priceOf(SKINS_ALL_ID)}</span></button>`}
     <p class="eyebrow sheet-sub"><span>Sem anúncios</span></p>
     <div class="shop-row">
       <div><b>Remover anúncios</b><span>Compra única. Os vídeos premiados continuam opcionais.</span></div>
@@ -382,7 +389,7 @@ function renderPromo(){
       ${feature ? `<div class="promo-skin" data-skin="${feature.k}"><span class="sm-pv"><span class="mb"></span><svg class="mh" viewBox="40 28 280 272" aria-hidden="true"><use href="#gloveArt"/></svg></span></div>
       <button class="buy wide big" data-buy="${skinProduct(feature.k)}">${feature.n} por ${priceOf(skinProduct(feature.k))}</button>
       <div class="promo-or"><span>ou</span></div>` : skinCardsHtml()}
-      ${allSkinsOwned() ? '' : `<button class="club-cta" data-buy="${SKINS_ALL_ID}"><b>Todos os 5 visuais</b><span>Use todos agora · ${priceOf(SKINS_ALL_ID)}</span></button>`}`;
+      ${allSkinsOwned() ? '' : `<button class="club-cta" data-buy="${SKINS_ALL_ID}"><b>Todos os ${SALE_SKINS.length} visuais</b><span>Use todos agora · ${priceOf(SKINS_ALL_ID)}</span></button>`}`;
   }
 }
 function openPromo(kind){
@@ -418,6 +425,10 @@ function appPickSkin(k){
   buy(skinProduct(k));
 }
 
+/* ---------- Passe do Mágico: the gold track ---------- */
+function appBuyPass(){ buy(PASS_ID); }
+function passPrice(){ return priceOf(PASS_ID); }
+
 /* ---------- start ---------- */
 function appInit(){
   document.body.classList.add('app-build');
@@ -427,7 +438,7 @@ function appInit(){
   $('homeGo').addEventListener('click', () => { if (!A.adult){ A.adult = true; A.opens = 1; saveA(); } });
   $('ngYes').addEventListener('click', () => { if (!A.adult){ A.adult = true; A.opens = 1; saveA(); } });
   if (!skinOwned(SKIN) || !skinOpen(SKINS.find(s => s.k === SKIN))) applySkin('original', false);
-  $('skinNote').textContent = 'Cada palco da jornada vende um visual exclusivo. O pacote com todos libera os cinco na hora.';
+  $('skinNote').textContent = 'Cada palco da jornada vende um visual exclusivo. O pacote com todos libera todos na hora.';
   $('lojaSub').textContent = 'Fichas, Clube do Mágico, visuais e sem anúncios.';
   $('promoClose').onclick = () => closePromo();
   document.addEventListener('click', e => {

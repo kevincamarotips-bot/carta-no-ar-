@@ -37,7 +37,7 @@ Toda aposta devolve, em média, entre 95% e 98,7% do que foi apostado (simulado 
 | Sete ou Valor exato | 7,7% | 12,4× | 96,8% a 98,7% |
 | Carta exata | 1,9% | 50× | 97,0% a 98,1% |
 
-- **Carta Dourada**: multiplica o lucro das apostas certas. Fica mais rara e maior a cada palco: 1 em 100 com lucro ×3 na Tenda, até 1 em 667 com lucro ×20 no Palácio.
+- **Carta Dourada**: multiplica o lucro das apostas certas. Fica mais rara e maior a cada fase: 1 em 100 com lucro ×3 na Tenda, até 1 em 500 com lucro ×20 na Torre do Infinito.
 - **Mão quente**: não paga fichas; com 3 vitórias seguidas a Carta Dourada fica 2× mais provável, com 5 ou mais, 3×.
 - **Varinha Mágica** (substitui a Carta Marcada): custa +50% da aposta; se ganhar, multiplica o prêmio por ×1 (72%), ×2 (19%), ×3 (5%), ×5 (3%) ou ×10 (1%). Na média devolve o mesmo que a aposta sozinha, só aumenta o risco.
 - **Segunda Chance**: o preço é a chance de errar (50% da aposta na cor, 75% no naipe), então não muda a vantagem da casa.
@@ -46,28 +46,40 @@ Toda aposta devolve, em média, entre 95% e 98,7% do que foi apostado (simulado 
 
 Antes desta versão, todas as apostas devolviam mais do que recebiam (105% a 230%), e por isso dava para subir de palco em minutos. Numa simulação começando com 1.000 fichas e sem fichas grátis, a chance de chegar a 8.000 apostando 10% na cor caiu de 38% para 7%, a mesma de qualquer outro estilo de jogo.
 
-### A loja cresce com a jornada
+### Estrutura 2.0: 8 fases, nível por XP e duelos
 
-Quem está nos palcos finais aposta muito mais, então tudo o que dá fichas é multiplicado pelo palco mais alto que o jogador já abriu (`PHASE_MULT` em `src/carta-no-ar.html`). A aba Loja mostra essa progressão.
+Uma simulação com jogadores de vários estilos (pasta de economia fora do repositório) calibrou tudo para um jogador dedicado levar uns **20 a 24 horas de jogo** até zerar, e um casual uns 16 a 19 horas espalhadas em dois meses. O relógio é o XP: fichas sozinhas não abrem fases.
 
-| Palco | Entrada | Aposta mínima | Multiplicador | Fichas do dia | Clube por dia | Pacotes (R$ 1,99 / 4,99 / 9,99) | Visual do palco |
+- **Nível por XP**: 3 XP por rodada, 15 XP por estrela de missão, 30 pelo baú, 40 × fase por ato, 80 × fase por duelo, 50 por naipe do álbum e 250 pelo álbum completo. Do nível N para o N+1 são 100 + 25×N XP. Subir de nível dá 100 × N × multiplicador da fase em fichas.
+- **Atos da fase**: 3 por fase, cada um vale uma estrela (24 no total), 1.000 / 2.000 / 3.000 × multiplicador em fichas e um truque no duelo. Só contam jogando naquela fase.
+- **Duelo com o mestre**: para abrir a próxima fase é preciso o nível pedido, 2 atos (3 na Torre) e o ingresso em fichas. É uma corrida de pontos na mesma carta: cor vale 1, naipe 2, valor 4. Os truques são Espiar a cor e Dobro. Cada mestre tem um jeito de jogar; a chance de vitória vai de uns 74% (Bento) até uns 22% (Grande Mestre).
+- **Bexigas do Mágico** (Atrações): 6 bexigas, paga ×1,14 a ×5,7 no modo Sobrevivente ou ×5,7 em Primeira a estourar. Devolve 95% em média, como as apostas da Mesa.
+- **Coelho da Sorte**: aparece na Mesa a cada 26 a 35 rodadas e uma vez por dia em Atrações. Escolhe-se 1 de 3 cartolas: fichas, varinha grátis, Sorte ×3 (Carta Dourada 3× mais provável por 3 rodadas) ou cenouras. Cada 10 cenouras sobem o nível do coelho (prêmios +10% por nível, até o nível 10).
+- **Cartolas**: uma a cada 15 rodadas, em 4 espaços no Início. Uma abre por vez: Prata 1h, Ouro 3h, Mágica 8h. O ciclo é Prata, Prata, Ouro, Prata, Prata, Ouro, Prata, Mágica.
+- **Passe do Mágico**: temporadas de 28 dias, 30 níveis de 800 pontos (todo XP vale ponto). A trilha grátis é de todos; a trilha dourada é comprada no app (`passe_magico`) e traz o visual Meia-Noite no nível 15. No Claude a trilha dourada aparece bloqueada.
+
+| Fase | Aposta mínima | Multiplicador | Nível do duelo | Ingresso | Mestre | Carta Dourada | Visual da fase |
 |---|---|---|---|---|---|---|---|
-| 1. Tenda do Ilusionista | grátis | 10 | ×1 | 1.000 | 2.000 | 1.000 / 5.000 / 12.000 | Luva Branca |
-| 2. Teatro das Sombras | 8.000 | 50 | ×3 | 3.000 | 6.000 | 3.000 / 15.000 / 36.000 | Rubi Imperial |
-| 3. Observatório Estelar | 40.000 | 200 | ×10 | 10.000 | 20.000 | 10.000 / 50.000 / 120.000 | Safira |
-| 4. Circo Elétrico | 200.000 | 1.000 | ×40 | 40.000 | 80.000 | 40.000 / 200.000 / 480.000 | Neon Arcano |
-| 5. Palácio do Mágico | 1.000.000 | 5.000 | ×150 | 150.000 | 300.000 | 150.000 / 750.000 / 1.800.000 | Esmeralda Real |
+| 1. Tenda do Ilusionista | 10 | ×1 | 5 | 1.000 | Bento, o Aprendiz | 1 em 100, ×3 | Luva Branca |
+| 2. Teatro das Sombras | 50 | ×3 | 10 | 4.000 | Madame Sombra | 1 em 111, ×4 | Rubi Imperial |
+| 3. Biblioteca Encantada | 100 | ×6 | 16 | 15.000 | Professor Pergaminho | 1 em 125, ×5 | Pergaminho |
+| 4. Observatório Estelar | 250 | ×12 | 22 | 50.000 | Lúmen, o Astrólogo | 1 em 167, ×7 | Safira |
+| 5. Circo Elétrico | 1.000 | ×30 | 28 | 150.000 | Volt, o Domador | 1 em 200, ×9 | Neon Arcano |
+| 6. Abismo das Sereias | 2.500 | ×70 | 34 | 500.000 | Maré, a Sereia | 1 em 250, ×12 | Maré Profunda |
+| 7. Palácio do Mágico | 10.000 | ×180 | 40 | 1.500.000 | O Rei de Copas | 1 em 333, ×15 | Esmeralda Real |
+| 8. Torre do Infinito | 25.000 | ×400 | 46 | 5.000.000 | O Grande Mestre | 1 em 500, ×20 | Infinito |
 
-Missões, prêmios de nível e o álbum seguem o mesmo multiplicador. O preço em reais não muda; muda só quantas fichas cada compra entrega.
+O multiplicador vale para fichas do dia, vídeos, Clube, pacotes, missões, baú, atos, cartolas, coelho e passe. O álbum paga fixo (3.000 por naipe, 30.000 completo). Saves antigos mantêm o nível e as fases abertas; as fases antes da mais alta contam como vencidas.
 
 ### Tela inicial, missões e Nova Jornada+
 
-- **Tela inicial**: toda vez que o app abre aparece a logo, a mão do mágico e um botão. Na primeira vez é "Começar jornada" (e o toque confirma os 18 anos); depois vira "Continuar", com o palco e o saldo salvos. O botão leva para a aba Jornada.
-- **Tutorial só na primeira vez**: um tour curto mostra a Jornada, Missões, Coleção e Loja e termina no botão Jogar do palco 1. Na primeira ida à Mesa, as dicas de aposta aparecem uma vez. Os dois ficam marcados no aparelho (`P.tour` e `P.ftue`).
-- **Missões (Etapa 1)**: 3 diárias e 3 semanais. Cada uma ensina uma parte do jogo (Faixa, naipe seguido, Figura, Varinha, guardar prêmio no Maior ou menor…). Nenhuma pede aposta mínima. Uma troca grátis de missão diária por dia.
-- **Baú do dia**: 4 espaços. Abrir o app preenche o primeiro e cada diária resgatada preenche mais um. Aberto, dá 1.500 fichas × palco e ★2, e conta para a semanal "Abra o baú 4 vezes".
-- **Lembrete na Mesa**: uma faixa fina mostra a missão mais perto de acabar. Quando está completa, fica dourada e resgata ali mesmo.
-- **Nova Jornada+**: só aparece depois de abrir o Palácio do Mágico. Recomeça os palcos com 5.000 fichas e mantém nível, estrelas, álbum, acessórios e visuais (visuais comprados continuam liberados). Cada Jornada+ soma +25% nas fichas de missões e do baú (até +100%) e dá o selo de Mestre da Jornada. Os números ficam em `NG_START` e `ngBonusFor` em `src/carta-no-ar.html`.
+- **Tela de abertura**: logo, mão do mágico e um botão. Na primeira vez é "Começar jornada" (e o toque confirma os 18 anos); depois vira "Continuar". O botão leva para o **Início**.
+- **Início**: o palco da fase como uma ilha flutuante (tocar abre a Jornada), as setas trocam a fase mostrada, Jogar e Duelo, o Passe e as 4 cartolas. A barra de baixo é Loja · Coleção · Início · Atrações · Missões; a Mesa e a Jornada abrem a partir do Início.
+- **Tour**: uma vez para todos, no Início (`P.tour2`). Na primeira ida à Mesa, as dicas de aposta aparecem uma vez (`P.ftue`).
+- **Missões (Etapa 1)**: 3 diárias e 3 semanais. Nenhuma pede aposta mínima. Uma troca grátis de missão diária por dia. Dão fichas × fase e XP.
+- **Baú do dia**: 4 espaços. Abrir o app preenche o primeiro e cada diária resgatada preenche mais um. Dá 1.500 fichas × fase e 30 XP.
+- **Lembrete na Mesa**: uma faixa fina mostra a missão mais perto de acabar.
+- **Nova Jornada+**: aparece depois de vencer o Grande Mestre. Recomeça as fases e os atos com 5.000 fichas e mantém nível, álbum, acessórios e visuais. Cada Jornada+ soma +25% nas fichas de missões e do baú (até +100%).
 
 ### Produtos para cadastrar no Play Console
 
@@ -80,9 +92,13 @@ Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o 
 | `visuais_todos` | Todos os visuais | Não consumível | R$ 14,90 |
 | `visual_luva` | Visual Luva Branca | Não consumível | R$ 4,90 |
 | `visual_rubi` | Visual Rubi Imperial | Não consumível | R$ 4,90 |
+| `visual_pergaminho` | Visual Pergaminho (novo) | Não consumível | R$ 4,90 |
 | `visual_safira` | Visual Safira | Não consumível | R$ 4,90 |
 | `visual_vegas` | Visual Neon Arcano | Não consumível | R$ 4,90 |
+| `visual_sereia` | Visual Maré Profunda (novo) | Não consumível | R$ 4,90 |
 | `visual_montecarlo` | Visual Esmeralda Real | Não consumível | R$ 4,90 |
+| `visual_infinito` | Visual Infinito (novo) | Não consumível | R$ 4,90 |
+| `passe_magico` | Passe do Mágico: trilha dourada (novo) | **Consumível** (uma compra por temporada) | R$ 14,90 |
 | `fichas_1000` | Punhado de fichas | Consumível | R$ 1,99 |
 | `fichas_5000` | Saquinho de fichas | Consumível | R$ 4,99 |
 | `fichas_12000` | Baú de fichas | Consumível | R$ 9,99 |
