@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "ranking": {
+      ".read": true,
+      ".indexOn": ["balance"],
+      "$uid": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['name', 'balance']) && newData.child('balance').isNumber() && newData.child('name').isString() && newData.child('name').val().length <= 16"
+      }
+    },
+    "rooms": {
+      "$room": {
+        "peers": {
+          ".read": true,
+          "$peer": {
+            ".write": true
+          }
+        }
+      }
+    }
+  }
+}
