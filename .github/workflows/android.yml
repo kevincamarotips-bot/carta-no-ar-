@@ -55,7 +55,7 @@ jobs:
           prerelease: true
           files: android/app/build/outputs/apk/debug/app-debug.apk
           body: |
-            APK de teste do Carta no Ar (anúncios de teste, compras simuladas pela loja de testes).
+            APK de teste do Cartas no Ar (anúncios de teste, compras simuladas pela loja de testes).
             No celular Android: baixe o arquivo app-debug.apk abaixo e toque para instalar.
 
       # Pacote assinado para a Play Store: só roda quando a chave de upload estiver nos Secrets

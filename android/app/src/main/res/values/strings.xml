@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Carta no Ar</string>
-    <string name="title_activity_main">Carta no Ar</string>
+    <string name="app_name">Cartas no Ar</string>
+    <string name="title_activity_main">Cartas no Ar</string>
     <string name="package_name">com.kevincamaroti.cartanoar</string>
     <string name="custom_url_scheme">com.kevincamaroti.cartanoar</string>
     <string name="admob_app_id">ca-app-pub-4843616770222084~3820152392</string>

@@ -1,4 +1,4 @@
-# Carta no Ar
+# Cartas no Ar
 
 Jogo de cassino simulado com fichas virtuais: o mágico joga uma carta para o alto e você aposta em qual vai cair. As fichas não têm valor em dinheiro e não podem ser sacadas, trocadas nem transferidas.
 

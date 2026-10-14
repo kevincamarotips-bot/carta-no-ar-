@@ -1,6 +1,6 @@
 {
   "appId": "com.kevincamaroti.cartanoar",
-  "appName": "Carta no Ar",
+  "appName": "Cartas no Ar",
   "webDir": "www",
   "android": {
     "backgroundColor": "#130713"
