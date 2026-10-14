@@ -733,6 +733,33 @@ button.mode:active{transform:scale(.98)}
 .coach-tip .row span{display:flex;gap:6px;align-items:center}
 .coach-tip .coach-skip{background:transparent;color:#6d6290;font-weight:700;padding:9px 8px}
 @media (prefers-reduced-motion:reduce){.home-cta,.home-cta::after,.home-card,.home-halo,.home-spark,.ms-claim,.ch-open,.ch-ic.bob,.ms-remind.ready{animation:none!important}}
+/* ---------- resultado numa placa no topo do palco ---------- */
+.stage .result{left:12px;right:72px;top:10px;padding:0;text-align:left;transform-origin:0 50%}
+.stage.full .result{top:calc(10px + env(safe-area-inset-top,0px))}
+.stage.has-pill .result{top:10px}
+.stage.has-pill.has-result .mode-pill{top:70px}
+.stage .result.idle{display:none}
+.stage.has-result .casino-badge{visibility:hidden}
+.rp{display:inline-flex;align-items:center;gap:10px;max-width:100%;box-sizing:border-box;padding:7px 12px 7px 7px;border-radius:14px;background:rgba(8,5,20,.8);border:1px solid rgba(246,239,255,.16);box-shadow:0 6px 18px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.rp.win{border-color:color-mix(in srgb,var(--gold) 60%,transparent)}
+.rp.back{border-color:color-mix(in srgb,var(--amber) 40%,transparent)}
+.rp-card{flex:none;width:26px;height:36px;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:#fbf8ff;color:#1a1030;font-weight:800;font-size:12px;line-height:1}
+.rp-card.red{color:#e2334f}
+.rp-card i{font-style:normal;font-size:11px}
+.rp-card.gold{background:linear-gradient(160deg,#fff6d6,#ffd36b);box-shadow:0 0 0 2px var(--gold)}
+.rp-tx{min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.stage .result .name{font-size:18px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:none;text-wrap:nowrap}
+.rp-l2{display:flex;align-items:baseline;gap:7px;min-width:0;white-space:nowrap}
+.stage .result .amt{flex:none;margin:0;font-size:14px}
+.stage .result .amt.back{color:var(--amber)}
+.stage .result .amt.lose{color:#ff9fb2}
+.rp .note{display:block;min-width:0;margin:0;font-size:12px;opacity:1;color:color-mix(in srgb,var(--cream) 82%,var(--muted));overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stage.full .rp{padding:9px 14px 9px 9px}
+.stage.full .result .name{font-size:20px}
+/* ---------- voltar / avançar fichas ---------- */
+.act .x2{display:none;font-family:var(--f-mono);font-weight:500;font-size:13px}
+.act.dbl .x2{display:block}
+.act.dbl svg{display:none}
 </style>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -854,7 +881,7 @@ button.mode:active{transform:scale(.98)}
         <svg class="hat-deco" id="hatDeco" hidden viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="60" cy="86" rx="56" ry="11" fill="#140a14"/><rect x="26" y="14" width="68" height="72" rx="6" fill="#1e0d1d"/><rect x="26" y="58" width="68" height="13" fill="var(--flame)"/><ellipse cx="60" cy="14" rx="34" ry="7" fill="#2b1530"/></svg>
         <div class="live-badge" id="liveBadge" hidden></div>
 
-        <div class="result" id="result">
+        <div class="result idle" id="result">
           <div class="name">Faça sua aposta</div>
           <div class="note">Escolha onde a carta vai cair e toque em Jogar a carta.</div>
         </div>
@@ -891,9 +918,9 @@ button.mode:active{transform:scale(.98)}
           <div class="dock-row">
             <div class="chipsel" id="chipsel" aria-label="Valor da ficha"></div>
           <div class="acts">
-            <button class="act" id="aHalf" aria-label="Dividir aposta pela metade">½</button>
-            <button class="act" id="aDouble" aria-label="Dobrar aposta">×2</button>
-            <button class="act" id="aRepeat" aria-label="Repetir última aposta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.6-5.7L20 8"/><path d="M20 3v5h-5"/><path d="M20 12a8 8 0 0 1-13.6 5.7L4 16"/><path d="M4 21v-5h5"/></svg></button>
+            <button class="act" id="aUndo" aria-label="Voltar a última ficha" title="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+            <button class="act" id="aRedo" aria-label="Avançar a ficha desfeita" title="Avançar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
+            <button class="act" id="aRepeat" aria-label="Repetir a última aposta"><b class="x2" aria-hidden="true">×2</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.6-5.7L20 8"/><path d="M20 3v5h-5"/><path d="M20 12a8 8 0 0 1-13.6 5.7L4 16"/><path d="M4 21v-5h5"/></svg></button>
             <button class="act" id="aClear" aria-label="Limpar apostas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></svg></button>
           </div>
           </div>
@@ -1141,7 +1168,7 @@ const tabOf = key => key.split(':')[0];
 
 /* ---------- state ---------- */
 const S = {balance:1000, bets:{}, lastBets:{}, chip:25, tab:'color', marked:null, second:false, wand:false,
-  streak:0, bestStreak:0, best:0, rounds:0, history:[], giftAt:0, busy:false, sound:true, gamble:null, current:null};
+  streak:0, bestStreak:0, best:0, rounds:0, history:[], giftAt:0, busy:false, sound:true, gamble:null, current:null, undo:[], redo:[]};
 try { const saved = JSON.parse(localStorage.getItem('cartaNoAr.v1')||'null');
   if (saved) Object.assign(S, {balance:saved.balance??1000, bestStreak:saved.bestStreak||0, best:saved.best||0, rounds:saved.rounds||0, history:saved.history||[], giftAt:saved.giftAt||0, sound:saved.sound!==false, chip:saved.chip||25});
 } catch(e){}
@@ -1395,8 +1422,13 @@ function renderControls(){
   $('coinsBtn').classList.toggle('low', low);
   $('powersSec').hidden = broke && MODE !== 'live';
   renderOffer(low, broke);
-  ['aHalf','aDouble','aClear'].forEach(id=>$(id).disabled = busy || !t);
-  $('aRepeat').disabled = busy || !Object.keys(S.lastBets).length;
+  $('aClear').disabled = busy || !t;
+  $('aUndo').disabled = busy || !S.undo.length;
+  $('aRedo').disabled = busy || !S.redo.length;
+  // one button: Repetir when the table is empty, ×2 once there are chips on it
+  $('aRepeat').classList.toggle('dbl', !!t);
+  $('aRepeat').setAttribute('aria-label', t ? 'Dobrar a aposta' : 'Repetir a última aposta');
+  $('aRepeat').disabled = busy || (!t && !Object.keys(S.lastBets).length);
   // boosters
   $('bWand').disabled = busy;
   $('bWand').classList.toggle('on', S.wand);
@@ -1453,9 +1485,14 @@ function renderAll(){ renderTabs(); renderBoard(); renderChips(); renderStreak()
 let toastT;
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2200); }
 
+// the result is one plaque at the top of the stage; the card always rests below it
 function setResult(name, amt, cls, note){
-  const r = $('result');
-  r.innerHTML = `<div class="name">${name}</div>${amt?`<div class="amt ${cls||''}">${amt}</div>`:''}${note?`<div class="note">${note}</div>`:''}`;
+  const r = $('result'), idle = name === 'Faça sua aposta' && !amt;
+  r.classList.toggle('idle', idle); $('stage').classList.toggle('has-result', !idle);
+  const c = FULL.find(x => cardName(x) === name), h = S.history[0];
+  const gold = c && h && h.suit === c.suit && h.v === c.v && h.gold;
+  const mini = c ? `<span class="rp-card${suitOf(c.suit).red ? ' red' : ''}${gold ? ' gold' : ''}" aria-hidden="true">${RANKS[c.v - 1]}<i>${suitOf(c.suit).s}</i></span>` : '';
+  r.innerHTML = `<div class="rp ${cls || ''}">${mini}<div class="rp-tx"><div class="name">${name}</div>${amt || note ? `<div class="rp-l2">${amt ? `<span class="amt ${cls || ''}">${amt}</span>` : ''}${note ? `<span class="note">${note}</span>` : ''}</div>` : ''}</div></div>`;
   r.classList.remove('show'); void r.offsetWidth; r.classList.add('show');
 }
 
@@ -1560,8 +1597,20 @@ const flyer = $('flyer'), hand = $('hand');
 let K = 1;
 const T = (y,z,ry,s) => `translate(-50%,${y}px) rotateZ(${z}deg) rotateY(${ry}deg) scale(${(s*K).toFixed(3)})`;
 let IDLE;
-function fit(){ K = Math.max(.55, Math.min(1, $('stage').clientHeight/560)); IDLE = T(0,-8,180,.72); if(!S.busy && !S.current) flyer.style.transform = IDLE; }
+function fit(){
+  K = Math.max(.55, Math.min(1, $('stage').clientHeight/560)); IDLE = T(0,-8,180,.72);
+  if (!S.busy && !S.current) flyer.style.transform = IDLE;
+  else if (!S.busy && S.current && !$('stage').classList.contains('full')) flyer.style.transform = restT();
+}
+// the flyer hangs from a point 27% above the stage floor; keep the resting card under the result plaque
+function restT(){
+  const h = stageH(), s = .92 * K, y0 = -h * .03;
+  const lim = 76 + ($('stage').classList.contains('has-pill') ? 34 : 0);   // plaque bottom (~65) + the 6px hover + a little air
+  const top = h * .73 - 81 + y0 - 81 * s;
+  return T(y0 + Math.max(0, lim - top), 360, 1800, .92);
+}
 fit(); addEventListener('resize', fit);
+if (window.ResizeObserver) new ResizeObserver(() => fit()).observe($('stage'));
 function stageH(){ return $('stage').clientHeight; }
 
 async function play(el, frames, opts){
@@ -1667,6 +1716,7 @@ function placeBet(key, el){
   const avail = S.balance - fullCost();
   const amt = Math.min(S.chip, avail);
   if (amt <= 0){ toast(S.balance < 10 ? 'Sem fichas. Pegue fichas grátis na Loja.' : 'Fichas insuficientes para essa aposta.'); return; }
+  snapBets();
   S.bets[key] = (S.bets[key]||0) + amt;
   clink();
   renderTabs(); renderBoard(); renderControls();
@@ -1680,7 +1730,7 @@ function scaleBets(f){
   for (const [k,v] of Object.entries(S.bets)){ const nv=Math.floor(v*f); if(nv>0) next[k]=nv; }
   const nt = Object.values(next).reduce((a,b)=>a+b,0);
   if (nt + (S.second?Math.ceil(nt*.25):0) > S.balance){ toast('Saldo insuficiente para dobrar.'); return; }
-  S.bets = next; clink(); renderTabs(); renderBoard(); renderControls();
+  snapBets(); S.bets = next; clink(); renderTabs(); renderBoard(); renderControls();
 }
 
 function eligibleLast(){
@@ -1710,7 +1760,7 @@ async function doThrow(){
   if (t < casino().min){ toast(`${casino().em[0].toUpperCase() + casino().em.slice(1)} a aposta mínima é ${fmt(casino().min)} fichas.`); return; }
   const cost = fullCost();
   if (cost > S.balance){ toast('Saldo insuficiente. Diminua a aposta.'); return; }
-  S.busy = true; S.balance -= cost; animateBalance(); renderControls();
+  S.busy = true; S.balance -= cost; S.undo = []; S.redo = []; animateBalance(); renderControls();
   await enterReveal();
   $('stage').classList.add('dim');
   setResult('O mágico embaralha…', '', '', `${fmt(t)} fichas na mesa`);
@@ -1759,7 +1809,7 @@ async function doThrow(){
     : {win: false, title: 'Não foi dessa vez', amt: `−${fmt(cost)} fichas`, note: cardName(card)});
   await exitReveal();
 
-  if (pay > 0) setResult(cardName(card), profit > 0 ? `+${fmt(win)} fichas` : `${fmt(win)} de volta`, 'win', note.trim() || (profit>0 ? `Lucro de ${fmt(win-cost)}.` : 'Recuperou parte da aposta.'));
+  if (pay > 0) setResult(cardName(card), profit > 0 ? `+${fmt(win)} fichas` : `${fmt(win)} de volta`, profit > 0 ? 'win' : 'back', note.trim() || (profit>0 ? `Lucro de ${fmt(win-cost)}.` : 'Recuperou parte da aposta.'));
   else setResult(cardName(card), `−${fmt(cost)} fichas`, 'lose', 'Faça a próxima aposta.');
   animateBalance();
   if (S.wand && wandDiscount() > 0 && typeof appUseFreeWand === 'function') appUseFreeWand();
@@ -1826,14 +1876,26 @@ document.addEventListener('click', e => {
   const k = e.target.closest('[data-key]'); if (k && !k.disabled){ placeBet(k.dataset.key, k); return; }
   const c = e.target.closest('[data-chip]'); if (c){ S.chip = +c.dataset.chip; clink(); renderChips(); save(); return; }
 });
-$('aHalf').onclick = () => scaleBets(.5);
-$('aDouble').onclick = () => scaleBets(2);
-$('aClear').onclick = () => { S.bets = {}; renderTabs(); renderBoard(); renderControls(); };
+/* every change to the bets is kept, so a chip can be taken back (and put back) one at a time */
+function snapBets(){ S.undo.push({...S.bets}); if (S.undo.length > 80) S.undo.shift(); S.redo = []; }
+function stepBets(from, to){
+  if (S.busy || S.gamble || !from.length) return;
+  if (MODE === 'live'){ if (!liveCanBet()){ toast('Apostas fechadas. Espere a próxima rodada.'); return; } live.ready = false; }
+  const next = from[from.length - 1], nt = Object.values(next).reduce((a, v) => a + v, 0);
+  if (nt > S.balance){ toast('Saldo insuficiente para essa aposta.'); return; }
+  from.pop(); to.push({...S.bets}); S.bets = {...next};
+  clink(); renderTabs(); renderBoard(); renderControls();
+}
+$('aUndo').onclick = () => stepBets(S.undo, S.redo);
+$('aRedo').onclick = () => stepBets(S.redo, S.undo);
+$('aClear').onclick = () => { if (S.busy || !total()) return; snapBets(); S.bets = {}; renderTabs(); renderBoard(); renderControls(); };
 $('aRepeat').onclick = () => {
+  if (S.busy || S.gamble) return;
+  if (total()){ scaleBets(2); return; }
   const b = eligibleLast(), t = Object.values(b).reduce((a,v)=>a+v,0);
   if (!t) return;
-  if (t + (S.second?Math.ceil(t*.25):0) > S.balance){ toast('Saldo insuficiente para repetir.'); return; }
-  S.bets = b; clink(); renderTabs(); renderBoard(); renderControls();
+  if (t > S.balance){ toast('Saldo insuficiente para repetir.'); return; }
+  snapBets(); S.bets = b; clink(); renderTabs(); renderBoard(); renderControls();
 };
 $('bWand').onclick = () => { if (S.busy || S.gamble) return; S.wand = !S.wand; if (S.wand) shimmer(5, 1319); else clink(); renderControls(); };
 $('bSecond').onclick = () => { S.second = !S.second; clink(); renderControls(); };
@@ -1862,7 +1924,7 @@ const AV_COLORS = ['var(--amber)','var(--flame)','var(--violet)','var(--gold)','
 const avColor = s => AV_COLORS[[...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0) % AV_COLORS.length];
 
 function resetRound(){
-  S.bets = {}; S.lastBets = {}; S.marked = null; S.second = false; S.wand = false; S.streak = 0; S.current = null; S.busy = false;
+  S.bets = {}; S.lastBets = {}; S.undo = []; S.redo = []; S.marked = null; S.second = false; S.wand = false; S.streak = 0; S.current = null; S.busy = false;
   S.gamble = null; $('gamble').hidden = true;
   flyer.getAnimations().forEach(a => a.cancel());
   flyer.style.transform = IDLE; setFront(null);
@@ -2034,7 +2096,7 @@ async function liveThrow(c, gold, round){
   }
   pushHistory(card, gold, t > 0 && win > t);
   if (t) progRound({card, gold, bets: S.bets, pay, profit: win - t, trick: false});
-  S.bets = {}; S.current = card; S.busy = false;
+  S.bets = {}; S.undo = []; S.redo = []; S.current = card; S.busy = false;
   save(); renderAll(); livePush();
 }
 function betSummary(bets){
@@ -3117,7 +3179,7 @@ async function exitReveal(){
   $('outcome').hidden = true; st.classList.remove('won', 'lost'); st.querySelectorAll('.rays').forEach(x => x.remove());
   if (!RM) await st.animate([{clipPath: 'inset(0px 0px 0px 0px round 0px)'}, {clipPath: insetFor(slot)}], {duration: 380, easing: 'cubic-bezier(.5,0,.2,1)'}).finished;
   st.classList.remove('full'); $('revealVeil').hidden = true; $('result').hidden = false; fit();
-  flyer.style.transform = T(-stageH() * 0.03, 360, 1800, .92);
+  flyer.style.transform = restT();
 }
 function cardZoomT(){ const h = stageH(), s = Math.min(1.9, (0.42 * h / 162) / K); return T(81 - 0.31 * h, 360, 1800, s); }
 function showOutcome(o){
@@ -3140,7 +3202,7 @@ function showOutcome(o){
 /* ---------- first-session tips ---------- */
 var coachActive = false, coachStep = 0, coachSteps = [], coachDone = null;
 const COACH = [
-  {sel: '#chipsel', title: 'Escolha o valor da ficha', text: 'Cada toque numa aposta coloca uma ficha deste valor.'},
+  {sel: '#chipsel', title: 'Escolha o valor da ficha', text: 'Cada toque numa aposta coloca uma ficha deste valor. Errou? A seta de voltar tira a última ficha.'},
   {sel: '#boardWrap', title: 'Qual será a carta?', text: 'Toque onde acha que ela vai cair. Quanto mais difícil, mais paga: a cor paga ×1,9 e a carta exata ×50.'},
   {sel: '#throwBtn', title: 'Jogue a carta', text: 'Quando estiver pronto, o mágico joga a carta para o alto. Boa sorte!'},
 ];
