@@ -60,6 +60,15 @@ Quem está nos palcos finais aposta muito mais, então tudo o que dá fichas é 
 
 Missões, prêmios de nível e o álbum seguem o mesmo multiplicador. O preço em reais não muda; muda só quantas fichas cada compra entrega.
 
+### Tela inicial, missões e Nova Jornada+
+
+- **Tela inicial**: toda vez que o app abre aparece a logo, a mão do mágico e um botão. Na primeira vez é "Começar jornada" (e o toque confirma os 18 anos); depois vira "Continuar", com o palco e o saldo salvos. O botão leva para a aba Jornada.
+- **Tutorial só na primeira vez**: um tour curto mostra a Jornada, Missões, Coleção e Loja e termina no botão Jogar do palco 1. Na primeira ida à Mesa, as dicas de aposta aparecem uma vez. Os dois ficam marcados no aparelho (`P.tour` e `P.ftue`).
+- **Missões (Etapa 1)**: 3 diárias e 3 semanais. Cada uma ensina uma parte do jogo (Faixa, naipe seguido, Figura, Varinha, guardar prêmio no Maior ou menor…). Nenhuma pede aposta mínima. Uma troca grátis de missão diária por dia.
+- **Baú do dia**: 4 espaços. Abrir o app preenche o primeiro e cada diária resgatada preenche mais um. Aberto, dá 1.500 fichas × palco e ★2, e conta para a semanal "Abra o baú 4 vezes".
+- **Lembrete na Mesa**: uma faixa fina mostra a missão mais perto de acabar. Quando está completa, fica dourada e resgata ali mesmo.
+- **Nova Jornada+**: só aparece depois de abrir o Palácio do Mágico. Recomeça os palcos com 5.000 fichas e mantém nível, estrelas, álbum, acessórios e visuais (visuais comprados continuam liberados). Cada Jornada+ soma +25% nas fichas de missões e do baú (até +100%) e dá o selo de Mestre da Jornada. Os números ficam em `NG_START` e `ngBonusFor` em `src/carta-no-ar.html`.
+
 ### Produtos para cadastrar no Play Console
 
 Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o preço você escolhe). Como a quantidade de fichas dos pacotes muda com a fase, use nomes sem número no Play Console (por exemplo "Punhado de fichas", "Saquinho de fichas", "Baú de fichas") e diga na descrição que a quantidade aparece na loja do jogo.

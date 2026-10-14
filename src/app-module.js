@@ -81,7 +81,7 @@ function deliver(id){
   if (pack){
     const chips = scaled(pack.chips);
     S.balance += chips; A.spentToday += pack.brl; saveA();
-    winJingle(true); chipRain(30); animateBalance();
+    winJingle(true); chipFly(chips); chipRain(20); animateBalance();
     setResult('Fichas na mesa!', `+${fmt(chips)} fichas`, 'win', 'Boa sorte na próxima carta.');
     save(); toast(`+${fmt(chips)} fichas`);
   } else if (id === SUB_ID){
@@ -214,7 +214,7 @@ async function watchReward(){
   if (!ok) return;
   A.rewardsToday++; saveA();
   const chips = scaled(REWARD_CHIPS);
-  S.balance += chips; save(); animateBalance(); winJingle(false); chipRain(14);
+  S.balance += chips; save(); animateBalance(); winJingle(false); chipFly(chips); chipRain(10);
   setResult('Valeu por assistir!', `+${fmt(chips)} fichas`, 'win', `Restam ${REWARDS_PER_DAY - A.rewardsToday} vídeos hoje.`);
   toast(`+${fmt(chips)} fichas`);
   refreshAll();
@@ -225,7 +225,7 @@ function claimClub(){
   rollDay(); if (!isMember() || A.clubClaimed) return;
   A.clubClaimed = true; saveA();
   const chips = scaled(CLUB_CHIPS);
-  S.balance += chips; save(); animateBalance(); winJingle(true); chipRain(30);
+  S.balance += chips; save(); animateBalance(); winJingle(true); chipFly(chips); chipRain(20);
   setResult('Clube do Mágico', `+${fmt(chips)} fichas`, 'win', 'Amanhã tem mais esperando por você.');
   toast(`+${fmt(chips)} fichas do Clube`);
   refreshAll();
@@ -234,7 +234,7 @@ function claimDaily(){
   rollDay(); if (A.dailyClaimed) return;
   A.dailyClaimed = true; saveA();
   const chips = scaled(DAILY_CHIPS);
-  S.balance += chips; save(); animateBalance(); winJingle(false); chipRain(18);
+  S.balance += chips; save(); animateBalance(); winJingle(false); chipFly(chips); chipRain(12);
   setResult('Abracadabra!', `+${fmt(chips)} fichas`, 'win', 'Amanhã o mágico traz mais.');
   toast(`+${fmt(chips)} fichas`);
   refreshAll();
@@ -421,11 +421,11 @@ function appPickSkin(k){
 /* ---------- start ---------- */
 function appInit(){
   document.body.classList.add('app-build');
-  const solo = document.querySelector('.mode[data-mode="solo"]');
-  solo.querySelector('b').textContent = 'Jogar';
-  solo.querySelector('span:not(.glyph)').textContent = 'Toque para confirmar que você tem 18 anos ou mais e entrar na mesa.';
-  solo.querySelector('em').textContent = `${fmt(DAILY_CHIPS)} fichas grátis por dia`;
-  solo.addEventListener('click', () => { if (!A.adult){ A.adult = true; A.opens = 1; saveA(); } });
+  // home screen: one button; tapping it confirms the age gate on the first visit
+  $('homeFriends').hidden = true;
+  $('homeLegal').textContent = 'Ao continuar, você confirma ter 18 anos ou mais. Fichas virtuais sem valor em dinheiro: não é possível sacar, trocar ou transferir.';
+  $('homeGo').addEventListener('click', () => { if (!A.adult){ A.adult = true; A.opens = 1; saveA(); } });
+  $('ngYes').addEventListener('click', () => { if (!A.adult){ A.adult = true; A.opens = 1; saveA(); } });
   if (!skinOwned(SKIN) || !skinOpen(SKINS.find(s => s.k === SKIN))) applySkin('original', false);
   $('skinNote').textContent = 'Cada palco da jornada vende um visual exclusivo. O pacote com todos libera os cinco na hora.';
   $('lojaSub').textContent = 'Fichas, Clube do Mágico, visuais e sem anúncios.';
@@ -452,8 +452,6 @@ function appInit(){
     }
   });
   if (A.adult){
-    $('start').hidden = true; MODE = 'solo'; loadLocal(); resetRound();
-    setResult('Faça sua aposta', '', '', 'Escolha onde a carta vai cair e toque em Jogar a carta.'); renderAll();
     A.opens++; saveA();
     // the looks offer waits for a win in this session instead of greeting the player at the door
     if (A.opens % THEMES_OFFER_EVERY === 0) themesArmed = true;

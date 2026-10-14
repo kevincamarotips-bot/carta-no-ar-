@@ -36,8 +36,8 @@ body = body.strip()
 
 # ---- game hooks (the game calls app functions only when they exist) ----
 body = rep(body, '<script>\n(() => {', '<script>\n(() => {\nvar APP = true;')
-body = rep(body, 'const skinOpen = s => !s.phase || P.unlocked.includes(s.phase);',
-           'const skinOpen = s => !s.phase || P.unlocked.includes(s.phase) || appSkinOpen(s);')
+body = rep(body, 'const skinOpen = s => !s.phase || phaseSeen(s.phase);',
+           'const skinOpen = s => !s.phase || phaseSeen(s.phase) || appSkinOpen(s);')
 body = rep(body, '\napplySkin(SKIN, false);\n', '\n' + module + '\napplySkin(SKIN, false);\n')
 body = rep(body, "'Sem fichas. Abra o Chapéu do Mágico.'", "'Sem fichas. Pegue fichas grátis na Loja.'")
 

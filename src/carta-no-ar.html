@@ -597,6 +597,136 @@ button.mode:active{transform:scale(.98)}
 @container (max-height:150px){.heat-track{display:none}.result .note{display:none}}
 
 @media (prefers-reduced-motion:reduce){.throw.ready,.throw .shine,.heat-spark,.heat.hot .heat-medal,.stage.hot,.stage.blaze,.coins.low .plus{animation:none}}
+/* ---------- missões: baú do dia, ícones, troca e lembrete na mesa ---------- */
+.ms-wrap{display:flex;flex-direction:column;gap:18px}
+.ms-list{display:flex;flex-direction:column;gap:10px}
+.ms-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ms-head b{color:var(--cream);font-weight:800}
+.mission{gap:10px;padding:12px;border-radius:16px}
+.mission.ready{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 18%,transparent),var(--plum) 70%);border-color:color-mix(in srgb,var(--gold) 70%,transparent)}
+.mission.got{opacity:.6;background:color-mix(in srgb,var(--plum) 70%,var(--ink))}
+.ms-tile{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-family:var(--f-mono);font-size:17px;font-weight:500;line-height:1;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.ms-tile.sm{font-size:12.5px}
+.ms-txt{display:flex;flex-direction:column;gap:4px}
+.ms-txt b{font-size:14px;line-height:1.25}
+.ms-txt small{font-size:11.5px}
+.ms-prog{display:flex;align-items:center;gap:8px}
+.ms-prog .ms-bar{flex:1;margin:0;height:6px;border-radius:999px}
+.ms-bar i{border-radius:999px;background:linear-gradient(90deg,var(--flame),var(--amber))}
+.mission.ready .ms-bar i,.mission.got .ms-bar i{background:var(--gold)}
+.ms-n{flex:none;font-family:var(--f-mono);font-size:11px;color:color-mix(in srgb,var(--cream) 80%,var(--muted))}
+.ms-claim{flex:none;padding:9px 12px;border-radius:12px;background:var(--gold);color:var(--ink);font-weight:800;font-size:13px;animation:claimGlow 1.4s ease-in-out infinite}
+.ms-swap{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 8px;border-radius:12px;border:1px solid var(--line-2);color:color-mix(in srgb,var(--cream) 80%,var(--muted));font-size:10.5px;font-weight:700}
+.ms-swap svg{width:16px;height:16px}
+.ms-swap:active,.ms-claim:active,.ch-open:active,.ms-remind:active{transform:scale(.97)}
+@keyframes claimGlow{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 55%,transparent)}50%{box-shadow:0 0 0 6px transparent}}
+@keyframes chestBob{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-3px) rotate(-4deg)}75%{transform:translateY(-3px) rotate(4deg)}}
+.ms-safe{display:flex;align-items:center;gap:10px;margin:0;padding:10px 12px;border-radius:14px;background:rgba(127,211,255,.08);border:1px solid rgba(127,211,255,.25);color:#cfe3ff;font-size:12.5px;line-height:1.35}
+.ms-safe svg{flex:none;width:20px;height:20px}
+.chest-card{display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:18px;background:linear-gradient(135deg,color-mix(in srgb,var(--amber) 16%,transparent),var(--plum-2) 65%);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)}
+.chest-card.ready{background:linear-gradient(135deg,color-mix(in srgb,var(--amber) 30%,transparent),var(--plum-2) 65%);border-color:var(--gold);box-shadow:0 0 22px color-mix(in srgb,var(--gold) 25%,transparent)}
+.ch-top{display:flex;align-items:center;gap:12px}
+.ch-ic{flex:none;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff3c4,#ffc75a 50%,#b8860b);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.ch-ic svg{width:32px;height:32px}
+.ch-ic.bob{animation:chestBob 1.2s ease-in-out infinite}
+.ch-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.ch-tx b{font-family:var(--f-display);font-weight:400;font-size:21px}
+.ch-tx small{font-size:12.5px;color:color-mix(in srgb,var(--cream) 82%,var(--muted))}
+.ch-rw{flex:none;display:flex;flex-direction:column;align-items:flex-end;line-height:1.15}
+.ch-rw b{font-family:var(--f-mono);font-weight:500;font-size:18px;color:var(--gold)}
+.ch-rw small{font-size:11px;color:color-mix(in srgb,var(--cream) 82%,var(--muted))}
+.ch-slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ch-slots span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:46px;border-radius:12px;background:rgba(5,3,12,.45);border:1px dashed rgba(246,239,255,.25);color:var(--muted);min-width:0}
+.ch-slots span.full{background:var(--gold);border:0;color:var(--ink)}
+.ch-slots svg{width:14px;height:14px}
+.ch-slots small{font-size:10.5px;font-weight:700;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ch-open{width:100%;padding:12px;border-radius:14px;background:var(--gold);color:var(--ink);font-weight:800;font-size:15px;text-align:center;animation:claimGlow 1.4s ease-in-out infinite}
+.ms-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ms-duo .lvl-card{padding:12px;border-radius:16px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.ms-duo .prog-head{font-size:13px}
+.ms-duo .prog-head .stars{margin-left:6px;font-size:12px}
+.ms-duo .prog-bar{margin:0;height:7px;border-radius:999px}
+.ms-duo .prog-bar i{border-radius:999px;background:linear-gradient(90deg,var(--flame),var(--amber))}
+.ms-duo .panel-note{margin:0;font-size:11px}
+.ms-duo .boost{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:12px;border-radius:16px;min-width:0}
+.ms-duo .boost b{font-family:var(--f-body);font-weight:800;font-size:13px}
+.ms-duo .boost span{font-size:11px;line-height:1.3}
+.ms-duo .boost em{margin-top:auto;padding:7px 11px;border-radius:11px;font-size:12.5px}
+.ms-remind{width:100%;display:flex;align-items:center;gap:10px;padding:5px 6px 5px 5px;border-radius:14px;background:color-mix(in srgb,var(--plum) 92%,transparent);border:1px solid var(--line);text-align:left;animation:stripIn .35s ease-out}
+.ms-remind[hidden]{display:none}
+.dock .ms-remind{margin-bottom:-4px}
+@media (max-height:700px){.ms-remind{padding:3px 6px 3px 3px}.mr-ring{width:26px;height:26px}.mr-tx small{display:none}.mr-rw{padding:5px 8px}}
+.ms-remind.ready{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 30%,transparent),var(--plum-2) 70%);border-color:var(--gold);animation:stripIn .35s ease-out,claimGlow 1.4s ease-in-out infinite}
+.mr-ring{position:relative;flex:none;width:30px;height:30px}
+.mr-ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.mr-ring span{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-size:9px;letter-spacing:-.02em}
+.mr-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.mr-tx small{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ms-remind.ready .mr-tx small{color:var(--gold)}
+.mr-tx b{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mr-rw{flex:none;font-family:var(--f-mono);font-size:12px;padding:6px 9px;border-radius:10px;color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent);white-space:nowrap}
+.ms-remind.ready .mr-rw{font-family:var(--f-body);font-weight:800;background:var(--gold);color:var(--ink)}
+/* ---------- fichas voando para o contador ---------- */
+.fly-chip{position:fixed;z-index:93;pointer-events:none;will-change:transform}
+.coins.gain{animation:coinGain .45s ease-out}
+@keyframes coinGain{40%{transform:scale(1.1);box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 35%,transparent),0 0 22px color-mix(in srgb,var(--gold) 60%,transparent)}}
+.gain-pop{position:fixed;z-index:94;pointer-events:none;font-family:var(--f-mono);font-weight:500;font-size:15px;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,.7);white-space:nowrap}
+/* ---------- tela inicial ---------- */
+.start-in[hidden],.home[hidden],.home [hidden]{display:none!important}
+.start{padding-bottom:calc(24px + var(--banner-h) + env(safe-area-inset-bottom,0px))}
+.home{min-height:100%;max-width:440px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;--hw:min(78vw,320px,40vh)}
+.home-logo{display:block;width:min(300px,76%,40vh);height:auto;margin-top:clamp(4px,3vh,36px);filter:drop-shadow(0 0 30px color-mix(in srgb,var(--glow-a) 70%,transparent))}
+.start.show .home-logo{animation:logoIn .9s cubic-bezier(.2,1.4,.4,1) backwards}
+.home-stage{position:relative;flex:1;width:100%;min-height:calc(var(--hw) * 1.02)}
+.home-halo{position:absolute;left:50%;bottom:calc(var(--hw) * .5);width:calc(var(--hw) * 1.05);aspect-ratio:1;transform:translate(-50%,50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--gold) 26%,transparent),color-mix(in srgb,var(--glow-a) 18%,transparent) 40%,transparent 66%);animation:haloPulse 3.4s ease-in-out infinite}
+.home-hand{position:absolute;left:50%;bottom:-4px;width:var(--hw);height:auto;aspect-ratio:360/290;transform:translateX(-50%);overflow:visible;-webkit-mask-image:linear-gradient(180deg,#000 78%,transparent 97%);mask-image:linear-gradient(180deg,#000 78%,transparent 97%)}
+.start.show .home-hand{animation:handRise 1s .1s cubic-bezier(.2,1,.3,1) backwards}
+.home-card{position:absolute;left:50%;bottom:calc(var(--hw) * .6);width:calc(var(--hw) * .27);aspect-ratio:116/162;margin-left:calc(var(--hw) * -.135);animation:cardHover 3.2s ease-in-out infinite}
+.home-card .face{transform:none;border-width:4px}
+.home-card .back::after{font-size:calc(var(--hw) * .09)}
+.start.show .home-card{animation:cardToss 1.1s .2s cubic-bezier(.2,1.2,.4,1) backwards,cardHover 3.2s 1.3s ease-in-out infinite}
+.home-spark{position:absolute;width:12px;height:12px;background:var(--gold);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:.8;animation:homeTwinkle 2.4s ease-in-out infinite}
+@keyframes haloPulse{0%,100%{opacity:.75;transform:translate(-50%,50%) scale(.96)}50%{opacity:1;transform:translate(-50%,50%) scale(1.04)}}
+@keyframes handRise{from{transform:translateX(-50%) translateY(40%);opacity:0}}
+@keyframes cardHover{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-12px) rotate(-3deg)}}
+@keyframes cardToss{0%{transform:translateY(60px) rotate(20deg) scale(.6);opacity:0}60%{opacity:1}100%{transform:translateY(0) rotate(-8deg)}}
+@keyframes homeTwinkle{0%,100%{transform:scale(.4) rotate(0deg);opacity:.2}50%{transform:scale(1) rotate(45deg);opacity:.95}}
+.home-actions{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:stretch;gap:10px;padding-bottom:4px}
+.home-cta{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:64px;padding:10px 16px;border-radius:18px;color:#fff;background:linear-gradient(120deg,var(--flame),var(--violet) 45%,#5a2bd0 70%,var(--flame));background-size:220% 100%;box-shadow:0 10px 28px color-mix(in srgb,var(--flame) 40%,transparent),inset 0 1px 0 rgba(255,255,255,.3);animation:homeFlow 5s ease-in-out infinite,homeGlow 2.4s ease-in-out infinite}
+.home-cta b{font-family:var(--f-display);font-weight:400;font-size:25px;line-height:1.1}
+.home-cta small{font-size:12.5px;opacity:.88}
+.home-cta::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);animation:homeShine 3.4s ease-in-out infinite}
+.home-cta:active{transform:scale(.98)}
+@keyframes homeFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes homeGlow{0%,100%{box-shadow:0 10px 28px color-mix(in srgb,var(--flame) 35%,transparent),inset 0 1px 0 rgba(255,255,255,.3)}50%{box-shadow:0 10px 36px color-mix(in srgb,var(--flame) 65%,transparent),0 0 0 3px color-mix(in srgb,var(--gold) 35%,transparent),inset 0 1px 0 rgba(255,255,255,.3)}}
+@keyframes homeShine{0%,55%{left:-60%}100%{left:130%}}
+.home-ng{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,transparent),var(--plum-2) 65%);border:1px solid color-mix(in srgb,var(--gold) 60%,transparent);text-align:left}
+.home-ng span{display:flex;flex-direction:column;line-height:1.2}
+.home-ng b{font-family:var(--f-display);font-weight:400;font-size:20px;color:var(--gold)}
+.home-ng small{font-size:12px;color:var(--muted)}
+.home-ng i{font-style:normal;font-size:22px;color:var(--gold)}
+.home-link{align-self:center;padding:6px 10px;font-size:14px;font-weight:700;color:var(--cream);text-decoration:underline;text-underline-offset:3px;opacity:.85}
+.home-legal{margin:0;font-size:11.5px;color:var(--muted);line-height:1.4}
+.ng-panel{text-align:left;padding:14px;border-radius:18px;background:var(--plum);border:1px solid color-mix(in srgb,var(--gold) 50%,transparent);animation:stripIn .3s ease-out}
+.ng-panel > b{font-family:var(--f-display);font-weight:400;font-size:22px;color:var(--gold)}
+.ng-panel ul{list-style:none;margin:8px 0 12px;padding:0;display:flex;flex-direction:column;gap:7px;font-size:13px;line-height:1.35}
+.ng-panel li{display:flex;gap:8px;align-items:flex-start}
+.ng-panel li i{flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:800;background:var(--gold);color:var(--ink)}
+.ng-panel li.keep i{background:var(--violet);color:#fff}
+.ng-panel li.reset i{background:rgba(246,239,255,.15);color:var(--cream)}
+.ng-panel strong{color:var(--gold)}
+.ng-panel .row{display:flex;gap:8px}
+.ng-panel .row button{flex:1;padding:11px;border-radius:12px;font-weight:800}
+.ng-no{border:1px solid var(--line-2)}
+.ng-yes{background:var(--gold);color:var(--ink)}
+.ng-badge{display:flex;align-items:center;gap:6px;margin:0 0 12px;padding:7px 12px;border-radius:12px;font-size:12px;font-weight:700;color:var(--ink);background:linear-gradient(90deg,var(--gold),var(--amber))}
+.ng-badge i{font-style:normal}
+.ng-card{margin-top:14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+.ng-card b{font-family:var(--f-display);font-weight:400;font-size:20px;color:var(--gold)}
+.ng-card p{margin:0 0 4px;font-size:13px;color:var(--muted)}
+.coach-tip .row span{display:flex;gap:6px;align-items:center}
+.coach-tip .coach-skip{background:transparent;color:#6d6290;font-weight:700;padding:9px 8px}
+@media (prefers-reduced-motion:reduce){.home-cta,.home-cta::after,.home-card,.home-halo,.home-spark,.ms-claim,.ch-open,.ch-ic.bob,.ms-remind.ready{animation:none!important}}
 </style>
 
 <div class="app">
@@ -672,6 +802,7 @@ button.mode:active{transform:scale(.98)}
       <div class="stage-slot" aria-hidden="true"></div>
 
       <div class="dock">
+        <button class="ms-remind" id="msRemind" hidden></button>
         <div class="offer-strip" id="offerStrip" hidden></div>
         <div class="dsec">
           <div class="dock-row">
@@ -708,11 +839,15 @@ button.mode:active{transform:scale(.98)}
     </section>
 
     <section class="view" id="view-missoes" hidden aria-label="Missões">
-      <header class="view-head"><h2>Missões</h2><p>Pegue suas fichas grátis e cumpra objetivos para subir de nível.</p></header>
-      <div class="stack">
-        <button class="boost" id="bGift"><b>Chapéu do Mágico</b><span>Fichas grátis a cada 30 minutos.</span><em id="bGiftCost">Pronto</em></button>
-        <div class="card lvl-card"><div class="prog-head"><span id="progLevel">Nível 1</span></div><div class="prog-bar"><i id="progBar"></i></div><p class="panel-note" id="lvlNext"></p></div>
-        <div id="missionsBody" class="stack"></div>
+      <header class="view-head"><h2>Missões</h2><p id="msSub">Cumpra os desafios do dia e abra o baú do mágico.</p></header>
+      <div class="ms-wrap">
+        <div class="chest-card" id="chestCard"></div>
+        <div class="ms-duo">
+          <div class="card lvl-card"><div class="prog-head"><span id="progLevel">Nível 1</span></div><div class="prog-bar"><i id="progBar"></i></div><p class="panel-note" id="lvlNext"></p></div>
+          <button class="boost" id="bGift"><b>Chapéu do Mágico</b><span>Fichas grátis a cada 30 minutos.</span><em id="bGiftCost">Pronto</em></button>
+        </div>
+        <div id="missionsBody" class="ms-wrap"></div>
+        <p class="ms-safe"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#7fd3ff" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke-linecap="round"/></svg><span>Nenhuma missão pede valor mínimo de aposta. Jogue no seu ritmo.</span></p>
       </div>
     </section>
 
@@ -816,8 +951,34 @@ button.mode:active{transform:scale(.98)}
 </div>
 <div class="reveal-veil" id="revealVeil" hidden></div>
 <div class="rain" id="rain"></div>
-<div class="start show" id="start" role="dialog" aria-label="Escolha o modo de jogo">
-  <div class="start-in">
+<div class="start show" id="start" role="dialog" aria-label="Cartas no Ar">
+  <div class="home" id="home">
+    <img class="home-logo" src="" data-logo alt="Cartas no Ar" width="760" height="403">
+    <div class="home-stage" aria-hidden="true">
+      <span class="home-halo"></span>
+      <span class="home-spark" style="left:18%;top:22%"></span><span class="home-spark" style="left:80%;top:14%;animation-delay:-1.2s"></span><span class="home-spark" style="left:70%;top:52%;animation-delay:-.6s"></span>
+      <span class="home-card"><span class="face back"></span></span>
+      <svg class="home-hand" id="homeHand" viewBox="0 0 360 290"></svg>
+    </div>
+    <div class="home-actions">
+      <button class="home-cta" id="homeGo"><b id="homeGoLabel">Começar jornada</b><small id="homeGoSub">Você começa com 1.000 fichas</small></button>
+      <button class="home-ng" id="homeNg" hidden><span><b>Nova Jornada+</b><small>Você zerou! Recomece com bônus.</small></span><i aria-hidden="true">★</i></button>
+      <div class="ng-panel" id="ngPanel" hidden>
+        <b>Nova Jornada+</b>
+        <ul>
+          <li><i>+</i><span>Missões e baú rendem <strong id="ngPct">+25%</strong> de fichas (acumula até +100%)</span></li>
+          <li><i>+</i><span>Você recomeça com 5.000 fichas</span></li>
+          <li><i>+</i><span>Selo de Mestre da Jornada</span></li>
+          <li class="keep"><i>=</i><span>Continua com você: nível, estrelas, álbum, acessórios e visuais</span></li>
+          <li class="reset"><i>↺</i><span>Recomeça: os palcos e as suas fichas</span></li>
+        </ul>
+        <div class="row"><button class="ng-no" id="ngNo">Agora não</button><button class="ng-yes" id="ngYes">Começar</button></div>
+      </div>
+      <button class="home-link" id="homeFriends">Jogar com amigos</button>
+      <p class="home-legal" id="homeLegal">Fichas fictícias, sem valor em dinheiro.</p>
+    </div>
+  </div>
+  <div class="start-in" id="startModes" hidden>
     <div class="start-hero">
 <h2><img class="logo-lg" src="" data-logo alt="Cartas no Ar" width="760" height="403"></h2>
       <p>O mágico joga uma carta para o alto. Como você quer jogar hoje?</p>
@@ -846,6 +1007,7 @@ button.mode:active{transform:scale(.98)}
     </div>
     <p class="start-msg" id="startMsg" role="status"></p>
     <button class="start-close" id="startClose" hidden>Voltar para o jogo</button>
+    <button class="start-close" id="startBack">Voltar</button>
   </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -1362,6 +1524,50 @@ function chipRain(n){
   }
 }
 
+/* ---------- collected chips pop out of the button you tapped, fall, and fly into the counter ---------- */
+let lastTap = null;
+document.addEventListener('pointerdown', e => { const b = e.target.closest('button'); if (b) lastTap = {el: b, r: b.getBoundingClientRect(), t: Date.now()}; }, true);
+function tapRect(){
+  if (!lastTap || Date.now() - lastTap.t > 6000) return null;
+  if (lastTap.el.isConnected){ const r = lastTap.el.getBoundingClientRect(); if (r.width) return r; }
+  return lastTap.r;
+}
+function chipFly(amount, from){
+  const coin = $('coinsBtn'); if (!coin) return;
+  const bump = () => { coin.classList.remove('gain'); void coin.offsetWidth; coin.classList.add('gain'); };
+  const dr = coin.querySelector('.coin').getBoundingClientRect();
+  if (RM || !dr.width){ bump(); return; }
+  const sr = from || tapRect() || {left: innerWidth / 2 - 20, top: innerHeight * .45, width: 40, height: 40};
+  const sx = sr.left + sr.width / 2, sy = sr.top + sr.height / 2, tx = dr.left + dr.width / 2, ty = dr.top + dr.height / 2;
+  const golden = typeof wears === 'function' && wears('chuva');
+  const cols = golden ? ['var(--gold)', '#ffe9a8', 'var(--amber)', '#f5c542'] : ['var(--gold)', 'var(--violet)', 'var(--flame)', 'var(--amber)'];
+  const n = amount >= 5000 * phaseMult() ? 16 : 12;
+  let landed = 0;
+  for (let i = 0; i < n; i++){
+    const c = document.createElement('i'), sz = 20 + Math.random() * 8;
+    c.className = 'chip fly-chip';
+    c.style.cssText = `--c:${cols[i % 4]};left:${sx - sz / 2}px;top:${sy - sz / 2}px;width:${sz}px;height:${sz}px`;
+    document.body.appendChild(c);
+    const ang = -Math.PI / 2 + (Math.random() - .5) * 2.4, pop = 46 + Math.random() * 64;
+    const px = Math.cos(ang) * pop, py = Math.sin(ang) * pop;          // pops up and out of the button
+    const fx = px * 1.3, fy = py + 64 + Math.random() * 46;             // falls with gravity
+    const spin = 200 + Math.random() * 360;
+    c.animate([
+      {transform: 'translate(0,0) scale(.35) rotate(0deg)', opacity: 0, offset: 0, easing: 'cubic-bezier(.2,.7,.4,1)'},
+      {transform: `translate(${px}px,${py}px) scale(1) rotate(${spin * .3}deg)`, opacity: 1, offset: .24, easing: 'cubic-bezier(.5,0,.9,.5)'},
+      {transform: `translate(${fx}px,${fy}px) scale(1) rotate(${spin * .6}deg)`, opacity: 1, offset: .52, easing: 'cubic-bezier(.45,0,.2,1)'},
+      {transform: `translate(${tx - sx}px,${ty - sy}px) scale(.42) rotate(${spin}deg)`, opacity: .9, offset: 1},
+    ], {duration: 1150 + Math.random() * 250, delay: i * 38, fill: 'backwards'}).finished.then(() => {
+      c.remove(); bump(); if (landed < 6) tone(1300 + landed * 90, .05, 'triangle', .035);
+      if (++landed === 1){
+        const g = document.createElement('span'); g.className = 'gain-pop'; g.textContent = `+${fmtCoins(amount)}`;
+        g.style.cssText = `left:${dr.left - 6}px;top:${dr.bottom + 4}px`; document.body.appendChild(g);
+        g.animate([{transform: 'translateY(6px)', opacity: 0}, {transform: 'translateY(0)', opacity: 1, offset: .2}, {transform: 'translateY(-6px)', opacity: 0}], {duration: 1500, easing: 'ease-out'}).finished.then(() => g.remove());
+      }
+    });
+  }
+}
+
 /* ---------- actions ---------- */
 function placeBet(key, el){
   if (S.busy || S.gamble) return;
@@ -1395,7 +1601,7 @@ function openGift(){
   if (S.giftAt + (broke ? GIFT_BROKE_COOLDOWN : GIFT_COOLDOWN) > Date.now() || (MODE === 'rank' && !broke)) return;
   const amt = (broke ? 500 : 300) * phaseMult();
   S.balance += amt; S.giftAt = Date.now();
-  winJingle(false); chipRain(14); animateBalance();
+  winJingle(false); chipFly(amt); chipRain(10); animateBalance();
   setResult('Abracadabra!', `+${fmt(amt)} fichas`, 'win', 'O chapéu volta a encher em 30 minutos.'); unlockSound();
   save(); renderControls();
 }
@@ -1465,7 +1671,7 @@ async function doThrow(){
   else setResult(cardName(card), `−${fmt(cost)} fichas`, 'lose', 'Faça a próxima aposta.');
   animateBalance();
   if (S.wand && wandDiscount() > 0 && typeof appUseFreeWand === 'function') appUseFreeWand();
-  progRound({card, gold, bets: S.bets, pay, profit, trick: S.wand || S.second});
+  progRound({card, gold, bets: S.bets, pay, profit, trick: S.wand || S.second, wand: S.wand});
   S.bets = {}; S.marked = null; S.second = false; S.wand = false; S.current = card;
   S.busy = false; save(); renderAll();
   if (typeof appAfterRound === 'function') appAfterRound();
@@ -1543,14 +1749,14 @@ $('bGift').onclick = openGift;
 $('throwBtn').onclick = doThrow;
 $('gHigh').onclick = () => gamble('hi');
 $('gLow').onclick = () => gamble('lo');
-$('gKeep').onclick = () => { setResult('Prêmio guardado', `${fmt(S.gamble.amount)} fichas`, 'win', 'Faça a próxima aposta.'); closeGamble(); };
+$('gKeep').onclick = () => { setResult('Prêmio guardado', `${fmt(S.gamble.amount)} fichas`, 'win', 'Faça a próxima aposta.'); closeGamble(); progEvent('keep'); };
 setInterval(renderGift, 1000);
 
 /* =========================================================
    GAME MODES: solo · ranking (db) · live table (room presence)
    ========================================================= */
 var MODE = 'solo';
-document.querySelector('[data-logo]').src = document.querySelector('.logo-sm').src;
+document.querySelectorAll('[data-logo]').forEach(im => { im.src = document.querySelector('.logo-sm').src; });
 const BET_MS = 20000, THROW_MS = 7500;
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const capP = {};
@@ -1780,7 +1986,7 @@ function renderMode(){
   const names = {solo: ['♠', 'Sozinho'], rank: ['♦', 'Ranking'], live: ['♥', 'Ao vivo']};
   $('modeBtn').firstElementChild.textContent = names[MODE][0];
   $('modeName').textContent = names[MODE][1];
-  $('hudMode').textContent = `${names[MODE][1]} · Fase ${CASINOS.indexOf(casino()) + 1}`;
+  $('hudMode').textContent = MODE === 'solo' && P.ng ? `Fase ${CASINOS.indexOf(casino()) + 1} · Jornada+${P.ng > 1 ? ' ' + P.ng : ''}` : `${names[MODE][1]} · Fase ${CASINOS.indexOf(casino()) + 1}`;
   const pill = $('modePill');
   if (MODE === 'rank'){
     const me = lastRank.findIndex(r => r.id === myId);
@@ -1817,10 +2023,42 @@ function leaveMode(){
 }
 
 /* ---------- start screen ---------- */
+function openStart(){ $('start').hidden = false; $('start').classList.remove('show'); void $('start').offsetWidth; $('start').classList.add('show'); }
 function showStart(canClose){
-  $('start').hidden = false; $('start').classList.remove('show'); void $('start').offsetWidth; $('start').classList.add('show');
-  $('startClose').hidden = !canClose; startMsg('');
+  openStart(); $('home').hidden = true; $('startModes').hidden = false;
+  $('startClose').hidden = !canClose; $('startBack').hidden = !!canClose; startMsg('');
 }
+/* ---------- home: logo, the magician's hand and one button ---------- */
+function localBalance(){ try { const d = JSON.parse(localStorage.getItem('cartaNoAr.v1') || 'null'); return d && d.balance != null ? d.balance : 1000; } catch(e){ return 1000; } }
+function homeState(){
+  const started = P.started || S.rounds > 0;
+  $('homeGoLabel').textContent = started ? 'Continuar' : 'Começar jornada';
+  $('homeGoSub').textContent = started ? `${casino().n} · ${fmtCoins(localBalance())} fichas` : 'Você começa com 1.000 fichas';
+  $('homeNg').hidden = !P.unlocked.includes('palacio'); $('ngPanel').hidden = true;
+  $('ngPct').textContent = `+${Math.round((ngBonusFor((P.ng || 0) + 1) - 1) * 100)}%`;
+}
+function showHome(){ openStart(); homeState(); $('home').hidden = false; $('startModes').hidden = true; }
+function startJourney(){
+  if (starting) return;
+  P.started = true; saveP(); unlockSound();
+  choose('solo');
+}
+function newJourneyPlus(){
+  if (!P.unlocked.includes('palacio') || starting) return;
+  P.ever = [...new Set([...(P.ever || []), ...P.unlocked])];
+  P.ng = (P.ng || 0) + 1; P.unlocked = ['boteco']; P.casino = 'boteco'; P.started = true; confirmCasino = null; saveP();
+  try { const d = JSON.parse(localStorage.getItem('cartaNoAr.v1') || '{}'); d.balance = NG_START; localStorage.setItem('cartaNoAr.v1', JSON.stringify(d)); } catch(e){}
+  choose('solo');
+  S.chip = chipSet()[1].v; save(); renderAll();
+  setResult(`Nova Jornada+ ${P.ng}`, `${fmt(NG_START)} fichas`, 'win', `Missões e baú rendem +${Math.round((ngBonus() - 1) * 100)}% de fichas.`);
+  winJingle(true); chipRain(30); toastLater(`Nova Jornada+ ${P.ng} começou! Boa sorte, Mestre da Jornada.`);
+}
+$('homeGo').onclick = startJourney;
+$('homeNg').onclick = () => { tapSound(); $('homeNg').hidden = true; $('ngPanel').hidden = false; $('ngPanel').scrollIntoView({block: 'nearest', behavior: 'smooth'}); };
+$('ngNo').onclick = () => { tapSound(); homeState(); };
+$('ngYes').onclick = newJourneyPlus;
+$('homeFriends').onclick = () => { tapSound(); showStart(false); };
+$('startBack').onclick = () => { tapSound(); showHome(); };
 function startMsg(t, err){ $('startMsg').textContent = t; $('startMsg').className = 'start-msg' + (err ? ' err' : ''); }
 function needNick(){
   NICK = $('nick').value.trim().slice(0, 16);
@@ -1836,7 +2074,7 @@ async function choose(mode, code){
     NICK = $('nick').value.trim().slice(0, 16); try { localStorage.setItem('cartaNoAr.nick', NICK); } catch(e){}
     leaveMode(); MODE = 'solo'; loadLocal(); resetRound();
     setResult('Faça sua aposta', '', '', 'Escolha onde a carta vai cair e toque em Jogar a carta.');
-    finishStart(); return;
+    finishStart('jornada'); return;
   }
   starting = true;
   startMsg(mode === 'rank' ? 'Abrindo o placar…' : 'Entrando na mesa…');
@@ -1847,10 +2085,10 @@ async function choose(mode, code){
   else setResult(`Mesa ${esc(code.toUpperCase())}`, '', '', 'Faça sua aposta e toque em Estou pronto.');
   finishStart();
 }
-function finishStart(){
-  $('start').hidden = true; shownBal = S.balance; renderAll(); go('mesa');
+function finishStart(dest){
+  $('start').hidden = true; shownBal = S.balance; renderAll(); go(dest || 'mesa');
   if (MODE === 'live') renderLive();
-  setTimeout(startCoach, 700);
+  if (dest === 'jornada'){ $('view-jornada').scrollTop = 0; setTimeout(startTour, 450); }
 }
 document.querySelectorAll('.mode[data-mode]').forEach(b => b.onclick = () => choose(b.dataset.mode));
 const cleanCode = v => v.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 6);
@@ -1891,32 +2129,50 @@ const ACCESSORIES = [
   {k:'chuva',    n:'Chuva Dourada',      d:'Fichas de ouro caem quando você ganha.', cost:2000000, req:'palacio'},
   {k:'coroa',    n:'Coroa do Palácio',   d:'Uma coroa sobre o seu nível.',           cost:4000000, req:'palacio'},
 ];
+// missions teach the game: each one points at a different bet or power, and none asks for a minimum stake
 const DAILY_POOL = [
-  {t:'rounds', goal:10,   txt:n=>`Jogue ${n} rodadas`,                  chips:400, stars:1},
-  {t:'wins',   goal:5,    txt:n=>`Ganhe ${n} rodadas`,                  chips:500, stars:1},
-  {t:'color',  goal:5,    txt:n=>`Acerte a cor ${n} vezes`,             chips:400, stars:1},
-  {t:'suit',   goal:3,    txt:n=>`Acerte o naipe ${n} vezes`,           chips:600, stars:1},
-  {t:'rank',   goal:1,    txt:()=>'Acerte um valor exato',              chips:800, stars:2},
-  {t:'streak', goal:3,    txt:n=>`Faça uma sequência de ${n} vitórias`, chips:800, stars:2},
-  {t:'prize',  goal:2000, txt:n=>`Ganhe ${fmt(n)} fichas em prêmios`,   chips:500, stars:1},
-  {t:'trick',  goal:1,    txt:()=>'Use a Varinha Mágica ou a Segunda Chance', chips:600, stars:1},
+  {t:'range',   goal:1,  g:'A–6', tone:'violet', txt:()=>'Ganhe apostando na Faixa',           chips:500, stars:1},
+  {t:'suit2',   goal:2,  g:'♠♥',  tone:'rose',   txt:n=>`Acerte o naipe ${n} vezes seguidas`,   chips:700, stars:2},
+  {t:'keep',    goal:1,  g:'⇅',   tone:'gold',   txt:()=>'Guarde um prêmio no Maior ou menor',  chips:400, stars:1},
+  {t:'face',    goal:1,  g:'JQK', tone:'violet', txt:()=>'Acerte uma Figura',                   chips:500, stars:1},
+  {t:'wandwin', goal:1,  g:'✦',   tone:'wand',   txt:()=>'Ganhe uma rodada usando a Varinha',   chips:600, stars:1},
+  {t:'rank',    goal:1,  g:'12×', tone:'gold',   txt:()=>'Acerte um valor exato',               chips:800, stars:2},
+  {t:'color',   goal:3,  g:'◐',   tone:'rose',   txt:n=>`Acerte a cor ${n} vezes`,              chips:400, stars:1},
+  {t:'rounds',  goal:10, g:'10',  tone:'teal',   txt:n=>`Jogue ${n} rodadas`,                   chips:400, stars:1},
+  {t:'streak',  goal:3,  g:'≫',   tone:'flame',  txt:n=>`Ganhe ${n} rodadas seguidas`,          chips:800, stars:2},
 ];
 const WEEKLY_POOL = [
-  {t:'rounds', goal:80,    txt:n=>`Jogue ${n} rodadas`,                  chips:5000,  stars:5},
-  {t:'wins',   goal:40,    txt:n=>`Ganhe ${n} rodadas`,                  chips:6000,  stars:5},
-  {t:'suit',   goal:15,    txt:n=>`Acerte o naipe ${n} vezes`,           chips:6000,  stars:5},
-  {t:'rank',   goal:6,     txt:n=>`Acerte ${n} valores exatos`,          chips:8000,  stars:6},
-  {t:'exact',  goal:1,     txt:()=>'Acerte uma carta exata',             chips:12000, stars:8},
-  {t:'streak', goal:5,     txt:n=>`Faça uma sequência de ${n} vitórias`, chips:8000,  stars:6},
-  {t:'prize',  goal:25000, txt:n=>`Ganhe ${fmt(n)} fichas em prêmios`,   chips:5000,  stars:5},
-  {t:'gold',   goal:1,     txt:()=>'Veja uma Carta Dourada',             chips:10000, stars:8},
+  {t:'chest',  goal:4,  g:'Baú', tone:'teal',   txt:n=>`Abra o baú do dia ${n} vezes`, chips:8000,  stars:6},
+  {t:'face',   goal:5,  g:'JQK', tone:'violet', txt:n=>`Acerte ${n} Figuras`,           chips:6000,  stars:5},
+  {t:'exact',  goal:1,  g:'50×', tone:'gold',   txt:()=>'Acerte a carta exata',         chips:12000, stars:8},
+  {t:'rounds', goal:80, g:'80',  tone:'teal',   txt:n=>`Jogue ${n} rodadas`,            chips:5000,  stars:5},
+  {t:'suit',   goal:15, g:'♠♥',  tone:'rose',   txt:n=>`Acerte o naipe ${n} vezes`,     chips:6000,  stars:5},
+  {t:'rank',   goal:5,  g:'12×', tone:'gold',   txt:n=>`Acerte ${n} valores exatos`,    chips:8000,  stars:6},
+  {t:'streak', goal:5,  g:'≫',   tone:'flame',  txt:n=>`Ganhe ${n} rodadas seguidas`,   chips:8000,  stars:6},
+  {t:'gold',   goal:1,  g:'★',   tone:'gold',   txt:()=>'Veja uma Carta Dourada',       chips:10000, stars:8},
 ];
+const TONES = {
+  violet: 'radial-gradient(circle at 30% 25%,#a98bff,#5a2bd0 60%,#2b1060)',
+  rose:   'radial-gradient(circle at 30% 25%,#ff9ab6,#c4183f 60%,#4a0a1c)',
+  gold:   'radial-gradient(circle at 30% 25%,#fff3c4,#ffc75a 50%,#9a6a10)',
+  wand:   'radial-gradient(circle at 30% 25%,#c58cff,#6a2bd9 55%,#2b1060)',
+  teal:   'radial-gradient(circle at 30% 25%,#7fe3ff,#2f6bff 55%,#10245e)',
+  flame:  'radial-gradient(circle at 30% 25%,#ffb36b,#e2531f 55%,#4a1406)',
+};
+const CHEST_CHIPS = 1500, CHEST_STARS = 2;
+// Nova Jornada+: every restart after beating the Palace adds +25% to mission and chest chips (up to +100%)
+const NG_START = 5000;
+const ngBonusFor = n => 1 + 0.25 * Math.min(n, 4);
 const TITLES = [[1,'Aprendiz'],[3,'Ilusionista'],[6,'Mágico'],[10,'Grande Mágico'],[15,'Lenda do Palácio']];
 const SUIT_REWARD = 5000, ALBUM_REWARD = 50000;
 
-let P = {casino:'boteco', unlocked:['boteco'], stars:0, level:1, day:'', week:'', daily:[], weekly:[], album:{}, suitsDone:[], albumDone:false, acc:[], worn:[]};
+let P = {casino:'boteco', unlocked:['boteco'], stars:0, level:1, day:'', week:'', daily:[], weekly:[], album:{}, suitsDone:[], albumDone:false, acc:[], worn:[], ng:0, ever:[]};
 try { Object.assign(P, JSON.parse(localStorage.getItem('cartaNoAr.prog') || '{}')); } catch(e){}
 function saveP(){ try { localStorage.setItem('cartaNoAr.prog', JSON.stringify(P)); } catch(e){} }
+const ngBonus = () => ngBonusFor(P.ng || 0);
+const rewardChips = base => Math.round(base * phaseMult() * ngBonus());
+// a stage you once opened stays yours for looks bought there, even after a Nova Jornada+
+const phaseSeen = k => P.unlocked.includes(k) || (P.ever || []).includes(k);
 const casino = () => CASINOS.find(c => c.k === P.casino) || CASINOS[0];
 const goldChance = () => (casino().gold || 0.01) * hotGold(S.streak);
 const goldMult = () => casino().goldMult || 3;
@@ -1947,11 +2203,17 @@ function addStars(n){
 /* ---------- missions ---------- */
 function isoWeek(){ const d = new Date(); const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day); const y = new Date(Date.UTC(t.getUTCFullYear(), 0, 1)); return t.getUTCFullYear() + '-W' + Math.ceil(((t - y) / 864e5 + 1) / 7); }
 function dayKey(){ const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
-function pick3(pool){ return pool.map((m, i) => ({m, r: Math.random()})).sort((a, b) => a.r - b.r).slice(0, 3).map(x => ({t: x.m.t, p: 0, done: false, got: false, goal: x.m.t === 'prize' ? x.m.goal * phaseMult() : x.m.goal})); }
+function pickMissions(pool, n, must){
+  const fixed = must ? pool.filter(m => m.t === must) : [];
+  const rest = pool.filter(m => m.t !== must).map(m => ({m, r: Math.random()})).sort((a, b) => a.r - b.r).slice(0, n - fixed.length).map(x => x.m);
+  return [...fixed, ...rest].map(m => ({t: m.t, p: 0, done: false, got: false, goal: m.goal}));
+}
 function rollMissions(){
   let changed = false;
-  if (P.day !== dayKey()){ P.day = dayKey(); P.daily = pick3(DAILY_POOL); changed = true; }
-  if (P.week !== isoWeek()){ P.week = isoWeek(); P.weekly = pick3(WEEKLY_POOL); changed = true; }
+  // saves from older versions may hold mission types that no longer exist: roll those lists again
+  const stale = list => !Array.isArray(P[list]) || P[list].some(m => !defOf(list, m.t));
+  if (P.day !== dayKey() || stale('daily')){ P.day = dayKey(); P.daily = pickMissions(DAILY_POOL, 3); changed = true; }
+  if (P.week !== isoWeek() || stale('weekly')){ P.week = isoWeek(); P.weekly = pickMissions(WEEKLY_POOL, 3, 'chest'); changed = true; }
   if (changed) saveP();
 }
 const defOf = (list, t) => (list === 'daily' ? DAILY_POOL : WEEKLY_POOL).find(d => d.t === t);
@@ -1963,13 +2225,18 @@ function progRound(r){
   const hit = pre => Object.keys(r.bets).some(k => k.startsWith(pre) && def(k).test(r.card));
   const ev = {
     rounds: 1, wins: won ? 1 : 0, color: hit('color:') ? 1 : 0, suit: hit('suit:') ? 1 : 0,
-    rank: hit('rank:') ? 1 : 0, exact: hit('card:') ? 1 : 0, prize: r.pay, trick: r.trick ? 1 : 0, gold: r.gold ? 1 : 0,
+    rank: hit('rank:') ? 1 : 0, exact: hit('card:') ? 1 : 0, trick: r.trick ? 1 : 0, gold: r.gold ? 1 : 0,
+    range: hit('range:') ? 1 : 0, wandwin: r.wand && won ? 1 : 0,
   };
+  ev.face = r.card.v >= 11 && (hit('range:face') || ev.rank || ev.exact) ? 1 : 0;
+  const suitBet = Object.keys(r.bets).some(k => k.startsWith('suit:'));
   let newly = 0;
   ['daily', 'weekly'].forEach(list => P[list].forEach(m => {
     if (m.done) return;
-    const d = defOf(list, m.t);
-    if (m.t === 'streak') m.p = Math.max(m.p, S.streak); else m.p += ev[m.t] || 0;
+    const d = defOf(list, m.t); if (!d) return;
+    if (m.t === 'streak') m.p = Math.max(m.p, S.streak);
+    else if (m.t === 'suit2'){ if (ev.suit) m.p++; else if (suitBet) m.p = 0; }   // rounds without a suit bet keep the run
+    else m.p += ev[m.t] || 0;
     const goal = m.goal || d.goal;
     if (m.p >= goal){ m.p = goal; m.done = true; newly++; }
   }));
@@ -1989,10 +2256,42 @@ function flushToasts(){ if (!toastQ.length) return; toast(toastQ.shift()); if (t
 function claimMission(list, i){
   const m = P[list][i]; if (!m || !m.done || m.got) return;
   const d = defOf(list, m.t); m.got = true;
-  const chips = d.chips * phaseMult();
-  S.balance += chips; save(); animateBalance(); winJingle(false); chipRain(16);
+  const chips = rewardChips(d.chips);
+  S.balance += chips; save(); animateBalance(); winJingle(false); chipFly(chips); chipRain(10);
   setResult('Missão cumprida!', `+${fmt(chips)} fichas`, 'win', `E mais ${d.stars} ${d.stars === 1 ? 'estrela' : 'estrelas'} para o seu nível.`);
   addStars(d.stars); saveP(); renderProgress(); renderControls();
+  if (list === 'daily' && chestReady()) toastLater('Baú do dia pronto! Abra em Missões.');
+}
+// progress that happens outside a round (keeping a prize, opening the chest)
+function progEvent(t, n = 1){
+  rollMissions(); let newly = 0;
+  ['daily', 'weekly'].forEach(list => P[list].forEach(m => {
+    if (m.done || m.t !== t) return;
+    const goal = m.goal || defOf(list, m.t).goal;
+    m.p += n; if (m.p >= goal){ m.p = goal; m.done = true; newly++; }
+  }));
+  saveP(); if (newly) toastLater('Missão completa! Resgate o prêmio em Missões.');
+  renderProgress();
+}
+/* ---------- daily chest: opening the app fills the first slot, each claimed daily mission fills one more ---------- */
+const chestOpened = () => P.chestDay === dayKey();
+const chestSlots = () => 1 + P.daily.filter(m => m.got).length;
+const chestReady = () => !chestOpened() && P.daily.length > 0 && P.daily.every(m => m.got);
+function openChest(){
+  rollMissions(); if (!chestReady()) return;
+  P.chestDay = dayKey(); saveP();
+  const chips = rewardChips(CHEST_CHIPS);
+  S.balance += chips; save(); animateBalance(); winJingle(true); unlockSound(); chipFly(chips); chipRain(22);
+  setResult('Baú do dia!', `+${fmt(chips)} fichas`, 'win', `E mais ${CHEST_STARS} estrelas. Amanhã tem outro baú.`);
+  addStars(CHEST_STARS); progEvent('chest'); renderControls();
+}
+function swapMission(i){
+  rollMissions();
+  const m = P.daily[i]; if (!m || m.done || P.swapDay === dayKey()) return;
+  const used = P.daily.map(x => x.t), opts = DAILY_POOL.filter(d => !used.includes(d.t)); if (!opts.length) return;
+  const d = opts[Math.floor(Math.random() * opts.length)];
+  P.daily[i] = {t: d.t, p: 0, done: false, got: false, goal: d.goal}; P.swapDay = dayKey(); saveP();
+  shimmer(4, 988); renderProgress();
 }
 function checkAlbum(){
   SUITS.forEach(s => {
@@ -2065,18 +2364,22 @@ function renderProgress(){
   rollMissions();
   const lvl = P.level, next = starsFor(lvl + 1), prev = starsFor(lvl), frac = Math.max(0, Math.min(1, (P.stars - prev) / (next - prev)));
   $('lvlNum').textContent = lvl; $('lvlTitle').textContent = titleOf(lvl); $('lvlRing').style.setProperty('--p', frac.toFixed(3));
-  $('progLevel').innerHTML = `Nível ${lvl} · ${titleOf(lvl)} <span class="stars">★ ${P.stars}</span>`;
+  $('progLevel').innerHTML = `Nível ${lvl} <span class="stars">★ ${P.stars - prev}/${next - prev}</span>`;
   $('progBar').style.width = (frac * 100).toFixed(1) + '%';
-  $('lvlNext').textContent = `Faltam ${next - P.stars} estrelas para o nível ${lvl + 1}, que dá ${fmt(1000 * (lvl + 1) * phaseMult())} fichas.`;
-  const ready = [...P.daily, ...P.weekly].filter(m => m.done && !m.got).length;
+  $('lvlNext').textContent = `Nível ${lvl + 1} dá ${fmt(1000 * (lvl + 1) * phaseMult())} fichas`;
+  const ready = [...P.daily, ...P.weekly].filter(m => m.done && !m.got).length + (chestReady() ? 1 : 0);
   $('missionDot').textContent = ready || ''; $('missionDot').hidden = !ready;
   if (VIEW === 'jornada') renderJourney();
   if (VIEW === 'missoes') renderMissions();
   if (VIEW === 'colecao'){ renderAlbum(); renderAccs(); }
+  renderReminder();
 }
 document.addEventListener('click', e => {
   const cs = e.target.closest('[data-casino]'); if (cs){ pickCasino(cs.dataset.casino); return; }
   const cl = e.target.closest('[data-claim]'); if (cl){ const [l, i] = cl.dataset.claim.split(':'); claimMission(l, +i); return; }
+  if (e.target.closest('[data-chest]')){ openChest(); return; }
+  const sw = e.target.closest('[data-swap]'); if (sw){ swapMission(+sw.dataset.swap); return; }
+  if (e.target.closest('[data-ng]')){ showHome(); $('homeNg').click(); return; }
   const ac = e.target.closest('[data-acc]'); if (ac){ pickAcc(ac.dataset.acc); return; }
 });
 function trailStars(dur){
@@ -2107,7 +2410,7 @@ const SKINS = [
 let SKIN = 'original';
 try { const v = localStorage.getItem('cartaNoAr.skin'); if (SKINS.some(x => x.k === v)) SKIN = v; } catch(e){}
 const skinPhase = s => s.phase ? CASINOS.find(c => c.k === s.phase) : null;
-const skinOpen = s => !s.phase || P.unlocked.includes(s.phase);
+const skinOpen = s => !s.phase || phaseSeen(s.phase);
 function applySkin(k, announce){
   SKIN = k; document.documentElement.dataset.skin = k;
   try { localStorage.setItem('cartaNoAr.skin', k); } catch(e){}
@@ -2184,7 +2487,7 @@ function go(v){
   VIEW = v;
   document.querySelectorAll('.view').forEach(el => { el.hidden = el.id !== 'view-' + v; });
   document.querySelectorAll('.tabbar [data-go]').forEach(b => { if (b.dataset.go === v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-  if (v === 'mesa') fit();
+  if (v === 'mesa'){ fit(); if (!P.ftue) setTimeout(startCoach, 500); }
   if (v === 'loja') renderLoja();
   if (v === 'colecao') setCtab(CTAB);
   if (v !== 'mesa') renderProgress();
@@ -2280,39 +2583,73 @@ function showOutcome(o){
 }
 
 /* ---------- first-session tips ---------- */
-var coachActive = false, coachStep = 0;
+var coachActive = false, coachStep = 0, coachSteps = [], coachDone = null;
 const COACH = [
   {sel: '#chipsel', title: 'Escolha o valor da ficha', text: 'Cada toque numa aposta coloca uma ficha deste valor.'},
   {sel: '#boardWrap', title: 'Qual será a carta?', text: 'Toque onde acha que ela vai cair. Quanto mais difícil, mais paga: a cor paga ×1,9 e a carta exata ×50.'},
   {sel: '#throwBtn', title: 'Jogue a carta', text: 'Quando estiver pronto, o mágico joga a carta para o alto. Boa sorte!'},
 ];
-function startCoach(){
-  if (P.ftue || coachActive || MODE !== 'solo' || VIEW !== 'mesa') return;
-  if (S.rounds > 0){ P.ftue = true; saveP(); return; }
-  coachActive = true; coachStep = 0;
+// first time only: what the journey is, where missions, collection and shop live, then the first stage
+const TOUR = [
+  {sel: '#journeyBody .casino', title: 'Sua jornada de mágico', text: 'Você começa como aprendiz na Tenda do Ilusionista. Junte fichas para abrir cinco palcos, cada um mais grandioso, até o Palácio do Mágico.'},
+  {sel: '.tabbar [data-go="missoes"]', title: 'Missões', text: 'Desafios do dia e da semana dão fichas e estrelas. Cumpra as 3 missões diárias para abrir o baú do mágico.'},
+  {sel: '.tabbar [data-go="colecao"]', title: 'Coleção', text: 'Cada carta que você acerta entra no seu álbum. Aqui também ficam os acessórios e os visuais.'},
+  {sel: '.tabbar [data-go="loja"]', title: 'Loja', text: () => typeof renderShop === 'function' ? 'Fichas grátis todo dia, pacotes de fichas, o Clube do Mágico e os visuais de cada palco.' : 'Fichas grátis do Chapéu do Mágico e os visuais de cada palco.'},
+  {sel: '#journeyBody .casino.here .cs-act button', title: 'Primeira fase', text: 'Toque em Jogar para entrar na Tenda do Ilusionista. Lá o mágico mostra como apostar.', btn: 'Jogar', act: () => go('mesa')},
+];
+function runCoach(steps, done){
+  coachActive = true; coachStep = 0; coachSteps = steps; coachDone = done;
   const el = document.createElement('div'); el.className = 'coach'; el.id = 'coach';
   el.innerHTML = '<div class="coach-hole" id="coachHole"></div><div class="coach-tip" id="coachTip" role="dialog"></div>';
+  // on a step with an action, tapping the highlighted spot does it too
+  el.addEventListener('click', e => {
+    const c = coachSteps[coachStep]; if (!c || !c.act || e.target.closest('.coach-tip')) return;
+    const r = $('coachHole').getBoundingClientRect();
+    if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) nextCoach();
+  });
   document.body.appendChild(el); showCoach();
 }
+function startCoach(){
+  if (P.ftue || coachActive || MODE !== 'solo' || VIEW !== 'mesa' || !$('start').hidden) return;
+  if (S.rounds > 0){ P.ftue = true; saveP(); return; }
+  runCoach(COACH, () => { P.ftue = true; saveP(); });
+}
+function startTour(){
+  if (P.tour || coachActive || MODE !== 'solo' || VIEW !== 'jornada' || !$('start').hidden) return;
+  if (S.rounds > 0 || P.ftue){ P.tour = true; saveP(); return; }
+  runCoach(TOUR, () => { P.tour = true; saveP(); });
+}
+function nextCoach(){
+  tapSound();
+  const c = coachSteps[coachStep]; coachStep++;
+  if (coachStep >= coachSteps.length){ endCoach(); if (c && c.act) c.act(); } else showCoach();
+}
 function showCoach(){
-  const c = COACH[coachStep], r = document.querySelector(c.sel).getBoundingClientRect(), pad = 6, hole = $('coachHole');
+  const c = coachSteps[coachStep], t = c && document.querySelector(c.sel);
+  if (!t){ coachStep++; if (coachStep >= coachSteps.length) endCoach(); else showCoach(); return; }
+  t.scrollIntoView({block: 'nearest'});
+  const r = t.getBoundingClientRect(), pad = 6, hole = $('coachHole');
   Object.assign(hole.style, {left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px'});
+  const last = coachStep === coachSteps.length - 1, skip = coachSteps === TOUR && !last;
   const tip = $('coachTip');
-  tip.innerHTML = `<b>${c.title}</b><p>${c.text}</p><div class="row"><small>${coachStep + 1} de ${COACH.length}</small><button id="coachNext">${coachStep < COACH.length - 1 ? 'Próximo' : 'Entendi'}</button></div>`;
+  tip.innerHTML = `<b>${c.title}</b><p>${typeof c.text === 'function' ? c.text() : c.text}</p><div class="row"><small>${coachStep + 1} de ${coachSteps.length}</small><span>${skip ? '<button class="coach-skip" id="coachSkip">Pular</button>' : ''}<button id="coachNext">${c.btn || (last ? 'Entendi' : 'Próximo')}</button></span></div>`;
   const above = r.top > innerHeight * .45;
   tip.style.top = above ? '' : (r.bottom + 16) + 'px';
   tip.style.bottom = above ? (innerHeight - r.top + 16) + 'px' : '';
-  $('coachNext').onclick = () => { tapSound(); coachStep++; if (coachStep >= COACH.length) endCoach(); else showCoach(); };
+  $('coachNext').onclick = nextCoach;
+  if (skip) $('coachSkip').onclick = () => { tapSound(); endCoach(); };
 }
-function endCoach(){ coachActive = false; P.ftue = true; saveP(); const c = $('coach'); if (c) c.remove(); }
+function endCoach(){ coachActive = false; const d = coachDone; coachDone = null; const c = $('coach'); if (c) c.remove(); if (d) d(); }
 
 /* ---------- views fed by progression ---------- */
 function renderJourney(){
-  $('journeyBody').innerHTML = `<div class="trail">${CASINOS.map((c, i) => {
+  const ngTop = P.ng ? `<p class="ng-badge"><i>★</i>Mestre da Jornada · Jornada+ ${P.ng} · recompensas +${Math.round((ngBonus() - 1) * 100)}%</p>` : '';
+  const ngEnd = P.unlocked.includes('palacio') ? `<div class="card ng-card"><b>Você zerou a jornada!</b><p>A Nova Jornada+ recomeça os palcos com 5.000 fichas e missões que rendem +${Math.round((ngBonusFor((P.ng || 0) + 1) - 1) * 100)}%. Você mantém nível, álbum, acessórios e visuais.</p><button class="pill-btn gold" data-ng>Ver Nova Jornada+</button></div>` : '';
+  $('journeyBody').innerHTML = ngTop + `<div class="trail">${CASINOS.map((c, i) => {
     const open = P.unlocked.includes(c.k), here = P.casino === c.k, ask = confirmCasino === c.k;
     const sk = SKINS.find(s => s.phase === c.k);
     let act;
-    if (here) act = `<em>Você está aqui</em><button class="pill-btn ghost" data-go="mesa">Jogar</button>`;
+    if (here) act = `<em>Você está aqui</em><button class="pill-btn" data-go="mesa">Jogar</button>`;
     else if (open) act = `<em>Aposta mínima ${fmt(c.min)}</em><button class="pill-btn" data-casino="${c.k}">Ir para este palco</button>`;
     else if (i > 0 && !P.unlocked.includes(CASINOS[i - 1].k)) act = `<em>Entrada ${fmt(c.cost)}</em><span class="cs-lock">Abra o palco ${i} antes</span>`;
     else {
@@ -2326,17 +2663,70 @@ function renderJourney(){
         <div class="cs-body"><b>${c.n}</b><small>${c.perk}</small>
           <small>Fichas ×${PHASE_MULT[i]} na loja e nas missões${sk ? ` · visual exclusivo: ${sk.n}` : ''}</small>${prog}
           <div class="cs-act">${act}</div></div></div></div>`;
-  }).join('')}</div>`;
+  }).join('')}</div>` + ngEnd;
 }
+const msTile = d => `<span class="ms-tile${[...d.g].length > 2 ? ' sm' : ''}" style="background:${TONES[d.tone]};color:${d.tone === 'gold' ? '#3a2306' : '#fff'}" aria-hidden="true">${d.g}</span>`;
 function renderMissions(){
-  const row = (list, m, i) => { const d = defOf(list, m.t), goal = m.goal || d.goal, chips = d.chips * phaseMult();
-    return `<div class="mission ${m.got ? 'got' : m.done ? 'ready' : ''}">
-      <div class="ms-txt"><b>${d.txt(goal)}</b><small>+${fmt(chips)} fichas · ★ ${d.stars}</small>
-        <span class="ms-bar"><i style="width:${Math.min(100, m.p / goal * 100)}%"></i></span></div>
-      ${m.got ? '<em>Feito</em>' : m.done ? `<button class="buy" data-claim="${list}:${i}">Resgatar</button>` : `<em>${fmt(m.p)}/${fmt(goal)}</em>`}
-    </div>`; };
-  $('missionsBody').innerHTML = `<p class="eyebrow"><span>Diárias</span><span>renovam à meia-noite</span></p>${P.daily.map((m, i) => row('daily', m, i)).join('')}
-    <p class="eyebrow" style="margin-top:8px"><span>Semanais</span><span>renovam na segunda</span></p>${P.weekly.map((m, i) => row('weekly', m, i)).join('')}`;
+  rollMissions();
+  const swapFree = P.swapDay !== dayKey();
+  const row = (list, m, i) => {
+    const d = defOf(list, m.t), goal = m.goal || d.goal, chips = rewardChips(d.chips), p = Math.min(m.p, goal);
+    const act = m.got ? '<em>Feito</em>'
+      : m.done ? `<button class="ms-claim" data-claim="${list}:${i}">Resgatar</button>`
+      : list === 'daily' && swapFree ? `<button class="ms-swap" data-swap="${i}" aria-label="Trocar esta missão"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3"/><path d="M20 16H7l3 3"/></svg>Trocar</button>` : '';
+    return `<div class="mission ${m.got ? 'got' : m.done ? 'ready' : ''}">${msTile(d)}
+      <div class="ms-txt"><b>${d.txt(goal)}</b>
+        <span class="ms-prog"><span class="ms-bar"><i style="width:${(p / goal * 100).toFixed(1)}%"></i></span><span class="ms-n">${fmt(p)}/${fmt(goal)}</span></span>
+        <small>+${fmt(chips)} fichas · ★${d.stars}</small></div>
+      ${act}</div>`;
+  };
+  const head = (t, r) => `<p class="ms-head"><b>${t}</b><span>${r}</span></p>`;
+  $('missionsBody').innerHTML = `<div class="ms-list">${head('Diárias', swapFree ? '1 troca grátis hoje' : 'troca de hoje usada')}${P.daily.map((m, i) => row('daily', m, i)).join('')}</div>
+    <div class="ms-list">${head('Semanais', 'renovam na segunda')}${P.weekly.map((m, i) => row('weekly', m, i)).join('')}</div>`;
+  $('msSub').textContent = P.ng ? `Jornada+ ${P.ng}: missões e baú rendem +${Math.round((ngBonus() - 1) * 100)}% de fichas.` : 'Cumpra os desafios do dia e abra o baú do mágico.';
+  renderChest();
+}
+function renderChest(){
+  const el = $('chestCard'); if (!el) return;
+  const opened = chestOpened(), ready = chestReady(), full = opened ? 4 : chestSlots();
+  el.className = 'chest-card' + (ready ? ' ready' : '') + (opened ? ' opened' : '');
+  el.innerHTML = `<div class="ch-top"><span class="ch-ic${ready ? ' bob' : ''}">${opened ? '<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#3a2306" stroke-width="2.2" stroke-linejoin="round"><path d="M4 16h24v11H4z"/><path d="M5 15L9 5h14l4 10" fill="rgba(255,255,255,.35)"/><circle cx="12" cy="13" r="2" fill="#fff"/><circle cx="19" cy="11" r="1.6" fill="#fff"/><path d="M13 19h6v4h-6z" fill="#3a2306"/></svg>' : '<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#3a2306" stroke-width="2.2" stroke-linejoin="round"><path d="M4 14h24v13H4z"/><path d="M4 14c0-5 5.4-8 12-8s12 3 12 8"/><path d="M13 17h6v4h-6z" fill="#3a2306"/><path d="M10 7.2v6.8M22 7.2v6.8"/></svg>'}</span>
+      <span class="ch-tx"><b>Baú do dia</b><small>${opened ? 'Aberto! Volte amanhã para um novo baú.' : ready ? 'Tudo pronto. Abra o seu baú!' : 'Complete as 3 missões de hoje'}</small></span>
+      <span class="ch-rw"><b>+${fmtCoins(rewardChips(CHEST_CHIPS))}</b><small>fichas · ★${CHEST_STARS}</small></span></div>
+    <div class="ch-slots">${['Abriu o app', 'Missão 1', 'Missão 2', 'Missão 3'].map((l, i) => `<span class="${i < full ? 'full' : ''}">${i < full ? '<svg viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5l3 3 6-7"/></svg>' : ''}<small>${l}</small></span>`).join('')}</div>
+    ${ready ? '<button class="ch-open" data-chest>Abrir o baú</button>' : ''}`;
+}
+/* the closest mission, one tap away on the Mesa */
+function renderReminder(){
+  const el = $('msRemind'); if (!el) return;
+  if (MODE === 'live' || !$('offerStrip').hidden){ el.hidden = true; return; }
+  rollMissions();
+  let pick = null;
+  ['daily', 'weekly'].forEach(list => P[list].forEach((m, i) => { if (!pick && m.done && !m.got) pick = {list, m, i, ready: true}; }));
+  if (!pick && chestReady()) pick = {chest: true};
+  ['daily', 'weekly'].forEach(list => {
+    if (pick) return; let bf = -1;
+    P[list].forEach((m, i) => { if (m.done) return; const f = m.p / (m.goal || defOf(list, m.t).goal); if (f > bf){ bf = f; pick = {list, m, i}; } });
+  });
+  if (!pick){ el.hidden = true; return; }
+  const C = 2 * Math.PI * 12.5;
+  const ring = (f, txt, gold) => `<span class="mr-ring"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12.5" fill="none" stroke-width="3" style="stroke:rgba(246,239,255,.14)"/><circle cx="15" cy="15" r="12.5" fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="${(C * f).toFixed(1)} ${C.toFixed(1)}" style="stroke:${gold ? 'var(--gold)' : 'var(--flame)'}"/></svg><span>${txt}</span></span>`;
+  el.hidden = false;
+  el.removeAttribute('data-claim'); el.removeAttribute('data-go');
+  if (pick.chest){
+    el.className = 'ms-remind ready'; el.dataset.go = 'missoes';
+    el.innerHTML = `${ring(1, '4/4', true)}<span class="mr-tx"><small>Baú do dia pronto!</small><b>Abra o baú do mágico</b></span><span class="mr-rw">Abrir</span>`;
+    return;
+  }
+  const d = defOf(pick.list, pick.m.t), goal = pick.m.goal || d.goal, p = Math.min(pick.m.p, goal), chips = fmtCoins(rewardChips(d.chips));
+  const cnt = goal > 99 ? Math.round(p / goal * 100) + '%' : `${p}/${goal}`;
+  if (pick.ready){
+    el.className = 'ms-remind ready'; el.dataset.claim = `${pick.list}:${pick.i}`;
+    el.innerHTML = `${ring(1, cnt, true)}<span class="mr-tx"><small>Missão completa!</small><b>${d.txt(goal)}</b></span><span class="mr-rw">Resgatar +${chips}</span>`;
+  } else {
+    el.className = 'ms-remind'; el.dataset.go = 'missoes';
+    el.innerHTML = `${ring(p / goal, cnt)}<span class="mr-tx"><small>Missão · falta ${fmt(goal - p)}</small><b>${d.txt(goal)}</b></span><span class="mr-rw">+${chips}</span>`;
+  }
 }
 function renderAlbum(){
   const count = Object.keys(P.album).length;
@@ -2362,5 +2752,7 @@ if (S.balance >= 50) S.bets = {'color:red': 50};
 renderAll();
 if (typeof appInit === 'function') appInit();
 go('mesa');
+$('homeHand').innerHTML = $('handSvg').innerHTML.replace(/id="([^"]+)"/g, 'id="h-$1"').replace(/url\(#([^)]+)\)/g, 'url(#h-$1)').replace(/href="#([^"]+)"/g, 'href="#h-$1"');
+homeState();
 })();
 </script>
