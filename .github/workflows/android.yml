@@ -15,14 +15,14 @@ jobs:
       APP_VERSION_CODE: ${{ github.run_number }}
       HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -32,9 +32,20 @@ jobs:
       # APK de teste: instala direto no celular, com anúncios de teste do Google
       - name: Gerar APK de teste
         run: |
-          python3 tools/build_app.py
-          npx cap sync android
-          cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+          set -o pipefail
+          python3 tools/build_app.py 2>&1 | tee build.log
+          npx cap sync android 2>&1 | tee -a build.log
+          cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee -a ../build.log
+
+      # Se o build falhar, publica o log para dar para ler sem entrar no GitHub
+      - name: Publicar log do erro
+        if: failure()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: log-${{ github.run_number }}
+          name: Log do build ${{ github.run_number }} (falhou)
+          prerelease: true
+          files: build.log
 
       - name: Publicar APK de teste
         uses: softprops/action-gh-release@v2
