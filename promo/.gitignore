@@ -1,0 +1,5 @@
+node_modules/
+out/
+# gerados a partir do jogo por `npm run assets`
+public/game/
+src/data/game-data.json

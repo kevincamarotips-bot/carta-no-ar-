@@ -1,0 +1,33 @@
+{
+  "name": "cartas-no-ar-promo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gerador de vídeos promocionais do Cartas no Ar (Remotion). Separado do jogo: só lê ../src/carta-no-ar.html.",
+  "type": "module",
+  "scripts": {
+    "assets": "node scripts/extract-assets.mjs",
+    "predev": "node scripts/extract-assets.mjs",
+    "dev": "remotion studio src/index.ts",
+    "render": "node scripts/render.mjs",
+    "variacoes": "node scripts/render.mjs --variacoes 6",
+    "previa": "node scripts/contact-sheet.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "5.3.0",
+    "@fontsource/dm-mono": "5.3.0",
+    "@fontsource/marcellus": "5.3.0",
+    "@remotion/bundler": "4.0.535",
+    "@remotion/cli": "4.0.535",
+    "@remotion/renderer": "4.0.535",
+    "@remotion/zod-types": "4.0.535",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.535",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "typescript": "5.8.3"
+  }
+}
