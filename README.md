@@ -60,13 +60,13 @@ Uma simulação com jogadores de vários estilos (pasta de economia fora do repo
 
 | Fase | Aposta mínima | Multiplicador | Nível do duelo | Ingresso | Mestre | Carta Dourada | Visual da fase |
 |---|---|---|---|---|---|---|---|
-| 1. Tenda do Ilusionista | 10 | ×1 | 5 | 1.000 | Bento, o Aprendiz | 1 em 100, ×3 | Luva Branca |
-| 2. Teatro das Sombras | 50 | ×3 | 10 | 4.000 | Madame Sombra | 1 em 111, ×4 | Rubi Imperial |
-| 3. Biblioteca Encantada | 100 | ×6 | 16 | 15.000 | Professor Pergaminho | 1 em 125, ×5 | Pergaminho |
-| 4. Observatório Estelar | 250 | ×12 | 22 | 50.000 | Lúmen, o Astrólogo | 1 em 167, ×7 | Safira |
-| 5. Circo Elétrico | 1.000 | ×30 | 28 | 150.000 | Volt, o Domador | 1 em 200, ×9 | Neon Arcano |
-| 6. Abismo das Sereias | 2.500 | ×70 | 34 | 500.000 | Maré, a Sereia | 1 em 250, ×12 | Maré Profunda |
-| 7. Palácio do Mágico | 10.000 | ×180 | 40 | 1.500.000 | O Rei de Copas | 1 em 333, ×15 | Esmeralda Real |
+| 1. Tenda do Ilusionista | 10 | ×1 | 5 | 1.000 | Bento, o Aprendiz | 1 em 100, ×3 | Chama Violeta |
+| 2. Teatro das Sombras | 50 | ×3 | 10 | 4.000 | Madame Sombra | 1 em 111, ×4 | Máscara de Veludo |
+| 3. Biblioteca Encantada | 100 | ×6 | 16 | 15.000 | Professora Pergaminho | 1 em 125, ×5 | Grimório |
+| 4. Observatório Estelar | 250 | ×12 | 22 | 50.000 | Lúmen, o Astrólogo | 1 em 167, ×7 | Constelação |
+| 5. Circo Elétrico | 1.000 | ×30 | 28 | 150.000 | Volt, a Domadora | 1 em 200, ×9 | Relâmpago |
+| 6. Abismo das Sereias | 2.500 | ×70 | 34 | 500.000 | Maré, a Sereia | 1 em 250, ×12 | Pérola das Marés |
+| 7. Palácio do Mágico | 10.000 | ×180 | 40 | 1.500.000 | O Rei de Copas | 1 em 333, ×15 | Coroa Dourada |
 | 8. Torre do Infinito | 25.000 | ×400 | 46 | 5.000.000 | O Grande Mestre | 1 em 500, ×20 | Infinito |
 
 O multiplicador vale para fichas do dia, vídeos, Clube, pacotes, missões, baú, atos, cartolas, coelho e passe. O álbum paga fixo (3.000 por naipe, 30.000 completo). Saves antigos mantêm o nível e as fases abertas; as fases antes da mais alta contam como vencidas.
@@ -90,14 +90,14 @@ Em **Monetizar → Produtos → Produtos no app**, crie com estes IDs exatos (o 
 | `sem_anuncios` | Sem anúncios | Não consumível | R$ 9,90 |
 | `clube_magico` | Clube do Mágico | **Assinatura** (em Monetizar → Assinaturas), plano base mensal | R$ 29,90/mês |
 | `visuais_todos` | Todos os visuais | Não consumível | R$ 14,90 |
-| `visual_luva` | Visual Luva Branca | Não consumível | R$ 4,90 |
-| `visual_rubi` | Visual Rubi Imperial | Não consumível | R$ 4,90 |
-| `visual_pergaminho` | Visual Pergaminho (novo) | Não consumível | R$ 4,90 |
-| `visual_safira` | Visual Safira | Não consumível | R$ 4,90 |
-| `visual_vegas` | Visual Neon Arcano | Não consumível | R$ 4,90 |
-| `visual_sereia` | Visual Maré Profunda (novo) | Não consumível | R$ 4,90 |
-| `visual_montecarlo` | Visual Esmeralda Real | Não consumível | R$ 4,90 |
-| `visual_infinito` | Visual Infinito (novo) | Não consumível | R$ 4,90 |
+| `visual_luva` | Visual Chama Violeta | Não consumível | R$ 4,90 |
+| `visual_rubi` | Visual Máscara de Veludo | Não consumível | R$ 4,90 |
+| `visual_pergaminho` | Visual Grimório | Não consumível | R$ 4,90 |
+| `visual_safira` | Visual Constelação | Não consumível | R$ 4,90 |
+| `visual_vegas` | Visual Relâmpago | Não consumível | R$ 4,90 |
+| `visual_sereia` | Visual Pérola das Marés | Não consumível | R$ 4,90 |
+| `visual_montecarlo` | Visual Coroa Dourada | Não consumível | R$ 4,90 |
+| `visual_infinito` | Visual Infinito | Não consumível | R$ 4,90 |
 | `passe_magico` | Passe do Mágico: trilha dourada (novo) | **Consumível** (uma compra por temporada) | R$ 14,90 |
 | `fichas_1000` | Punhado de fichas | Consumível | R$ 1,99 |
 | `fichas_5000` | Saquinho de fichas | Consumível | R$ 4,99 |
@@ -129,6 +129,10 @@ A Play Store e o AdMob exigem uma. Ela está em `privacidade.html` e fica public
 - `android/`: projeto Android (Capacitor). Pacote `com.kevincamaroti.cartanoar`.
 - `assets/`: ícone e tela de abertura.
 
+
+## Artes pintadas e visual místico
+
+Os 8 palcos, os 8 mestres, as luvas, os versos das cartas, as fichas e os ícones (Varinha, Segunda Chance, Maior ou menor e Mão quente) são ilustrações pintadas, guardadas no jogo como WebP leve. Cada visual troca a luva do mágico, o verso da carta e as cores do jogo, sempre em violeta e dourado, com um céu estrelado ao fundo.
 ## Versão web
 
 `index.html` na raiz é a versão web com modos online pelo Firebase (opcional). Veja `firebase-config.js`.

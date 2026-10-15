@@ -35,7 +35,7 @@ for chunk in [title, style] + links:
 body = body.strip()
 
 # ---- game hooks (the game calls app functions only when they exist) ----
-body = rep(body, '<script>\n(() => {', '<script>\n(() => {\nvar APP = true;')
+body = rep(body, '\n(() => {\nconst SUITS', '\n(() => {\nvar APP = true;\nconst SUITS')
 body = rep(body, 'const skinOpen = s => s.pass ? passSkinOwned(s.k) : !s.phase || phaseSeen(s.phase);',
            'const skinOpen = s => s.pass ? passSkinOwned(s.k) : !s.phase || phaseSeen(s.phase) || appSkinOpen(s);')
 body = rep(body, '\napplySkin(SKIN, false);\n', '\n' + module + '\napplySkin(SKIN, false);\n')
