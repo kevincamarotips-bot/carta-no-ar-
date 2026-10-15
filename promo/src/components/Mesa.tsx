@@ -17,7 +17,7 @@ type Key = {o: number; y: number; z: number; ry: number; s: number; ease?: (t: n
 const cb = Easing.bezier;
 // T(y, z, ry, s) keyframes from throwCard(): top = -h·0,58 (here 0,52 so the card stays in frame), rest = -h·0,2
 const throwKeys = (h: number): Key[] => {
-  const top = -h * 0.52, rest = -h * 0.2;
+  const top = -h * 0.44, rest = -h * 0.2;
   return [
     {o: 0, y: 0, z: -8, ry: 180, s: 0.72},
     {o: 0.12, y: 16 * K, z: -8, ry: 180, s: 0.68, ease: cb(0.2, 0.8, 0.3, 1)},

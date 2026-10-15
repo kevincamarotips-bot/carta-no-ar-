@@ -37,11 +37,12 @@ export type Variation = {
 
 const SUIT_KEYS: Card['suit'][] = ['S', 'H', 'D', 'C'];
 
+// short hooks: the picture does the explaining
 const hooks = (): Hook[] => [
-  {kicker: 'Desafio', title: 'Adivinhe a carta', sub: 'O mágico joga a carta para o alto. Onde ela vai cair?'},
-  {kicker: 'Desafio', title: 'Cor, naipe ou a carta exata?', sub: 'Escolha sua aposta antes de a carta cair.'},
-  {kicker: 'Desafio', title: '1 em 52', sub: `É a chance de acertar a carta exata. Ela paga ${fmtX(GAME.bets.card)}×.`},
-  {kicker: 'Desafio', title: 'Duvido você acertar o naipe', sub: `Uma chance em quatro. O naipe paga ${fmtX(GAME.bets.suit)}×.`},
+  {kicker: 'Desafio', title: 'Adivinhe a carta', sub: ''},
+  {kicker: 'Desafio', title: 'Cor, naipe ou carta?', sub: ''},
+  {kicker: 'Desafio', title: '1 em 52', sub: ''},
+  {kicker: 'Desafio', title: 'Acerte o naipe', sub: ''},
 ];
 
 // deterministic, well-spread pseudo-random number in [0, 1) for a text key (FNV-1a + murmur finaliser)

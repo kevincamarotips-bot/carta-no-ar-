@@ -27,8 +27,8 @@ Na primeira exportação o Remotion baixa um Chrome próprio para renderizar. Pa
 | Carta (frente creme, cantos e naipe central) e o arremesso do `throwCard()` com os mesmos quadros-chave, giro e virada aos 74% | Lançamento e Revelação |
 | Fichas pintadas, chuva de fichas, estrelas ao cair a carta | Aposta e Revelação |
 | Apostas e pagamentos de `def()`: Cor ×1,9 (50%), Naipe ×3,8 (25%), Carta exata ×50 (1 em 52); prêmio = aposta × multiplicador; aposta em múltiplos da aposta mínima da fase | Aposta e Revelação |
-| Textos do jogo: "Faça sua aposta", "O mágico joga para a mesa…", "Você ganhou!", "Não foi dessa vez" | Aposta e Revelação |
-| Mestre da fase, regra do duelo, pontos Cor +1, Naipe +2, Valor +4, ingresso e nível | Duelo |
+| Textos do jogo "Você ganhou!" e "Não foi dessa vez" (o resto do vídeo é imagem, quase sem texto) | Revelação |
+| Mestre da fase com o nome | Duelo |
 | Aviso legal do app Android (`tools/build_app.py`) | Chamada |
 
 Nada de mecânica inventada: não há Carta Dourada, Varinha nem prêmios fora da tabela.
@@ -37,12 +37,12 @@ Nada de mecânica inventada: não há Carta Dourada, Varinha nem prêmios fora d
 
 | Cena | Duração padrão |
 |---|---|
-| `gancho`: frase do desafio sobre o palco da fase | 2,0 s |
-| `aposta`: Cor, Naipe e Carta exata; a escolhida recebe a ficha | 2,4 s |
-| `lancamento`: a luva joga a carta | 2,4 s |
-| `revelacao`: a carta cai, resultado e fichas | 2,6 s |
-| `duelo`: o mestre da fase | 2,4 s |
-| `cta`: logo, "Será que você acerta?" e botão | 3,2 s |
+| `gancho`: frase curta do desafio sobre o palco da fase | 2,0 s |
+| `aposta`: três peças (cores, naipes, carta) com ×1,9, ×3,8 e ×50; a escolhida cresce e recebe a ficha | 2,4 s |
+| `lancamento`: a luva joga a carta; no alto, o selo da aposta | 2,4 s |
+| `revelacao`: a carta cai, selo com ✓ ou ✕, "Você ganhou!" ou "Não foi dessa vez" e as fichas | 2,6 s |
+| `duelo`: retrato do mestre da fase contra a luva do jogador | 2,4 s |
+| `cta`: leque de cartas, logo e botão | 3,2 s |
 
 Tirando cenas, as outras se esticam na mesma proporção e o vídeo continua com 15 s.
 

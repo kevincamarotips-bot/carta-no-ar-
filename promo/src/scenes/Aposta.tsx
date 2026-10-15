@@ -1,66 +1,66 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
-import {GAME, fmt, fmtX, type Card} from '../data/game';
+import {GAME, fmtX, type Card} from '../data/game';
 import {F} from '../fonts';
 import {clamp, pop, rise, sceneFade} from '../components/anim';
-import {CardFront} from '../components/PlayingCard';
-import {CasinoBadge, Chip} from '../components/Stage';
+import {CardBack, CardFront} from '../components/PlayingCard';
+import {Chip} from '../components/Stage';
 import {Suit} from '../components/Suit';
 import type {BetKind, Variation} from '../variation';
 
-// 2 · "Faça sua aposta": three of the game's real bets (Cor, Naipe, Carta exata) as Mesa cells,
-// with the real payouts and chances. The picked one lights up and takes a chip with the stake.
+// 2 · The bet, with pictures instead of words: three tiles (Cor, Naipe, Carta exata) with the game's real payouts.
+// The chosen tile grows, the others dim, and a painted chip drops on it.
 const SUITS: Card['suit'][] = ['S', 'H', 'D', 'C'];
+const TILE_W = 300, TILE_H = 400;
 
-const Cell: React.FC<{kind: BetKind; v: Variation; f: number; i: number; pickAt: number}> = ({kind, v, f, i, pickAt}) => {
-  const picked = v.bet.kind === kind;
-  const on = picked && f >= pickAt;
-  const chipP = picked ? pop(f, pickAt, 12) : 0;
-  const bump = picked ? interpolate(f, [pickAt, pickAt + 4, pickAt + 8], [1, 1.05, 1], clamp) : 1;
-  const meta = {
-    cor: {lbl: 'Cor', mult: GAME.bets.color, chance: '50%'},
-    naipe: {lbl: 'Naipe', mult: GAME.bets.suit, chance: '25%'},
-    carta: {lbl: 'Carta exata', mult: GAME.bets.card, chance: '1 em 52'},
-  }[kind];
+const Disc: React.FC<{red: boolean; size: number; on?: boolean}> = ({red, size, on = true}) => (
+  <div style={{width: size, height: size, borderRadius: '50%', background: red ? 'var(--card-red)' : 'var(--card-black)', border: `${size * 0.07}px solid var(--cream)`,
+    boxSizing: 'border-box', opacity: on ? 1 : 0.25, boxShadow: on ? '0 0 30px color-mix(in srgb, var(--gold) 50%, transparent)' : 'none'}} />
+);
 
-  let big: React.ReactNode;
+const Art: React.FC<{kind: BetKind; v: Variation; picked: boolean; chosen: number}> = ({kind, v, picked, chosen}) => {
   if (kind === 'cor'){
-    big = picked
-      ? <span style={{color: v.bet.red ? 'var(--card-red)' : 'var(--cream)'}}>{v.bet.label}</span>
-      : <span><span style={{color: 'var(--card-red)'}}>Vermelho</span> ou Preto</span>;
-  } else if (kind === 'naipe'){
-    big = picked && v.bet.suit
-      ? <span style={{display: 'flex', alignItems: 'center', gap: 18}}><Suit k={v.bet.suit} size={58} color={v.bet.red ? 'var(--card-red)' : 'var(--cream)'} />{v.bet.label}</span>
-      : <span style={{display: 'flex', gap: 16}}>{SUITS.map(s => <Suit key={s} k={s} size={54} color={s === 'H' || s === 'D' ? 'var(--card-red)' : 'var(--cream)'} />)}</span>;
-  } else {
-    big = picked && v.bet.card ? <span>{v.bet.label}</span> : <span>Uma das 52</span>;
+    const dim = (red: boolean) => !picked || chosen < 0.5 || v.bet.red === red;
+    return <div style={{display: 'flex', gap: 22}}><Disc red size={104} on={dim(true)} /><Disc red={false} size={104} on={dim(false)} /></div>;
   }
-
+  if (kind === 'naipe'){
+    return (
+      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18}}>
+        {SUITS.map(s => {
+          const on = !picked || chosen < 0.5 || v.bet.suit === s;
+          return <Suit key={s} k={s} size={92} color={s === 'H' || s === 'D' ? 'var(--card-red)' : 'var(--cream)'}
+            style={{opacity: on ? 1 : 0.2, transform: `scale(${picked && v.bet.suit === s ? 1 + 0.25 * chosen : 1})`}} />;
+        })}
+      </div>
+    );
+  }
+  const w = 150, flip = picked ? chosen : 0;
   return (
-    <div style={{position: 'relative', width: 920, height: 150, boxSizing: 'border-box', borderRadius: 38, padding: '26px 34px',
-      display: 'flex', alignItems: 'center', gap: 30,
-      background: on ? 'color-mix(in srgb, var(--plum) 75%, var(--violet))' : 'var(--plum)',
-      border: `3px solid ${on ? 'color-mix(in srgb, var(--gold) 75%, transparent)' : 'var(--line-2)'}`,
-      boxShadow: on ? '0 0 50px color-mix(in srgb, var(--gold) 30%, transparent)' : '0 14px 30px rgba(0,0,0,.35)',
-      ...(() => { const r = rise(f, 8 + i * 5, 12, 40); return {opacity: r.opacity, transform: `${r.transform} scale(${bump})`}; })()}}>
-      {kind === 'carta' && (
-        <div style={{position: 'relative', width: 74, height: 74 * 162 / 116, flex: 'none'}}>
-          <CardFront card={picked && v.bet.card ? v.bet.card : null} w={74} />
-        </div>
-      )}
-      <div style={{display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0}}>
-        <div style={{fontFamily: F.body, fontWeight: 600, fontSize: 32, color: 'var(--muted)'}}>{meta.lbl}</div>
-        <div style={{fontFamily: F.display, fontSize: 58, lineHeight: 1, color: 'var(--cream)', whiteSpace: 'nowrap'}}>{big}</div>
-      </div>
-      <div style={{marginLeft: 'auto', textAlign: 'right', fontFamily: F.mono, fontWeight: 500, fontSize: 30, color: 'var(--muted)', lineHeight: 1.35, flex: 'none'}}>
-        paga <b style={{color: 'var(--amber)', fontWeight: 500, fontSize: 44}}>×{fmtX(meta.mult)}</b>
-        <div>chance {meta.chance}</div>
-      </div>
-      {picked && chipP > 0 && (
-        <div style={{position: 'absolute', top: -24, right: 34, display: 'flex', alignItems: 'center', gap: 10, fontFamily: F.mono, fontWeight: 500, fontSize: 30,
-          background: 'var(--ink)', borderRadius: 999, padding: '4px 20px 4px 4px', color: 'var(--cream)', transform: `scale(${chipP})`, border: '2px solid var(--line-2)'}}>
-          <Chip i={2} size={44} style={{boxShadow: 'none'}} />{fmt(v.bet.stake)}
-        </div>
+    <div style={{position: 'relative', width: w, height: w * 162 / 116, transformStyle: 'preserve-3d', transform: `rotateY(${180 - 180 * flip}deg)`}}>
+      <CardFront card={v.bet.card ?? null} w={w} />
+      <CardBack src={v.backSrc} w={w} />
+    </div>
+  );
+};
+
+const Tile: React.FC<{kind: BetKind; v: Variation; f: number; i: number; pickAt: number}> = ({kind, v, f, i, pickAt}) => {
+  const picked = v.bet.kind === kind;
+  const chosen = interpolate(f, [pickAt, pickAt + 8], [0, 1], clamp);
+  const scale = picked ? 1 + 0.12 * chosen : 1 - 0.08 * chosen;
+  const mult = kind === 'cor' ? GAME.bets.color : kind === 'naipe' ? GAME.bets.suit : GAME.bets.card;
+  const chipDrop = picked ? interpolate(f, [pickAt + 4, pickAt + 14], [-260, 0], {...clamp, easing: t => 1 - Math.pow(1 - t, 3)}) : 0;
+  const r = rise(f, 4 + i * 4, 12, 60);
+  return (
+    <div style={{position: 'relative', width: TILE_W, height: TILE_H, borderRadius: 40, boxSizing: 'border-box',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 34,
+      background: picked && chosen > 0 ? 'color-mix(in srgb, var(--plum) 70%, var(--violet))' : 'var(--plum)',
+      border: `4px solid ${picked && chosen > 0 ? 'var(--gold)' : 'var(--line-2)'}`,
+      boxShadow: picked && chosen > 0 ? '0 0 70px color-mix(in srgb, var(--gold) 45%, transparent)' : '0 18px 40px rgba(0,0,0,.4)',
+      opacity: r.opacity, filter: picked ? undefined : `brightness(${1 - 0.5 * chosen}) saturate(${1 - 0.4 * chosen})`, transform: `${r.transform} scale(${scale})`, perspective: 1200}}>
+      <Art kind={kind} v={v} picked={picked} chosen={chosen} />
+      <div style={{fontFamily: F.mono, fontWeight: 500, fontSize: 60, color: 'var(--amber)'}}>×{fmtX(mult)}</div>
+      {picked && f >= pickAt + 4 && (
+        <Chip i={v.casinoIndex} size={110} style={{position: 'absolute', top: -46, right: -34, transform: `translateY(${chipDrop}px) rotate(${chipDrop / 3}deg)`}} />
       )}
     </div>
   );
@@ -68,19 +68,11 @@ const Cell: React.FC<{kind: BetKind; v: Variation; f: number; i: number; pickAt:
 
 export const Aposta: React.FC<{v: Variation; duration: number}> = ({v, duration}) => {
   const f = useCurrentFrame();
-  const fade = sceneFade(f, duration, 6, 5);
-  const pickAt = Math.round(duration * 0.5);
+  const pickAt = Math.round(duration * 0.45);
   return (
-    <AbsoluteFill style={{opacity: fade, alignItems: 'center'}}>
-      <CasinoBadge phase={v.casinoIndex + 1} name={v.casino.n} style={{position: 'absolute', top: 90, ...rise(f, 0, 10, 16)}} />
-      <h2 style={{position: 'absolute', top: 170, margin: 0, fontFamily: F.display, fontWeight: 400, fontSize: 118, color: 'var(--cream)', textShadow: '0 6px 30px rgba(0,0,0,.6)', ...rise(f, 2, 12, 30)}}>
-        Faça sua aposta
-      </h2>
-      <p style={{position: 'absolute', top: 310, margin: 0, fontFamily: F.body, fontSize: 44, color: 'color-mix(in srgb, var(--cream) 85%, transparent)', ...rise(f, 6, 12, 20)}}>
-        Escolha antes de a carta cair.
-      </p>
-      <div style={{position: 'absolute', top: 396, display: 'flex', flexDirection: 'column', gap: 22}}>
-        {(['cor', 'naipe', 'carta'] as BetKind[]).map((k, i) => <Cell key={k} kind={k} v={v} f={f} i={i} pickAt={pickAt} />)}
+    <AbsoluteFill style={{opacity: sceneFade(f, duration, 6, 5), alignItems: 'center'}}>
+      <div style={{position: 'absolute', top: 180, display: 'flex', gap: 30, transform: `scale(${0.9 + 0.1 * pop(f, 0, 14)})`}}>
+        {(['cor', 'naipe', 'carta'] as BetKind[]).map((k, i) => <Tile key={k} kind={k} v={v} f={f} i={i} pickAt={pickAt} />)}
       </div>
     </AbsoluteFill>
   );
